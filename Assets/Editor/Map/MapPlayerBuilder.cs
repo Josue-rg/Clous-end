@@ -54,6 +54,7 @@ namespace ClousEnd.EditorTools
             SerializedField.Set(aim, "aimPivot", character.Find("AimPivot"));
             SerializedField.Set(aim, "turnSharpness", 18f);
             SerializedField.Set(aim, "maxAimDistance", 520f);
+            SerializedField.Set(aim, "bodyYawLimit", 40f);
             SerializedField.Set(aim, "aimMask", Physics.DefaultRaycastLayers);
 
             var view = camera.GetComponent<ThirdPersonCamera>();
@@ -82,16 +83,16 @@ namespace ClousEnd.EditorTools
 
             SerializedField.Set(view, "target", character);
             SerializedField.Set(view, "input", input);
-            SerializedField.Set(view, "targetOffset", new Vector3(0f, 1.35f, 0f));
-            SerializedField.Set(view, "distance", 11.5f);
-            SerializedField.Set(view, "minDistance", 4.5f);
-            SerializedField.Set(view, "maxDistance", 17f);
+            SerializedField.Set(view, "targetOffset", new Vector3(0f, 1.8f, 0f));
+            SerializedField.Set(view, "distance", 7f);
+            SerializedField.Set(view, "minDistance", 3.5f);
+            SerializedField.Set(view, "maxDistance", 12f);
             SerializedField.Set(view, "yawSensitivity", 0.18f);
             SerializedField.Set(view, "pitchSensitivity", 0.14f);
             SerializedField.Set(view, "minPitch", -6f);
             SerializedField.Set(view, "maxPitch", 62f);
             SerializedField.Set(view, "initialYaw", 0f);
-            SerializedField.Set(view, "initialPitch", 18f);
+            SerializedField.Set(view, "initialPitch", 12f);
             SerializedField.Set(view, "followTime", 0.08f);
             SerializedField.Set(view, "collisionRadius", 0.45f);
             SerializedField.Set(view, "collisionMask", Physics.DefaultRaycastLayers);
@@ -196,7 +197,7 @@ namespace ClousEnd.EditorTools
             go.tag = "MainCamera";
 
             var camera = go.AddComponent<Camera>();
-            camera.fieldOfView = 62f;
+            camera.fieldOfView = 58f;
             camera.nearClipPlane = 0.1f;
             camera.farClipPlane = 2200f;
             camera.clearFlags = CameraClearFlags.Skybox;

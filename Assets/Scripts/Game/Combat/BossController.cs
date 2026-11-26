@@ -25,6 +25,7 @@ namespace ClousEnd.Game
 
         [Header("Ajustes")]
         [SerializeField] private string bossName = "NICOLÁS CERO";
+        [SerializeField] private float modelScale = 1.7f;
         [SerializeField] private float triggerZ = 1340f;
         [SerializeField] private float maxHealth = 850f;
         [SerializeField] private float moveAmplitude = 15f;
@@ -68,7 +69,10 @@ namespace ClousEnd.Game
             baseRotation = transform.rotation;
 
             if (model != null)
+            {
+                model.transform.localScale = Vector3.one * Mathf.Max(0.1f, modelScale);
                 model.SetActive(false);
+            }
 
             if (gate != null)
                 gate.Close();

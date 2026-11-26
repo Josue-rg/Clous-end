@@ -19,6 +19,7 @@ namespace ClousEnd.Game
         [Header("Ajustes")]
         [SerializeField] private float turnSharpness = 18f;
         [SerializeField] private float maxAimDistance = 500f;
+        [SerializeField] private float bodyYawLimit = 40f;
         [SerializeField] private LayerMask aimMask = ~0;
 
         /// <summary>Punto del mundo que está debajo de la retícula.</summary>
@@ -40,9 +41,18 @@ namespace ClousEnd.Game
 
             if (toAim.sqrMagnitude > 0.05f)
             {
+                // El cuerpo solo acompaña al aim dentro de un límite; el pivote
+                // del arma hace el resto. Así Santa no gira de golpe hacia la
+                // cámara ni se acerca a la lente al disparar a los lados.
+                var parentRotation = body.parent != null ? body.parent.rotation : Quaternion.identity;
+                var desired = Quaternion.LookRotation(toAim, Vector3.up);
+                var local = Quaternion.Inverse(parentRotation) * desired;
+                var yaw = Mathf.Clamp(Mathf.DeltaAngle(0f, local.eulerAngles.y), -bodyYawLimit, bodyYawLimit);
+                var target = parentRotation * Quaternion.Euler(0f, yaw, 0f);
+
                 body.rotation = Quaternion.Slerp(
                     body.rotation,
-                    Quaternion.LookRotation(toAim, Vector3.up),
+                    target,
                     1f - Mathf.Exp(-turnSharpness * Time.deltaTime));
             }
 

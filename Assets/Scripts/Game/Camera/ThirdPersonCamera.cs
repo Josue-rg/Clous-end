@@ -17,15 +17,15 @@ namespace ClousEnd.Game
         [SerializeField] private Vector3 targetOffset = new Vector3(0f, 1.2f, 0f);
 
         [Header("Órbita")]
-        [SerializeField] private float distance = 9.5f;
-        [SerializeField] private float minDistance = 4.5f;
-        [SerializeField] private float maxDistance = 17f;
+        [SerializeField] private float distance = 7f;
+        [SerializeField] private float minDistance = 3.5f;
+        [SerializeField] private float maxDistance = 12f;
         [SerializeField] private float yawSensitivity = 0.18f;
         [SerializeField] private float pitchSensitivity = 0.14f;
         [SerializeField] private float minPitch = -6f;
         [SerializeField] private float maxPitch = 62f;
         [SerializeField] private float initialYaw = 0f;
-        [SerializeField] private float initialPitch = 14f;
+        [SerializeField] private float initialPitch = 12f;
         [SerializeField] private float followTime = 0.08f;
         [SerializeField] private float zoomSensitivity = 0.02f;
 

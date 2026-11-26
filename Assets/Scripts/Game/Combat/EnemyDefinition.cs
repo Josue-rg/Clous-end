@@ -34,6 +34,10 @@ namespace ClousEnd.Game
         public float chargeDuration = 0.8f;
         public float hitRadius = 5f;
 
+        [Header("Presentación")]
+        [Tooltip("Escala visual del modelo. Afecta también a su collider.")]
+        public float modelScale = 1f;
+
         [Header("Garfio")]
         public float grabDuration = 5f;
 

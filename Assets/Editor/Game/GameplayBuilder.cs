@@ -28,6 +28,7 @@ namespace ClousEnd.EditorTools
     {
         private const string WeaponFolder = "Assets/Config/Weapons";
         private const string EnemyFolder = "Assets/Config/Enemies";
+        private const float BossModelScale = 2f;
 
         private sealed class SpawnSpec
         {
@@ -195,7 +196,8 @@ namespace ClousEnd.EditorTools
             float chargeSpeed,
             float chargeDuration,
             float hitRadius,
-            float grabDuration)
+            float grabDuration,
+            float modelScale)
         {
             VATPaths.EnsureFolder(EnemyFolder);
 
@@ -220,6 +222,7 @@ namespace ClousEnd.EditorTools
             enemy.chargeDuration = chargeDuration;
             enemy.hitRadius = hitRadius;
             enemy.grabDuration = grabDuration;
+            enemy.modelScale = Mathf.Max(0.1f, modelScale);
             EditorUtility.SetDirty(enemy);
             return enemy;
         }
@@ -229,21 +232,21 @@ namespace ClousEnd.EditorTools
             return new[]
             {
                 EnsureEnemy("E_Sabueso", "SABUESO", EnemyKind.Sabueso,
-                    30f, 26f, 10f, 8f, 2.8f, 0.45f, 40f, 0.8f, 5f, 0f),
+                    30f, 26f, 10f, 8f, 2.8f, 0.45f, 40f, 0.8f, 5f, 0f, 2.4f),
                 EnsureEnemy("E_Garfio", "GARFIO", EnemyKind.Garfio,
-                    40f, 20f, 0f, 55f, 7f, 0.9f, 30f, 0.5f, 4f, 5f),
+                    40f, 20f, 0f, 55f, 7f, 0.9f, 30f, 0.5f, 4f, 5f, 2f),
                 EnsureEnemy("E_Espora", "ESPORA", EnemyKind.Espora,
-                    18f, 22f, 16f, 7f, 4f, 0.4f, 34f, 1f, 5f, 0f),
+                    18f, 22f, 16f, 7f, 4f, 0.4f, 34f, 1f, 5f, 0f, 2.4f),
                 EnsureEnemy("E_Manto", "MANTO", EnemyKind.Manto,
-                    40f, 16f, 12f, 75f, 4.5f, 1.2f, 0f, 0f, 4f, 0f),
+                    40f, 16f, 12f, 75f, 4.5f, 1.2f, 0f, 0f, 4f, 0f, 2f),
                 EnsureEnemy("E_Torre", "TORRE", EnemyKind.Torre,
-                    80f, 14f, 14f, 9f, 5.5f, 0.6f, 26f, 0.9f, 6f, 0f),
+                    80f, 14f, 14f, 9f, 5.5f, 0.6f, 26f, 0.9f, 6f, 0f, 2f),
                 EnsureEnemy("E_ShipCaza", "NAVE CAZA", EnemyKind.Ship,
-                    50f, 20f, 12f, 90f, 4f, 1f, 0f, 0f, 4f, 0f),
+                    50f, 20f, 12f, 90f, 4f, 1f, 0f, 0f, 4f, 0f, 2.2f),
                 EnsureEnemy("E_ShipRecolector", "NAVE RECOLECTOR", EnemyKind.Ship,
-                    90f, 16f, 14f, 95f, 4.5f, 1.1f, 0f, 0f, 4f, 0f),
+                    90f, 16f, 14f, 95f, 4.5f, 1.1f, 0f, 0f, 4f, 0f, 2f),
                 EnsureEnemy("E_Obsidian", "RENO DE OBSIDIANA", EnemyKind.Obsidian,
-                    65f, 26f, 18f, 10f, 4f, 0.5f, 42f, 0.8f, 6f, 0f)
+                    65f, 26f, 18f, 10f, 4f, 0.5f, 42f, 0.8f, 6f, 0f, 1.8f)
             };
         }
 
@@ -410,6 +413,7 @@ namespace ClousEnd.EditorTools
                 var instance = (GameObject)PrefabUtility.InstantiatePrefab(prefab, waveGo.transform);
                 instance.name = spec.prefab + "_" + i;
                 instance.transform.position = new Vector3(spec.x, 9f + spec.y, triggerZ + spec.zAhead);
+                instance.transform.localScale = Vector3.one * Mathf.Max(0.1f, spec.definition.modelScale);
 
                 MakeEnemyInstance(instance);
 
@@ -503,6 +507,7 @@ namespace ClousEnd.EditorTools
                 model = (GameObject)PrefabUtility.InstantiatePrefab(bossPrefab, arenaGo.transform);
                 model.name = "NicolasCero";
                 model.transform.localPosition = Vector3.zero;
+                model.transform.localScale = Vector3.one * BossModelScale;
 
                 var colliders = model.GetComponentsInChildren<Collider>(true);
 
@@ -557,6 +562,7 @@ namespace ClousEnd.EditorTools
             SerializedField.Set(boss, "mission", mission);
             SerializedField.Set(boss, "hud", hud);
             SerializedField.Set(boss, "model", model);
+            SerializedField.Set(boss, "modelScale", BossModelScale);
             SerializedField.Set(boss, "playback", model != null ? model.GetComponent<VATPlayer>() : null);
             SerializedField.SetArray(boss, "obsidians", obsidians.ToArray());
             SerializedField.SetArray(boss, "bombs", bombs.ToArray());
@@ -590,6 +596,7 @@ namespace ClousEnd.EditorTools
                 var instance = (GameObject)PrefabUtility.InstantiatePrefab(prefab, parent);
                 instance.name = "Obsidian_" + prefabs[i];
                 instance.transform.position = new Vector3(offsets[i], 11f, 1400f);
+                instance.transform.localScale = Vector3.one * Mathf.Max(0.1f, definition.modelScale);
 
                 var capsule = instance.AddComponent<CapsuleCollider>();
                 capsule.direction = 2;

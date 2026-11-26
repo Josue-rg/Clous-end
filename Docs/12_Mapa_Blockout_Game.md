@@ -67,9 +67,10 @@ Valores ajustables en el Inspector:
 
 - `Player` → `VehicleMotor`: velocidades, aceleración, frenada, giro y modo vuelo
   (`flying`, `verticalSpeed`, `verticalAcceleration`).
-- `Player Camera` → `ThirdPersonCamera`: distancia, alturas, sensibilidad, pitch, zoom y
-  colisión de cámara.
-- `CharacterPivot` → `CharacterAim`: velocidad de giro de la mira y alcance.
+- `Player Camera` → `ThirdPersonCamera`: distancia **7 m**, offset **1,8**, pitch **12°**,
+  sensibilidad, zoom y colisión de cámara.
+- `CharacterPivot` → `CharacterAim`: velocidad de giro de la mira, alcance y **límite de
+  giro del cuerpo (40°)**.
 - `CharacterPivot` → `HitscanWeapon`: alcance, cadencia, automático y máscara de impacto.
 
 ---
