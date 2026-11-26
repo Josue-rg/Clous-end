@@ -350,26 +350,26 @@ namespace ClousEnd.EditorTools
 
             var bloom = profile.Add<Bloom>(true);
             bloom.active = true;
-            bloom.intensity.Override(0.65f);
-            bloom.threshold.Override(1.1f);
+            bloom.intensity.Override(0.75f);
+            bloom.threshold.Override(1.05f);
             bloom.scatter.Override(0.6f);
             bloom.tint.Override(new Color(0.86f, 0.94f, 1f));
 
             var vignette = profile.Add<Vignette>(true);
             vignette.active = true;
-            vignette.intensity.Override(0.36f);
-            vignette.smoothness.Override(0.48f);
+            vignette.intensity.Override(0.26f);
+            vignette.smoothness.Override(0.5f);
             vignette.color.Override(new Color(0.004f, 0.008f, 0.016f));
 
             var tonemapping = profile.Add<Tonemapping>(true);
             tonemapping.active = true;
-            tonemapping.mode.Override(TonemappingMode.ACES);
+            tonemapping.mode.Override(TonemappingMode.Neutral);
 
             var color = profile.Add<ColorAdjustments>(true);
             color.active = true;
-            color.postExposure.Override(0.12f);
-            color.contrast.Override(10f);
-            color.saturation.Override(-2f);
+            color.postExposure.Override(0.65f);
+            color.contrast.Override(8f);
+            color.saturation.Override(18f);
 
             var grain = profile.Add<FilmGrain>(true);
             grain.active = true;

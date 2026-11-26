@@ -14,12 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ClousEnd.Rendering.VATClipSet
   clips:
   - name: Pulse
-    positions: {fileID: 2800000, guid: 99c2b192682cd9f4fb6548c9b387b338, type: 3}
+    positions: {fileID: 2800000, guid: 2c9717b7d06bc5947901d158f6b9e794, type: 2}
     frames: 24
     fps: 30
     loop: 1
   - name: Death
-    positions: {fileID: 2800000, guid: 885ef1f34a712d145b403f9b485d68e4, type: 3}
+    positions: {fileID: 2800000, guid: 1b82c2d4cc47f434ca79f1eceb47b645, type: 2}
     frames: 18
     fps: 30
     loop: 0

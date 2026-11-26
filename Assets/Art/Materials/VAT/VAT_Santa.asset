@@ -14,22 +14,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ClousEnd.Rendering.VATClipSet
   clips:
   - name: Idle
-    positions: {fileID: 2800000, guid: af74a653ff29b0f4eae6167c4764cf17, type: 3}
+    positions: {fileID: 2800000, guid: 3b436244321b97142a065e51fd0d708d, type: 2}
     frames: 30
     fps: 30
     loop: 1
   - name: Draw
-    positions: {fileID: 2800000, guid: da3b4e44763f9f647ab6db62b3604ca6, type: 3}
+    positions: {fileID: 2800000, guid: bf7a3ff34b3b65a4582c89d9f1089a4f, type: 2}
     frames: 34
     fps: 30
     loop: 0
   - name: Shoot
-    positions: {fileID: 2800000, guid: c764ca06031c72c4898b03d836f9f465, type: 3}
+    positions: {fileID: 2800000, guid: 0bff4ea791165e94db853cb763253750, type: 2}
     frames: 14
     fps: 30
     loop: 0
   - name: Reload
-    positions: {fileID: 2800000, guid: a6e120b5049e91946a52834c606631e2, type: 3}
+    positions: {fileID: 2800000, guid: 4b65ddd8ae52e9f4991fe9de20c08b2d, type: 2}
     frames: 26
     fps: 30
     loop: 0

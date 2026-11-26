@@ -90,9 +90,11 @@ Los datos viven en `Assets/Config/Enemies/E_*.asset`.
 | **Reno de obsidiana** | 65 | 26 | 18 al trineo | Embiste; solo aparece en la fase 1 del jefe. |
 
 La escala visual se configura en `Assets/Config/Enemies/E_*.asset` (`modelScale`) y en
-`BossController.modelScale`: Sabueso/Espora **2,4**; Garfio/Manto/Torre **2,0**; naves
-**2,2/2,0**; jefe **2,0**. La cámara del jugador está a **7 m** y Santa gira como máximo
-**40°** con el cuerpo; el resto del giro lo hace el pivote del arma.
+`BossController.modelScale`: Sabueso **3,2**; Espora **3,0**; Garfio/Manto/Torre **2,6**;
+naves **2,8/2,5**; jefe **2,4**; reno de obsidiana **2,2**. Los materiales VAT aclaran el
+color base (los enemigos venían casi negros) y suben `_Ambient`/`_Rim`; el mapa usa
+exposición **+0,65** y saturación **+18**. La cámara del jugador está a **7 m** y Santa
+gira como máximo **40°** con el cuerpo; el resto del giro lo hace el pivote del arma.
 
 - **Pool sin instanciación en runtime:** las oleadas están precolocadas en la
   escena y el `EnemyDirector` las activa/desactiva por la Z del jugador.

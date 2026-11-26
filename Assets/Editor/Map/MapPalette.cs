@@ -47,7 +47,7 @@ namespace ClousEnd.EditorTools
         public static readonly Color CarPaint = Hex("#8C1626");
         public static readonly Color Character = Hex("#E8D9C5");
         public static readonly Color Gunmetal = Hex("#23262B");
-        public static readonly Color Fog = Hex("#070D16");
+        public static readonly Color Fog = Hex("#101A2A");
 
         public static readonly Color[] HistoricWalls =
         {

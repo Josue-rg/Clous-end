@@ -24,6 +24,48 @@ namespace ClousEnd.EditorTools
         private static readonly int LightDirId = Shader.PropertyToID("_LightDir");
         private static readonly int RimId = Shader.PropertyToID("_Rim");
 
+        private static readonly string[] EnemyPrefixes =
+        {
+            "M_Sabueso", "M_Garfio", "M_Espora", "M_Robot_Manto", "M_Robot_Torre",
+            "M_Ship_Caza", "M_Ship_Recolector", "M_NicolasCero"
+        };
+
+        private static bool IsEnemyMaterial(string name)
+        {
+            for (var i = 0; i < EnemyPrefixes.Length; i++)
+                if (name.StartsWith(EnemyPrefixes[i], System.StringComparison.Ordinal))
+                    return true;
+
+            return false;
+        }
+
+        /// <summary>
+        /// Aclara el color del FBX. Los enemigos venían casi negros (0,01) y
+        /// desaparecían de noche; se les da un gris-azul alienígena legible.
+        /// </summary>
+        public static Color DisplayColor(string materialName, Color source)
+        {
+            var enemy = IsEnemyMaterial(materialName);
+            var floor = enemy ? 0.09f : 0.1f;
+            var mix = enemy ? 0.18f : 0.05f;
+            var tint = enemy ? new Color(0.45f, 0.55f, 0.8f) : Color.white;
+            var brightness = enemy ? 1.7f : 1.45f;
+
+            var color = new Color(
+                Mathf.Max(source.r, floor),
+                Mathf.Max(source.g, floor),
+                Mathf.Max(source.b, floor),
+                source.a);
+
+            color = Color.Lerp(color, tint, mix);
+
+            return new Color(
+                Mathf.Clamp01(color.r * brightness),
+                Mathf.Clamp01(color.g * brightness),
+                Mathf.Clamp01(color.b * brightness),
+                source.a);
+        }
+
         public static Material GetOrCreateVat(
             string name,
             Color baseColor,
@@ -46,16 +88,18 @@ namespace ClousEnd.EditorTools
             if (material == null)
                 return null;
 
-            material.SetColor(BaseColorId, baseColor);
-            material.SetColor("_Color", baseColor);
+            var display = DisplayColor(name, baseColor);
+
+            material.SetColor(BaseColorId, display);
+            material.SetColor("_Color", display);
             material.SetTexture(PosTexId, posTex);
             material.SetFloat(FramesId, Mathf.Max(2, frames));
             material.SetFloat(UvFramesId, uvFrames);
             material.SetFloat(VatAmountId, animated ? 1f : 0f);
             material.SetFloat("_FlipY", 0f);
-            material.SetFloat(AmbientId, 0.5f);
+            material.SetFloat(AmbientId, 1f);
             material.SetVector(LightDirId, KeyLight);
-            material.SetFloat(RimId, 0.45f);
+            material.SetFloat(RimId, 0.8f);
             material.enableInstancing = true;
 
             EditorUtility.SetDirty(material);

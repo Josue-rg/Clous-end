@@ -14,12 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ClousEnd.Rendering.VATClipSet
   clips:
   - name: Flight
-    positions: {fileID: 2800000, guid: b7e52d2b96fe8ef4d91e921d934ed506, type: 3}
+    positions: {fileID: 2800000, guid: 05656f5dfe719b84b8e56a0a75d25bd2, type: 2}
     frames: 36
     fps: 30
     loop: 1
   - name: Impact
-    positions: {fileID: 2800000, guid: 7baea4c8ae476964bb2f0dd95c9cf687, type: 3}
+    positions: {fileID: 2800000, guid: 92e53aa9a84aa874a93866b2f269db50, type: 2}
     frames: 18
     fps: 30
     loop: 0

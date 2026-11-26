@@ -14,17 +14,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ClousEnd.Rendering.VATClipSet
   clips:
   - name: Gallop
-    positions: {fileID: 2800000, guid: 25bd4ef24ecf2e044b7ce47c494bcf11, type: 3}
+    positions: {fileID: 2800000, guid: 31de00920c3e6fb41b57d6b8d4ced78c, type: 2}
     frames: 24
     fps: 30
     loop: 1
   - name: Death
-    positions: {fileID: 2800000, guid: e7c20bd82cf68d543ac9b30bc0e2b46f, type: 3}
+    positions: {fileID: 2800000, guid: e1d9c6c40590ef64a9a8fcd3b88abc2c, type: 2}
     frames: 38
     fps: 30
     loop: 0
   - name: Hurt
-    positions: {fileID: 2800000, guid: dc70d7e403a2b244996f875b21690830, type: 3}
+    positions: {fileID: 2800000, guid: f826d61b2efbfc34f84d47764affd9db, type: 2}
     frames: 16
     fps: 30
     loop: 0

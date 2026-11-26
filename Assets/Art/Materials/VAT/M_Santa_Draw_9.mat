@@ -33,11 +33,11 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Ambient: 0.5
+    - _Ambient: 1
     - _FlipY: 0
     - _Frame: 0
     - _Frames: 34
-    - _Rim: 0.45
+    - _Rim: 0.8
     - _UVFrames: 34
     - _VATAmount: 1
     m_Colors:
