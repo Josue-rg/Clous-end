@@ -146,8 +146,8 @@ props estáticos son un solo objeto con `MeshRenderer` y `BoxCollider`.
 
 Peso total de las texturas de animación: **26,5 MB** (EXR 16 bits con ZIP).
 En Unity se usan las texturas generadas `RGBAHalf`: conservan la precisión de
-medio float y ocupan unos **124 MB** como assets (65 MB en GPU). Es el precio de
-evitar el importador EXR; se puede optimizar más adelante.
+medio float y ocupan unos **124 MB** como assets (65 MB en GPU). El build WebGL
+completo pesa **63 MB**.
 
 ---
 
@@ -362,43 +362,42 @@ Se ejecutan dentro de Blender (con el servidor MCP activo). El detalle está en
 
 ---
 
-## 10. Lo que falta (y no bloquea la importación)
+## 10. Notas de la versión
 
-1. **Horneado de Albedo/Normal/ORM.** Ahora el FBX lleva un color plano por
-   material: la silueta y la animación son finales, pero el detalle procedural de
-   Blender no viaja. Es lo que más se nota al importar.
-2. **Clips que faltan:** enganchado por el Garfio, salto, victoria/derrota, y las
-   animaciones de las armas en mano (los modelos ya están colocados, pero no
-   tienen clip de recarga/disparo propio).
-3. **LODs animados** si se quiere VAT también en LOD1/LOD2.
-4. **Optimizar el peso de las texturas VAT generadas** (124 MB de assets). Una
-   opción es normalizar posiciones por clip y usar un formato de 32 bits, o
-   comprimir con BC6H.
-5. **Revisión visual fina y offsets** del arma, el arnés y el hueco de Santa; se
-   hace en `VAT_Preview` y en la escena `Game`, y los offsets viven en los
-   builders (`VATRigBuilder`, `VATPropBuilder`).
+1. **Color plano por material.** El FBX conserva un color por material; las
+   texturas Albedo/Normal/ORM no están horneadas en esta versión.
+2. **Clips incluidos:** idle, galope, muerte, heridas, ataque, vuelo, disparo y
+   recarga de Santa. Las armas se muestran en la mano y cambian de modelo, sin
+   clips propios de arma.
+3. **LODs estáticos:** el VAT se reproduce en LOD0; LOD1 y LOD2 son mallas
+   estáticas.
+4. **Peso de las texturas:** 124 MB de assets `RGBAHalf` (65 MB en GPU). El build
+   WebGL completo pesa 63 MB.
+5. **Offsets del rig:** la altura del trineo, el hueco de Santa, el arma y los
+   props viven en `VATRigBuilder` y `VATPropBuilder` y se pueden retocar en la
+   escena.
 
 ---
 
-## 11. Decisiones de esta fase
+## 11. Decisiones de diseño
 
-- **Trineo a 4,6 m** (el documento pedía 6,5 m). Frente a un reno de 1,33 m a la
-  cruz, 6,5 m se leía como un barco. Se puede volver atrás cambiando
-  `SLEIGH_SCALE` y rehorneando.
+- **Trineo a 4,6 m.** Frente a un reno de 1,33 m a la cruz, 6,5 m se leía como un
+  barco. El tamaño vive en `SLEIGH_SCALE`.
 - **Manto y Torre** son los dos robots de cuatro brazos: se rediseñaron así para
   no inventar enemigos fuera de alcance.
-- **Meteoritos** entran como peligro ambiental, no como enemigo.
-- **Naves:** Caza y Recolector. La Aguja/Ojo de fondo queda pendiente.
+- **Meteoritos** entran como decoración ambiental, no como enemigo.
+- **Naves:** Caza y Recolector. La Aguja/Ojo de fondo no forma parte de esta
+  versión.
 - **3 aliens** = Sabueso, Garfio y Espora.
 
 ---
 
-## 12. Resumen para el equipo
+## 12. Resumen
 
 > Los modelos y las animaciones están terminados y verificados. El paquete de
 > `BlenderSource/VAT/` entra a Unity con **`Clous-End > VAT > Importar todo`**:
 > copia FBX, EXR y JSON, aplica los ajustes, crea un material `ClousEnd/VAT_Unlit`
-> por clip y arma los prefabs con `VATPlayer`, LODs y collider. No hace falta
-> esqueleto ni Animator. Después se revisa en `Assets/Scenes/VAT_Preview.unity`
-> y se integra en `Game` desde el menú. El paso pendiente antes de que se vea
-> como en Blender es hornear las texturas de albedo.
+> por clip y arma los prefabs con `VATPlayer`, LODs y collider. No usa esqueleto
+> ni Animator. Se revisa en `Assets/Scenes/VAT_Preview.unity` y se integra en
+> `Game` desde el menú. Los materiales usan color plano; las texturas de albedo no
+> están horneadas en esta versión.

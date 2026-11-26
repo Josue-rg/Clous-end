@@ -152,9 +152,8 @@ Al terminar (o al perder), se muestra un resumen breve:
 | Boss derrotado | Sí / no |
 | Botones | Reintentar misión · Volver al lobby |
 
-La demo actual ya muestra tiempo y renos (4 / 4). La integridad del casco y el boss se añadirán
-con el combate. Los botones son **REINTENTAR** (nueva partida) y **LOBBY**; en el game over,
-**REINTENTAR** vuelve al último checkpoint.
+La demo muestra **tiempo**, **renos vivos**, **integridad del casco** y si el **boss** cayó.
+Los botones son **REINTENTAR** (nueva partida o checkpoint) y **LOBBY**.
 
 Sin puntos, sin rango, sin monedas y sin desbloqueos. El resultado es información, no una economía.
 

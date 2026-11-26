@@ -1,8 +1,8 @@
 # 13 · Demo web y publicación
 
-> **Estado:** el código incluye el combate completo, los modelos de Blender y las
-> texturas VAT generadas. La demo publicada en GitHub Pages se regenera con el
-> build WebGL; hasta entonces el enlace puede servir un build anterior.
+> **Estado:** demo WebGL publicada con el build actual: combate completo, modelos de
+> Blender, texturas VAT generadas, barras de vida y 11 oleadas. El sitio se sirve
+> desde `main`; el build pesa 63 MB.
 
 ---
 
@@ -27,7 +27,8 @@ rama: no hay rama `gh-pages` ni repositorio aparte.
 - **4 armas:** Carbón (calor), Nogal (escopeta), Estrella (perfora) y Cascabel
   (cadena); cambio con 1–4 y recarga con R.
 - **5 enemigos + naves:** Sabueso, Garfio, Espora, Manto, Torre y naves Caza y
-  Recolector, en 11 oleadas precolocadas.
+  Recolector, en 11 oleadas y 55 enemigos precolocados.
+- **Barras de vida** sobre los enemigos.
 - **Renos = vidas:** el Garfio puede agarrar uno; rescátalo en 5 s. Escudo de reno.
 - **Casco de 100**, kits, checkpoint del puente y game over.
 - **Nicolás Cero** en 3 fases, con renos de obsidiana y barrera de arena.
@@ -78,15 +79,14 @@ en batch.
 
 ## Requisitos y limitaciones
 
-- Navegador de escritorio con **WebGL 2**; teclado y ratón (no hay controles táctiles).
-- El build incluye las texturas VAT; la primera carga tarda más que la demo de
-  blockout. El tamaño se indica al publicar.
+- Navegador de escritorio con **WebGL 2**; teclado y ratón.
+- El build actual pesa **63 MB**; la primera carga descarga las texturas VAT.
 - Si aparece un 404 justo después de publicar, esperar a que Pages termine y recargar.
 - El proyecto completo sigue siendo un juego de PC; la demo web es una compilación del mismo
   contenido.
-- Pendiente para la web: controles táctiles, pantalla de carga con logo, botón de pantalla
-  completa y presets de calidad.
-- El audio sigue pendiente en todo el proyecto.
+- No hay controles táctiles, pantalla de carga con logo, botón de pantalla completa ni presets
+  de calidad.
+- La demo no incluye audio.
 
 ---
 

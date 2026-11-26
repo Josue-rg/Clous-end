@@ -1,9 +1,8 @@
 # 15 · Combate, misión y jefe Nicolás Cero
 
-> **Estado:** implementado en la escena `Game` mediante builders de editor. El
-> jugador vuela, dispara con las 4 armas, defiende a los 4 renos, atraviesa 9
-> oleadas de los 5 enemigos, recoge los pickups y derrota a Nicolás Cero en 3
-> fases. Queda pendiente el audio real y el pulido visual.
+> **Estado:** implementado en la escena `Game`: el jugador vuela, dispara con las
+> 4 armas, defiende a los 4 renos, atraviesa 11 oleadas de los 5 enemigos, recoge
+> los pickups y derrota a Nicolás Cero en 3 fases. La versión no incluye audio.
 >
 > Documentos relacionados: [09 Arquitectura](09_Arquitectura_Tecnica.md) ·
 > [11 Alcance](11_Alcance_Final_Juego_Terminado.md) ·
@@ -31,9 +30,7 @@ Acto 4 · Refugio Aurora · barrera, Nicolás Cero y renos de obsidiana
 Final · resultados, tiempo, renos, casco, boss + créditos
 ```
 
-Un solo mapa, una sola misión. La partida se puede terminar en unos minutos;
-el objetivo de diseño de 20–30 minutos se ajusta alargando la ruta, las oleadas
-y la duración del jefe.
+Un solo mapa, una sola misión. La demo recorre 1,5 km y se completa en pocos minutos.
 
 ---
 
@@ -169,8 +166,8 @@ Los pickups flotan y giran; el `PickupCollector` los recoge por cercanía
   muestra el aviso.
 - **Game over:** casco a 0, los 4 renos perdidos o caer por debajo del mapa.
 - **Reintentar (game over):** vuelve al checkpoint, restaura casco y los 4 renos,
-  reinicia las oleadas y el jefe, y **devuelve la posición y la cámara al frente**. Es una
-  simplificación de la demo; el estado exacto del checkpoint se puede guardar más adelante.
+  reinicia las oleadas y el jefe, y **devuelve la posición y la cámara al frente**. El
+  reintento restaura el estado base del checkpoint.
 - **Resultados:** tiempo, renos vivos, casco restante y si el boss cayó.
 - Los botones **REINTENTAR** y **LOBBY** funcionan; el panel incluye una línea de
   créditos.
@@ -248,19 +245,14 @@ Los datos de armas y enemigos se crean/actualizan como assets en
 
 ---
 
-## 11. Lo que falta para el juego “de tienda”
+## 11. Notas de la versión
 
-1. **Audio**: música, SFX, voz de Voss, campanas y viento. Sin assets de audio no
-   se puede cerrar el apartado sonoro.
-2. **Intro y final cinematográficos**: hoy son textos y paneles; falta la puesta
-   en escena con cámara y voz.
-3. **Créditos completos**: hay una línea; falta la pantalla con roles.
-4. **Albedo/Normal/ORM**: los modelos usan color plano por material.
-5. **Armas en mano**: los 4 modelos ya están en el rig y cambian con 1–4; falta
-   la animación de disparo/recarga y pulir el offset de la mano.
-6. **Dificultad y accesibilidad**: modos Repartidor / Nochebuena / Clous-End,
-   aim assist, subtítulos y remapeo.
-7. **Ajuste fino y QA**: 20–30 minutos reales, boss aprende/gana, 60 FPS,
-   resolución 720p/1080p/1440p y build de Windows.
-8. **Optimizar texturas VAT**: las generadas ocupan 124 MB de assets (65 MB en
-   GPU); normalizar por clip o comprimir con BC6H si el build web se hace pesado.
+- **Audio:** la versión actual no incluye música, SFX ni voz.
+- **Intro y final:** se presentan con textos y paneles de HUD.
+- **Créditos:** línea de créditos en el panel de resultados.
+- **Materiales:** color plano por material; sin texturas Albedo/Normal/ORM horneadas.
+- **Armas en mano:** los 4 modelos están en el rig y cambian con 1–4; no tienen clips
+  propios de disparo/recarga.
+- **Dificultad:** una única dificultad, sin modos alternativos, aim assist ni subtítulos.
+- **Texturas VAT:** 124 MB de assets (65 MB en GPU); el build web pesa 63 MB.
+- **Plataforma:** build WebGL publicado; el proyecto se edita y prueba en Unity 6.6.

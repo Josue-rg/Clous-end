@@ -1,8 +1,8 @@
 # 12 · Mapa blockout: escena Game
 
-> **Estado:** blockout jugable (fase F1). La geometría usa primitivas de Unity a propósito:
-> es el blockout temporal que servirá para medir la ruta, la cámara y el rendimiento antes
-> del kit modular de Blender. La escena final sustituirá estas piezas por módulos de Blender.
+> **Mapa de la versión:** Distrito Aurora en blockout de primitivas. Los modelos de
+> Santa, trineo, renos, armas, enemigos, naves, jefe y props son de Blender. La escena
+> está guardada y es jugable.
 
 ---
 
@@ -11,18 +11,16 @@
 - Escena **`Assets/Scenes/Game.unity`**, con el Distrito Aurora completo en blockout.
 - Ruta continua de **1,5 km** dividida en las 4 zonas del documento 11: afueras, centro
   histórico, distrito financiero y refugio.
-- Vehículo y personaje de pruebas (un cubo y un cilindro) con movimiento, vuelo, cámara en
-  tercera persona, mira con ratón y disparo hitscan. Si el paquete VAT está importado, el
-  cubo y el cilindro se sustituyen por el trineo, Santa y los cuatro renos.
-- **Combate completo** (doc 15): 4 armas, 5 enemigos, 11 oleadas, rescate de renos,
+- Jugador con **trineo, Santa y los cuatro renos reales**, cámara en tercera persona,
+  apuntado con el puntero y disparo hitscan.
+- **Combate completo** (doc 15): 4 armas, 5 enemigos, 2 naves, 11 oleadas, rescate de renos,
   pickups, Nicolás Cero en 3 fases, barrera de arena, HUD, pausa y **barras de vida sobre los enemigos**.
 - **Checkpoint** en el puente que repara el casco; game over por casco, renos o caída;
   resultados con tiempo, renos, casco y boss.
 - HUD de combate con retícula, nombre de zona, cronómetro y paneles de misión.
-- Checkpoint en el puente, meta en el Refugio y game over con reintento.
 - Sistema de rendimiento por capas: LODs con crossfade, apagado de zonas lejanas, niebla de
   distancia y props fusionados por material.
-- **Demo web publicada:** https://josue-rg.github.io/Clous-end-web/ (ver doc 13).
+- **Demo web publicada:** https://josue-rg.github.io/Clous-end/ (ver doc 13).
 
 ---
 
@@ -232,60 +230,51 @@ el trazador y el impacto ya existen en la escena y se reutilizan.
   **REINTENTAR** (vuelve al último checkpoint) y **LOBBY**. Los botones usan el EventSystem
   del juego y el cursor se libera solo en esos paneles.
 
-## Dónde se sustituyen los placeholders
+## Modelos integrados en el jugador
 
-El jugador de pruebas está en `Game > Player`. Desde que existe el paquete VAT,
-la reconstrucción del mapa ya monta el arte de Blender si los prefabs existen; y
-`Clous-End > VAT > 4 · Integrar modelos en la escena Game` hace el cambio en una
-escena ya construida, sin regenerar el mapa.
+El jugador vive en `Game > Player`. La reconstrucción del mapa monta el arte de
+Blender desde los prefabs; `Clous-End > VAT > 4 · Integrar modelos en la escena Game`
+permite actualizarlo en una escena ya construida sin regenerar el mapa.
 
-| Objeto | Qué era | Estado |
+| Objeto | Origen | Estado |
 |---|---|---|
-| `Player/Sleigh` | `PH_CarBody` (cubo rojo) | Sustituido por `PF_Sleigh` (VAT Flight) |
-| `Player/CharacterPivot/Santa` | `PH_Character` (cilindro) | Sustituido por `PF_Santa` (VAT Idle) |
-| `Player/ReindeerSquad` | No existía | Cuatro renos: Rodolfo, Donner, Vixen y Cometa |
-| `Player/CharacterPivot/AimPivot/PH_Gun` | Arma de prueba | **Sustituido** por un `WeaponRack` con los 4 modelos; `WeaponVisualSwitcher` muestra la equipada |
-| `Player Camera` | Cámara en tercera persona | Se conserva; ajustar distancia |
-| `Effects/Tracer`, `Effects/Impact` | VFX de disparo | Materiales/VFX finales |
-| `UI` | HUD de prueba | HUD final |
+| `Player/Sleigh` | Blockout `PH_CarBody` | `PF_Sleigh` (VAT Flight) |
+| `Player/CharacterPivot/Santa` | Blockout `PH_Character` | `PF_Santa` (VAT Idle) |
+| `Player/ReindeerSquad` | — | Rodolfo, Donner, Vixen y Cometa |
+| `Player/CharacterPivot/AimPivot` | Blockout `PH_Gun` | `WeaponRack` con los 4 modelos; `WeaponVisualSwitcher` muestra la equipada |
+| `Player Camera` | — | Cámara en tercera persona a 7 m |
+| `Effects/Tracer`, `Effects/Impact` | — | Trazador e impacto reutilizables |
+| `UI` | — | HUD de combate |
 
 El rig incluye también `Player/VATProps` (arnés, cascabeles y collar) y
 `Game/VATProps` (meteoritos caídos como decoración del recorrido).
 
-Al reemplazar los modelos se mantienen los pivotes (`CharacterPivot`, `AimPivot`,
-`Muzzle`), el `CharacterController`, la cámara y las referencias del Inspector.
-Los offsets del rig (altura del trineo y hueco de Santa) son configuraciones del
-editor en `VATRigBuilder` y se pueden retocar a mano en la escena.
+Se mantienen los pivotes (`CharacterPivot`, `AimPivot`, `Muzzle`), el
+`CharacterController`, la cámara y las referencias del Inspector. Los offsets del
+rig viven en los builders (`VATRigBuilder`, `VATPropBuilder`) y se pueden retocar a
+mano en la escena.
 
-Los edificios se llaman `SM_Bldg_*`, los props `SM_*` y los materiales `M_Map_*`, siguiendo el
-naming del documento 11.
-
----
-
-## Limitaciones conocidas del blockout
-
-- La geometría es de primitivas: no es arte final. El documento 11 prohíbe primitivas en la
-  entrega final, no en el blockout.
-- El vehículo de pruebas es un cubo que vuela; no es un trineo. Cuando el paquete
-  VAT está importado, la escena usa el trineo, Santa y los cuatro renos reales.
-- La misión completa (combate, oleadas, renos, armas y boss) **está implementada**;
-  falta probarla de principio a fin y ajustar dificultad, cámara y tiempos.
-- No hay audio real, intro cinematográfica ni pantalla de créditos completa.
-- Los edificios y props siguen siendo blockout; el kit modular de Blender está pendiente.
-- La retícula se oculta si el cursor sale de la ventana del juego; en ventana completa no pasa.
-- El suelo es plano; el terreno definitivo (nieve, desniveles, río) llegará con el kit de
-  Blender.
-- La escena no tiene occlusion culling horneado. El streaming de zonas y los LODs ya mantienen
-  el coste bajo; hornear oclusión es una optimización posterior.
+Los edificios se llaman `SM_Bldg_*`, los props `SM_*` y los materiales `M_Map_*`,
+siguiendo el naming del documento 11.
 
 ---
 
-## Siguiente paso
+## Notas del mapa
 
-1. **Probar la misión completa** desde `Login > JUGAR` con los modelos reales y ajustar dificultad,
-   oleadas, daño y tiempos con los assets de `Assets/Config`.
-2. Sustituir el blockout por el kit modular de Blender (calle, edificio, esquina y
-   puente), empezando por el centro histórico.
-3. Añadir audio, intro/final cinematográficos y créditos completos.
-4. Hornear Albedo/Normal/ORM para que los modelos se vean como en Blender.
-5. Repetir la medición de draw calls con el arte final y el combate activo.
+- La geometría es un **blockout de primitivas**: calles, edificios, puente, iglesia y refugio.
+- Los modelos de Santa, trineo, renos, armas, enemigos, naves, jefe y props son de Blender.
+- La escena usa el trineo, Santa y los cuatro renos reales.
+- El combate completo está implementado: 11 oleadas, 55 enemigos, barras de vida, jefe, HUD y pausa.
+- La retícula se oculta si el cursor sale de la ventana del juego; en ventana completa no ocurre.
+- El suelo es plano y forma parte del blockout.
+- La escena no tiene occlusion culling horneado; el streaming de zonas y los LODs mantienen el coste bajo.
+- Esta versión no incluye audio.
+
+---
+
+## Cómo probar la escena
+
+1. Abrir `Assets/Scenes/Login.unity` y pulsar **Play**.
+2. Pulsar **JUGAR**.
+3. Opcionalmente, abrir `Game` directamente el menú `Clous-End > Mapa > Abrir escena Game`.
+4. Para reconstruirla: `Clous-End > Mapa > Construir escena Game (blockout)`.

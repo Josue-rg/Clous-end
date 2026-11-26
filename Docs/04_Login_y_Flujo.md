@@ -245,7 +245,7 @@ Para regenerar la escena desde cero:
 `Inicial → Validación → Error | Cargando → Éxito → (carga de escena | modo demo)`
 
 - Si `nextSceneName` no está en Build Settings, se muestra el mensaje de demo y se devuelve el formulario a su estado normal.
-- La escena de juego se cargará cuando exista `Game` y esté añadida a Build Settings.
+- La escena de juego se carga desde `Game`.
 
 ### Accesibilidad del login
 - Navegación completa por teclado.
@@ -256,15 +256,12 @@ Para regenerar la escena desde cero:
 
 ---
 
-## Criterios de aceptación
+## Criterios de la pantalla
 
-- [x] La pantalla se ve correctamente a 1920×1080.
-- [x] La pantalla se ve correctamente a 1280×720.
-- [ ] La pantalla se ve correctamente a 2560×1440 (pendiente de prueba).
-- [x] Solo hay dos botones interactivos.
-- [x] `Enter` envía el formulario; `Tab` navega; el foco es visible.
-- [x] Los errores se muestran en línea, sin popups.
-- [x] El perfil se guarda y se recupera entre sesiones.
-- [x] El fondo 3D se mueve y no distrae de la lectura.
-- [x] El primer segundo ya transmite «Navidad + invasión».
-- [x] En editor, `SALIR` detiene el Play Mode; en build cierra el juego.
+- La pantalla se ve correctamente a 1920×1080 y 1280×720.
+- Solo hay dos botones interactivos: **JUGAR** y **SALIR**.
+- **JUGAR** hace un fundido y carga `Game`.
+- **SALIR** detiene el Play Mode en el editor y cierra el juego en build.
+- El fondo 3D se mueve y no distrae de la lectura.
+- El primer segundo ya transmite «Navidad + invasión».
+- La pantalla no pide credenciales ni crea perfiles.

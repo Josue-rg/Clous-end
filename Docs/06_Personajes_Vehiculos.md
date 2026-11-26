@@ -2,7 +2,7 @@
 
 > **Alcance final v1.0:** Santa, trineo, 4 renos, 4 armas y todos los props 3D se modelan y animan en **Blender**. No hay mejoras ni niveles de arma. Fuera de v1: Regalo, Aurora y los sistemas de progresión. Ver [11 · Alcance final](11_Alcance_Final_Juego_Terminado.md).
 
-> **Estado de producción (doc 14):** los cinco assets están **modelados, riggeados y animados**. El paquete de Unity está exportado en `BlenderSource/VAT/` y solo falta importarlo.
+> **Estado (doc 14):** los cinco assets están **modelados, riggeados y animados**. El paquete `BlenderSource/VAT/` está importado en Unity con 28 prefabs, materiales y texturas VAT generadas.
 >
 > | Asset | Triángulos | Clips horneados |
 > |---|---|---|

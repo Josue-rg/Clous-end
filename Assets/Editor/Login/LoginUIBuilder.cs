@@ -59,7 +59,6 @@ namespace ClousEnd.EditorTools
             var topRight = CreateTopRight(screen, assets);
             var content = CreateContent(screen, assets);
             var panel = CreatePanel(content, assets, config, out var primary, out var secondary, out var statusLabel);
-            var footer = CreateFooter(screen, assets);
             var bottomRight = CreateBottomRight(screen, assets);
             var fade = CreateFadeOverlay(screen, assets);
             CreateEventSystem(parent);
@@ -89,7 +88,6 @@ namespace ClousEnd.EditorTools
                 MakeIntroTarget(content.Find("Title") as RectTransform, 0.18f, 0.70f, 24f),
                 MakeIntroTarget(content.Find("Tagline") as RectTransform, 0.28f, 0.55f, 18f),
                 MakeIntroTarget(panel, 0.36f, 0.70f, 28f),
-                MakeIntroTarget(footer, 0.50f, 0.50f, 12f),
                 MakeIntroTarget(bottomRight, 0.55f, 0.50f, 10f)
             };
 
@@ -223,11 +221,6 @@ namespace ClousEnd.EditorTools
                 "Header", panel, "DISTRITO AURORA", assets.BodyBold, 18f, Cream,
                 TextAlignmentOptions.MidlineLeft, false, 3f);
             SetTopLeft(header.rectTransform, 28f, 28f, 484f, 24f);
-
-            var note = CreateText(
-                "Note", panel, "Demo jugable · sin perfil", assets.Body, 12f, Dim,
-                TextAlignmentOptions.MidlineLeft, false, 1f);
-            SetTopLeft(note.rectTransform, 28f, 54f, 484f, 16f);
 
             var divider = CreateImage("Divider", panel, assets.White, LineColor, Image.Type.Simple, false);
             SetTopLeft(divider.rectTransform, 28f, 78f, 484f, 1f);
@@ -440,24 +433,6 @@ namespace ClousEnd.EditorTools
             SerializedField.Set(hover, "duration", 0.12f);
 
             return new ButtonRefs { Root = root, Button = button, Label = label, Spinner = null };
-        }
-
-        private static RectTransform CreateFooter(RectTransform parent, LoginAssets assets)
-        {
-            var root = CreateRect("Footer", parent, new Vector2(0f, 0f), new Vector2(0f, 0f), new Vector2(0f, 0f), new Vector2(96f, 48f), new Vector2(560f, 42f));
-            root.gameObject.AddComponent<CanvasGroup>();
-
-            var version = CreateText(
-                "Version", root, "v0.1 · Prototipo", assets.Body, 10f, Dim,
-                TextAlignmentOptions.BottomLeft, false, 1f);
-            SetBottomLeft(version.rectTransform, 0f, 18f, 280f, 14f);
-
-            var hint = CreateText(
-                "Hint", root, "Pulsa JUGAR para volar", assets.Body, 10.5f, Ice,
-                TextAlignmentOptions.BottomLeft, false, 1.5f);
-            SetBottomLeft(hint.rectTransform, 0f, 0f, 320f, 14f);
-
-            return root;
         }
 
         private static RectTransform CreateBottomRight(RectTransform parent, LoginAssets assets)

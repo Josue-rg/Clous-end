@@ -247,24 +247,15 @@ namespace ClousEnd.EditorTools
                 new Color(0.86f, 0.97f, 1f),
                 TextAlignmentOptions.Center,
                 8f);
-            Center(title.rectTransform, new Vector2(900f, 80f), new Vector2(0f, 150f));
+            Center(title.rectTransform, new Vector2(900f, 80f), new Vector2(0f, 250f));
 
-            var hint = CreateText(
-                "PauseHint",
-                panel.transform,
-                "ESC  REANUDAR     ·     1–4  CAMBIAR ARMA     ·     R  RECARGAR     ·     CLIC IZQ  DISPARAR",
-                assets.BodyFont,
-                15f,
-                new Color(0.62f, 0.76f, 0.88f),
-                TextAlignmentOptions.Center,
-                2f);
-            Center(hint.rectTransform, new Vector2(1400f, 26f), new Vector2(0f, 92f));
+            CreatePauseControls(panel.transform, assets);
 
             refs.PauseResumeButton = CreateButton(
                 "PauseResume",
                 panel.transform,
                 "REANUDAR",
-                new Vector2(-256f, -40f),
+                new Vector2(-256f, -150f),
                 ButtonDark,
                 assets);
 
@@ -272,7 +263,7 @@ namespace ClousEnd.EditorTools
                 "PauseRestart",
                 panel.transform,
                 "REINICIAR",
-                new Vector2(0f, -40f),
+                new Vector2(0f, -150f),
                 ButtonRed,
                 assets);
 
@@ -280,7 +271,7 @@ namespace ClousEnd.EditorTools
                 "PauseLobby",
                 panel.transform,
                 "LOBBY",
-                new Vector2(256f, -40f),
+                new Vector2(256f, -150f),
                 ButtonDark,
                 assets);
 
@@ -293,7 +284,7 @@ namespace ClousEnd.EditorTools
                 new Color(0.45f, 0.58f, 0.7f),
                 TextAlignmentOptions.Center,
                 3f);
-            Center(footer.rectTransform, new Vector2(900f, 24f), new Vector2(0f, -150f));
+            Center(footer.rectTransform, new Vector2(900f, 24f), new Vector2(0f, -260f));
 
             panel.SetActive(false);
 
@@ -314,6 +305,80 @@ namespace ClousEnd.EditorTools
 
             refs.Pause = pause;
             refs.PausePanel = panel;
+        }
+
+        private static void CreatePauseControls(Transform parent, MapAssets assets)
+        {
+            var card = new GameObject("PauseControls", typeof(RectTransform));
+            var rect = card.GetComponent<RectTransform>();
+            rect.SetParent(parent, false);
+            Center(rect, new Vector2(1080f, 230f), new Vector2(0f, 20f));
+
+            var backgroundGo = new GameObject("Background", typeof(RectTransform), typeof(Image));
+            var backgroundRect = backgroundGo.GetComponent<RectTransform>();
+            backgroundRect.SetParent(rect, false);
+            backgroundRect.anchorMin = Vector2.zero;
+            backgroundRect.anchorMax = Vector2.one;
+            backgroundRect.offsetMin = Vector2.zero;
+            backgroundRect.offsetMax = Vector2.zero;
+
+            var background = backgroundGo.GetComponent<Image>();
+            background.sprite = assets.Panel;
+            background.color = new Color(0.015f, 0.028f, 0.045f, 0.94f);
+            background.raycastTarget = false;
+
+            var accent = new GameObject("Accent", typeof(RectTransform), typeof(Image));
+            var accentRect = accent.GetComponent<RectTransform>();
+            accentRect.SetParent(rect, false);
+            Center(accentRect, new Vector2(1000f, 2f), new Vector2(0f, 102f));
+
+            var accentImage = accent.GetComponent<Image>();
+            accentImage.sprite = assets.Panel;
+            accentImage.color = new Color(0.42f, 0.85f, 1f, 0.75f);
+            accentImage.raycastTarget = false;
+
+            var header = CreateText(
+                "ControlsHeader",
+                rect,
+                "CONTROLES",
+                assets.BodyBoldFont,
+                18f,
+                new Color(0.8f, 0.95f, 1f),
+                TextAlignmentOptions.Center,
+                7f);
+            Center(header.rectTransform, new Vector2(600f, 26f), new Vector2(0f, 92f));
+
+            var left = CreateText(
+                "ControlsLeft",
+                rect,
+                "W / S  ·  ↑ / ↓     Avanzar / retroceder\n" +
+                "A / D  ·  ← / →     Esquivar\n" +
+                "ESPACIO / CTRL      Subir / bajar\n" +
+                "CLIC DERECHO + ARRASTRAR   Girar cámara\n" +
+                "RUEDA                Zoom",
+                assets.BodyFont,
+                16f,
+                new Color(0.72f, 0.84f, 0.94f),
+                TextAlignmentOptions.TopLeft,
+                2f,
+                10f);
+            Center(left.rectTransform, new Vector2(500f, 150f), new Vector2(-260f, -10f));
+
+            var right = CreateText(
+                "ControlsRight",
+                rect,
+                "RATÓN                Apuntar\n" +
+                "CLIC IZQUIERDO       Disparar\n" +
+                "1 – 4                Cambiar de arma\n" +
+                "R                    Recargar\n" +
+                "ESC                  Pausa",
+                assets.BodyFont,
+                16f,
+                new Color(0.72f, 0.84f, 0.94f),
+                TextAlignmentOptions.TopLeft,
+                2f,
+                10f);
+            Center(right.rectTransform, new Vector2(500f, 150f), new Vector2(260f, -10f));
         }
 
         private static GameObject CreateOverlay(string name, RectTransform canvas, MapAssets assets)

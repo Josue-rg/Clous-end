@@ -1,200 +1,102 @@
-# 10 · Producción y roadmap
+# 10 · Producción
 
-> **Alcance final v1.0:** un mapa, una misión, un boss, **sin niveles ni progresión**, y **todos los assets 3D hechos en Blender**. El desglose completo de contenido, assets y criterios está en [11 · Alcance final](11_Alcance_Final_Juego_Terminado.md). Este documento es el plan de producción resumido.
+> Documento de proceso: cómo se construye, se prueba y se publica CLOUS-END.
 
-## Estado actual
+---
 
-| Entregable | Estado |
+## Herramientas
+
+| Herramienta | Uso |
 |---|---|
-| Documentación de visión, historia, gameplay, arte, técnica y alcance | Hecha |
-| Lobby con botón JUGAR (sin credenciales) | Hecho |
-| Alcance final congelado (1 mapa, sin niveles) | Hecho |
-| Escena `Game` y blockout del Distrito Aurora | Hecho (doc 12) |
-| Checkpoint, meta, resultados y game over de la demo | Hecho |
-| Demo WebGL en GitHub Pages | Hecho (doc 13) |
-| **Assets 3D de la v1 en Blender** (Santa, trineo, 4 renos, armas, enemigos, naves, boss, props) | **Hecho (doc 14)** |
-| **Rigs, clips y horneado VAT** | **Hecho (doc 14)** |
-| **LODs y colisiones** | **Hecho (doc 14)** |
-| Horneado de Albedo/Normal/ORM | Pendiente |
-| Import del paquete a Unity | Pendiente |
-| Kit del mapa en Blender | Pendiente |
-| Audio | Pendiente |
-| Build de Windows | Pendiente |
+| **Unity 6.6.0f1** | Escenas, gameplay, UI, build WebGL |
+| **Blender** | Modelos, UVs, rigs, animaciones, LODs y colisiones |
+| **Pipeline VAT** | Horneado de animación a texturas y reproducción en GPU |
+| **Git + GitHub** | Rama única `main` y publicación de la demo |
+| **GitHub Pages** | Sitio estático servido desde la raíz de `main` |
 
 ---
 
-## Alcance cerrado
+## Pipeline de trabajo
 
-| Contenido | Cantidad |
+```
+BlenderSource/
+  modelos y animaciones
+        ↓
+  export_vat_raw.py
+        ↓
+  Assets/Art/Models/VAT/Generated  (texturas float)
+        ↓
+  Clous-End > VAT > Importar todo
+        ↓
+  Assets/Prefabs + Assets/Art/Materials/VAT
+        ↓
+  Clous-End > Mapa > Construir escena Game
+        ↓
+  Assets/Scenes/Game.unity
+        ↓
+  WebBuild / Builds/WebGL
+        ↓
+  index.html + WebGL/ + TemplateData/ en main
+        ↓
+  GitHub Pages
+```
+
+---
+
+## Fases completadas
+
+| Fase | Resultado |
 |---|---|
-| Misiones | 1 |
-| Mapas | 1: Distrito Aurora |
-| Renos | 4 (4 vidas) |
-| Armas | 4, sin mejoras |
-| Enemigos | 5 tipos |
-| Boss | 1: Nicolás Cero |
-| Naves alienígenas | 3 tipos |
-| Pantallas | Login, HUD, pausa, resultados/créditos |
-| Duración | 20–30 minutos |
-| Arte 3D | 100 % Blender |
-| Progresión | Ninguna (solo perfil y checkpoint en memoria) |
-
-**No entra:** niveles, XP, monedas, mejoras, inventario, árbol de habilidades, varios mapas, selección de nivel, mundo abierto, multijugador, cooperativo, personalización, misiones secundarias, tienda, pases de batalla, VR, móvil, assets 3D de Asset Store.
+| **Documentación y alcance** | Visión, historia, GDD, arte, arquitectura y alcance cerrado. |
+| **Login / Lobby** | Escena `Login` con JUGAR, SALIR y diorama 3D. |
+| **Blockout del mapa** | Distrito Aurora, 4 zonas y 1,5 km con vuelo, cámara y HUD. |
+| **Assets 3D** | Santa, trineo, 4 renos, 4 armas, 5 enemigos, 2 naves, jefe y props en Blender. |
+| **Animación VAT** | Rigs, clips, texturas de posiciones, LODs y colisiones. |
+| **Importación a Unity** | 28 prefabs, 375 materiales, texturas float y prefabs con LOD/collider. |
+| **Combate** | 4 armas, 5 enemigos, 11 oleadas, 55 enemigos, jefe, pickups, barras de vida, HUD y pausa. |
+| **Misión** | Checkpoint, resultados, game over y reinicio con cámara/posición al frente. |
+| **Publicación web** | Build WebGL de 63 MB en GitHub Pages. |
 
 ---
 
-## Fases de producción
+## Construcción de la escena
 
-### F0 · Alcance congelado
-**Estado:** hecha.
+La escena `Game` se genera desde el editor:
 
-- Un mapa, una misión, un boss, 4 armas, 5 enemigos.
-- Sin niveles ni mejoras.
-- Todos los 3D en Blender.
-- Documento rector: `11_Alcance_Final_Juego_Terminado.md`.
-
-### F1 · Blockout jugable (2 semanas)
-- Escena `Game` con primitivas.
-- `SleighController`, cámara, 4 renos, 2 armas y Sabueso.
-- Corredor de prueba de 2–3 minutos.
-- HUD mínimo.
-
-**Estado:** parcial. Ya están el mapa completo, la cámara, el vuelo, la mira, el disparo, el HUD,
-el checkpoint, la meta y el game over. Faltan los renos, las armas y los enemigos de esta fase.
-
-**Salida:** volar, disparar y perder un reno ya funciona con placeholders.
-
-### F2 · Kit de Blender v1 (4–6 semanas)
-- Santa, trineo, reno base + 4 variantes.
-- 4 armas, 5 enemigos, 3 naves.
-- Kit del mapa: calles, edificios, iglesia, puente, refugio, props.
-- Rigs y animaciones base.
-- Export FBX, integración y prueba de escala/rendimiento.
-
-**Estado:** personajes, armas, enemigos, naves, boss, props, rigs, animaciones
-(VAT), LODs y colisiones **hechos y exportados** (doc 14). Faltan el kit del mapa
-y el horneado de texturas.
-
-**Salida:** el juego se ve como el producto final, aunque falten pulido y audio.
-
-### F3 · Misión completa (3–4 semanas)
-- Los 4 actos dentro del mapa.
-- Oleadas, Garfio, checkpoint, pickups.
-- Boss Nicolás Cero.
-- Intro, final y créditos.
-- HUD y resultados.
-
-**Salida:** se puede jugar de principio a fin.
-
-### F4 · Audio, UI y pulido (2–3 semanas)
-- Música, SFX, voz de Voss.
-- Subtítulos, accesibilidad y opciones.
-- VFX finales.
-- Ajuste de dificultad y duración.
-
-**Salida:** experiencia completa y legible.
-
-### F5 · QA y build (1–2 semanas)
-- Pruebas completas.
-- Optimización.
-- Build de Windows.
-- Corrección de bugs.
-- Capturas/tráiler (opcional).
-
-**Salida:** juego terminado.
-
----
-
-## Estimación
-
-| Equipo | Tiempo |
+| Acción | Menú |
 |---|---|
-| 1 programador + 1 artista 3D + apoyo audio/UI | 12–16 semanas |
-| 1 sola persona (todo) | 5–7 meses |
-| Equipo de 3–4 con dedicación parcial | 4–6 meses |
+| Importar modelos y prefabs | `Clous-End > VAT > Importar todo` |
+| Generar texturas VAT | `Clous-End > VAT > 6 · Generar texturas VAT (float)` |
+| Reconstruir la escena | `Clous-End > Mapa > Construir escena Game (blockout)` |
+| Abrir la escena | `Clous-End > Mapa > Abrir escena Game` |
+| Probar | `Clous-End > Mapa > Entrar en Play Mode` |
 
-La ruta crítica es el arte de Blender. El código puede avanzar con placeholders, pero el juego no se termina sin los modelos y animaciones.
-
----
-
-## Reparto sugerido
-
-| Rol | Responsabilidad |
-|---|---|
-| Diseño / dirección | Alcance, historia, tuning, revisión. |
-| Programación | Sistemas, herramientas de editor, rendimiento, build. |
-| Arte 3D / Blender | Mapa, Santa, trineo, renos, enemigos, naves, armas, props. |
-| Animación (Blender) | Renos, Santa, trineo, enemigos, boss. |
-| Audio | Música, SFX, voz, mezcla. |
-| UI / 2D | HUD, iconos, resultados, créditos. |
-| QA | Flujo completo, dificultad, accesibilidad, build. |
-
-En un equipo de 2–3 personas, los roles se combinan; el alcance no.
+La escena y los prefabs quedan guardados y se editan con el Inspector, la Jerarquía y el Scene View. El runtime no crea escena ni UI.
 
 ---
 
-## Riesgos y mitigación
+## Build web
 
-| Riesgo | Impacto | Mitigación |
-|---|---|---|
-| El kit de Blender tarda más de lo previsto | Alto | Módulos reutilizables; no modelar 100 edificios únicos. |
-| Los 4 renos requieren demasiada animación | Alto | Rig y animaciones compartidas; variantes por materiales/astas. |
-| El mapa modular se ve repetitivo | Medio | 3–4 landmarks fuertes y variación de props. |
-| El boss es demasiado complejo | Medio | 3 fases claras; reutilizar enemigos y naves. |
-| El juego se alarga más de 30 min | Medio | Medir la ruta y cortar; la duración es parte del diseño. |
-| Se cuela una idea de “nivel” o “mejora” | Alto | Volver a `11`; si no es historia o combate, no entra. |
-| El realismo no llega | Medio | Priorizar silueta, luz y animación sobre detalle microscópico. |
+1. Cambiar el target a **WebGL**.
+2. Ejecutar `Clous-End > Build > WebGL para GitHub Pages` (genera `Builds/WebGL`).
+3. Copiar `index.html`, `TemplateData/` y la carpeta `Build` renombrada a `WebGL/` en la raíz del repo.
+4. Añadir `.nojekyll` si no existe.
+5. Commit y `push` a `main`.
+6. Esperar a que GitHub Pages reconstruya y recargar con **Ctrl + F5**.
 
----
-
-## Próximas 10 tareas
-
-1. Importar el paquete VAT a Unity y crear los prefabs (doc 14).
-2. Hornear Albedo/Normal/ORM de los assets de Blender.
-3. Primer módulo de calle + edificio + esquina en Blender (kit del mapa).
-4. Integrar ese módulo en Unity y comprobar escala, colisiones y FPS.
-5. Implementar `SleighController` y cámara con los modelos finales.
-6. Implementar `ReindeerSquad` y la pérdida de un reno.
-7. Conectar la animación de muerte del reno y la sacada de arma al gameplay.
-8. Añadir Sabueso y Carbón.
-9. Montar el HUD como prefab editable.
-10. Definir el guion de radio de la intro y el final.
+El proyecto usa **Gzip**, **decompression fallback** y **data caching**. El build actual pesa **63 MB**.
 
 ---
 
-## Definición de “juego terminado”
+## Publicación
 
-- [ ] Login → intro → misión única → boss → final → créditos.
-- [ ] 20–30 minutos de duración.
-- [ ] 4 renos como vidas; se puede perder y reintentar.
-- [ ] 4 armas, 5 enemigos y 1 boss funcionando.
-- [ ] Checkpoint del puente.
-- [ ] Todos los 3D finales son de Blender; sin primitivas en la escena final.
-- [ ] 60 FPS a 1080p en PC medio.
-- [ ] Sin errores en consola.
-- [ ] Sin creación de escena/UI en runtime.
-- [ ] Todos los valores de gameplay en Inspector/ScriptableObject.
-- [ ] Build de Windows que arranca, se juega y se cierra.
-- [ ] Historia comprensible sin leer la documentación.
+- Rama única: **`main`**.
+- GitHub Pages sirve desde la raíz de `main`.
+- La demo está en **https://josue-rg.github.io/Clous-end/**.
+- No hay backend ni guardado remoto: el sitio es estático.
 
 ---
 
-## Lo que no se hará
+## Estado de la entrega
 
-- Sistema de niveles, XP o monedas.
-- Mejoras de armas, trineo o renos.
-- Inventario o árbol de habilidades.
-- Varios mapas o capítulos.
-- Selección de nivel.
-- Mundo abierto.
-- Multijugador o cooperativo.
-- Personalización del trineo.
-- Misiones secundarias.
-- Tienda, pases o monetización.
-- Guardado de progreso de misión.
-- Doblaje completo o localización a varios idiomas.
-- Logros.
-- Móvil, consola o VR.
-- Assets 3D de Asset Store.
-
-Si algo de esta lista vuelve, se apunta para una secuela. No entra en la versión que hay que terminar.
+La versión actual incluye login, mapa de Distrito Aurora, modelos de Blender, combate completo, jefe, HUD, pausa, resultados y build web. El mapa es un blockout jugable; los personajes, enemigos, armas y props son modelos 3D de Blender. La versión no incluye audio.
