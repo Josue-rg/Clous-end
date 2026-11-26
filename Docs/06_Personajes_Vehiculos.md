@@ -2,6 +2,18 @@
 
 > **Alcance final v1.0:** Santa, trineo, 4 renos, 4 armas y todos los props 3D se modelan y animan en **Blender**. No hay mejoras ni niveles de arma. Fuera de v1: Regalo, Aurora y los sistemas de progresión. Ver [11 · Alcance final](11_Alcance_Final_Juego_Terminado.md).
 
+> **Estado de producción (doc 14):** los cinco assets están **modelados, riggeados y animados**. El paquete de Unity está exportado en `BlenderSource/VAT/` y solo falta importarlo.
+>
+> | Asset | Triángulos | Clips horneados |
+> |---|---|---|
+> | Santa | 46.000 | Idle, Draw, Shoot, Reload |
+> | Reno (×4) | 22.000–24.000 | Gallop, Death, Hurt |
+> | Trineo | 33.000 | Flight, Impact |
+> | Armas | 2.100–4.100 c/u | estáticas (se animan en mano) |
+>
+> La animación va horneada en texturas (VAT), sin esqueletos en Unity: ver
+> [14 · Assets 3D y pipeline VAT](14_Assets_3D_y_Pipeline_VAT.md).
+
 ## Santa Claus
 
 ### Concepto

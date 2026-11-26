@@ -65,15 +65,19 @@ Assets/
     Fonts/                 Fuentes y licencias OFL
     Login/                 Shaders, materiales, texturas, mallas del login
     Models/                FBX de Blender: personajes, enemigos, naves, armas, mapa
+      VAT/                 mallas de juego + texturas de animación (ver doc 14)
   Config/                  ScriptableObjects de configuración
   Editor/
     Login/                 Builders y menús del login
   Scenes/                  Login, Game
   Scripts/
     Login/                 Lógica de la pantalla de acceso
+    Rendering/             VATPlayer, FloatPhase (animación en GPU)
     Core/                  (pendiente) flujo, guardado, eventos
     Gameplay/              (pendiente) trineo, renos, armas, enemigos
     UI/                    (pendiente) HUD y menús de gameplay
+  Shaders/
+    VAT/                   VAT_Unlit.shader, FloatWobble.shader
   Settings/                URP assets, volume profiles globales
   TextMesh Pro/            Recursos esenciales de TMP
 Docs/                      Documentación de diseño
@@ -148,6 +152,40 @@ Los builders son **idempotentes en assets**: si un material, sprite o config ya 
 - Las referencias del controlador son `[SerializeField]` privadas.
 - No se usa `FindObjectOfType` ni búsquedas por nombre en runtime.
 - Los campos de entrada usan `TMP_InputField` con `contentType` y límites del config.
+
+---
+
+## Pipeline de assets 3D (VAT)
+
+Los modelos 3D y sus animaciones están terminados en Blender y exportados listos
+para Unity. El detalle completo, con la tabla de assets y el paso a paso de
+importación, está en [14 · Assets 3D y pipeline VAT](14_Assets_3D_y_Pipeline_VAT.md).
+
+### Qué entra al proyecto
+
+| Archivo | Función |
+|---|---|
+| `SK_<Asset>.fbx` | malla estática, 2 capas UV, materiales |
+| `T_<Asset>_<Clip>_Pos.exr` | textura de posiciones por frame (VAT) |
+| `vat_<Asset>.json` | frames, fps, tamaño, bounds |
+| `SK_<Asset>_LOD1/2.fbx` | niveles de detalle |
+| `SK_<Asset>_COL.fbx` | colisión convexa |
+| `VAT_Unlit.shader` | desplaza los vértices en GPU |
+| `VATPlayer.cs` | avanza el frame por instancia |
+
+### Cómo encaja en la arquitectura
+
+- **No hay `Animator` ni `SkinnedMeshRenderer`.** El coste de animación pasa de
+  CPU a GPU, que es lo que permite la demo web.
+- `VATPlayer` no crea nada: solo escribe `_Frame` en un
+  `MaterialPropertyBlock`. Cumple la regla de "nada de crear objetos en runtime".
+- Los clips son materiales; cambiar de animación es cambiar la textura
+  (`VATPlayer.SetClip`). La lógica de cuándo cambiar (muerte de un reno, ataque
+  del boss) vivirá en los sistemas de gameplay, no en el reproductor.
+- `FloatWobble.shader` + `FloatPhase.cs` son la alternativa sin texturas para
+  aliens que solo flotan.
+- Los LODs son estáticos: el VAT va en LOD0. Si se quiere animación a distancia,
+  hay que hornear una textura por LOD.
 
 ---
 
@@ -299,12 +337,13 @@ No se implementará red en el MVP. Solo se evita el diseño que obligaría a ree
 
 ## Próximos pasos técnicos
 
-1. Crear la escena `Game` con el blockout del único mapa.
-2. Implementar `SleighController` con datos serializados.
-3. Implementar `ReindeerSquad` y el evento de pérdida.
-4. Añadir Sabueso y Carbón.
-5. Montar el HUD como prefab editable.
-6. Integrar el kit de Blender y comprobar escala/rendimiento.
-7. Añadir audio de viento y campanas al login.
-8. Pruebas de resolución y accesibilidad.
-9. Perfilar el login en build.
+1. Importar el paquete VAT a Unity (doc 14) y crear los prefabs.
+2. Hornear Albedo/Normal/ORM de los assets para que el detalle llegue al motor.
+3. Crear la escena `Game` con el blockout del único mapa.
+4. Implementar `SleighController` con datos serializados.
+5. Implementar `ReindeerSquad` y el evento de pérdida.
+6. Añadir Sabueso y Carbón.
+7. Montar el HUD como prefab editable.
+8. Integrar el kit de Blender y comprobar escala/rendimiento.
+9. Añadir audio de viento y campanas al login.
+10. Pruebas de resolución y accesibilidad; perfilar el login en build.

@@ -10,7 +10,7 @@
 - **Mapas:** 1 (Distrito Aurora)
 - **Progresión:** ninguna (sin niveles, XP, monedas ni mejoras)
 - **Arte 3D:** 100 % Blender (mapa, Santa, trineo, renos, naves, enemigos, armas)
-- **Estado:** preproducción + login jugable + alcance final definido
+- **Estado:** preproducción + login y demo jugables + **assets 3D y animación terminados, listos para Unity**
 
 ![Pantalla de login](Docs/Images/login_preview.png)
 
@@ -39,6 +39,9 @@ Toda la documentación está en [`Docs/`](Docs/README.md):
 - [Arquitectura técnica](Docs/09_Arquitectura_Tecnica.md)
 - [Producción y roadmap](Docs/10_Produccion_Roadmap.md)
 - [**Alcance final del juego terminado**](Docs/11_Alcance_Final_Juego_Terminado.md) — documento rector
+- [Mapa blockout: escena Game](Docs/12_Mapa_Blockout_Game.md)
+- [Demo web y publicación](Docs/13_Web_Demo_GitHub_Pages.md)
+- [**Assets 3D y pipeline VAT**](Docs/14_Assets_3D_y_Pipeline_VAT.md) — qué modelos hay y cómo importarlos a Unity
 
 ## Alcance final
 
@@ -51,8 +54,8 @@ Toda la documentación está en [`Docs/`](Docs/README.md):
 
 ## Qué falta (resumen)
 
-1. **Blender:** kit del mapa, Santa, trineo, 4 renos, 4 armas, 5 enemigos, 3 naves, Nicolás Cero y animaciones.
-2. **Unity:** escena `Game`, vuelo, disparo, 4 vidas de reno, oleadas, rescate, boss, checkpoint, HUD, pausa y resultados.
+1. **Blender:** ~~kit del mapa, Santa, trineo, 4 renos, 4 armas, enemigos, naves, Nicolás Cero y animaciones~~ → hecho, ver [Docs/14](Docs/14_Assets_3D_y_Pipeline_VAT.md). Faltan el **kit del mapa** y el **horneado de texturas**.
+2. **Unity:** importar el paquete de assets, 4 vidas de reno, oleadas, rescate, boss, HUD, pausa y resultados.
 3. **UI/2D:** HUD final, iconos, pantalla de pausa, resultados y créditos.
 4. **Audio:** música, SFX, voz de Voss y mezcla.
 5. **QA/build:** misión de 20–30 minutos, 60 FPS y build de Windows.
@@ -76,4 +79,6 @@ Las reglas de trabajo están en [`AGENTS.md`](AGENTS.md). En resumen:
 - Construcción: `Assets/Editor/Login/`
 - Fondo: `Assets/Art/Login/`
 
-La escena `Game` todavía no existe; al entrar, el login muestra un mensaje de demo.
+La escena `Game` existe con el blockout del Distrito Aurora (doc 12) y la demo web
+está publicada (doc 13). Los modelos 3D finales están hechos y esperan importación
+(doc 14).

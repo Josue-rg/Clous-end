@@ -2,6 +2,18 @@
 
 > **Alcance final v1.0:** **5 enemigos** (Sabueso, Garfio, Espora, Manto, Torre) y **1 boss** (Nicolás Cero). El resto del bestiario y los bosses intermedios son ideas futuras. Todos los modelos y animaciones se hacen en **Blender**. Ver [11 · Alcance final](11_Alcance_Final_Juego_Terminado.md).
 
+> **Estado de producción (doc 14):** los enemigos y el boss están **modelados y animados**. Manto y Torre se rediseñaron como dos **robots de cuatro brazos largos** (élites) para dar una familia pesada. Los meteoritos entran como peligro ambiental con tres tamaños.
+>
+> | Asset | Triángulos | Clips |
+> |---|---|---|
+> | Sabueso | 1.400 | Run, Death |
+> | Garfio | 2.450 | Hover, Death |
+> | Espora | 2.544 | Pulse, Death |
+> | Robot Manto / Torre | 1.464 / 1.564 | Idle, Attack |
+> | Nicolás Cero | 9.192 | Idle, Attack |
+>
+> Ver [14 · Assets 3D y pipeline VAT](14_Assets_3D_y_Pipeline_VAT.md).
+
 ## Bestiario final (v1)
 
 | Enemigo | Rol | Ataque | Prioridad |

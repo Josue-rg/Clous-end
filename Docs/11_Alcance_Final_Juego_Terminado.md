@@ -55,8 +55,13 @@ La prioridad no es la cantidad: es que la historia se entienda, que volar y disp
 | Reglas de trabajo (`AGENTS.md`) | Hecho |
 | Escena `Game` y blockout del mapa | Hecho (blockout jugable, ver doc 12) |
 | Kit del mapa en Blender | Pendiente |
-| Santa, trineo y 4 renos en Blender | Pendiente |
-| Armas, enemigos, naves y boss en Blender | Pendiente |
+| Santa, trineo y 4 renos en Blender | **Hecho** (modelo + rig + animación, ver doc 14) |
+| Armas, enemigos, naves y boss en Blender | **Hecho** (ver doc 14) |
+| Rig y clips de todos los assets animados | **Hecho** (VAT, ver doc 14) |
+| LODs y mallas de colisión | **Hecho** (14 assets animados) |
+| Paquete exportado y listo para importar a Unity | **Hecho** (`BlenderSource/VAT/`, doc 14) |
+| Texturas PBR horneadas (Albedo/Normal/ORM) | Pendiente |
+| Import del paquete a Unity y prueba en escena | Pendiente |
 | Combate, oleadas y rescate de renos | Pendiente |
 | Checkpoint del puente, cronómetro, resultados y game over de la demo | Hecho |
 | HUD final, pausa y créditos | Pendiente |
@@ -369,21 +374,21 @@ Los `.blend` se guardan en `BlenderSource/` en la raíz del proyecto, no dentro 
 
 ### 1. Blender: assets y animación
 
-- [ ] Blockout de Santa, trineo, reno y kit de mapa.
-- [ ] Modelo final de Santa.
-- [ ] Modelo final del trineo y suspensión.
-- [ ] Modelo base de reno + 4 variantes.
-- [ ] Arnés, cuerdas y cascabeles.
-- [ ] 4 armas.
-- [ ] 5 enemigos.
-- [ ] 3 naves.
-- [ ] Nicolás Cero + 2 renos de obsidiana.
+- [x] Blockout de Santa, trineo, reno y kit de mapa.
+- [x] Modelo final de Santa.
+- [x] Modelo final del trineo y suspensión.
+- [x] Modelo base de reno + 4 variantes.
+- [x] Arnés, cuerdas y cascabeles.
+- [x] 4 armas.
+- [x] Enemigos: Sabueso, Garfio y Espora + Manto y Torre rediseñados como robots de 4 brazos.
+- [x] 2 naves (Caza y Recolector). La Aguja/Ojo de fondo queda pendiente.
+- [x] Nicolás Cero. Los 2 renos de obsidiana quedan como variante de material pendiente.
 - [ ] Kit del mapa (calles, edificios, iglesia, puente, refugio, props).
-- [ ] UVs y texturas PBR.
-- [ ] Rigs de Santa, renos, enemigos y boss.
-- [ ] Animaciones de Santa, renos, trineo, enemigos, boss y armas.
-- [ ] LODs y colisiones.
-- [ ] Export FBX + prueba en Unity.
+- [~] UVs hechas; **falta hornear Albedo/Normal/ORM** (el FBX lleva color plano por material).
+- [x] Rigs de Santa, renos, trineo, enemigos y boss (guardados en `SK_*_vat.blend`).
+- [x] Animaciones de los clips principales (idle, galope, muerte, ataque, sacada de arma…).
+- [x] LODs y colisiones.
+- [x] Export FBX (7.4, dos capas UV). **Falta probarlo dentro de Unity.**
 
 ### 2. Unity: sistemas de juego
 

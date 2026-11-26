@@ -1,6 +1,6 @@
 # CLOUS-END — Documentación de diseño
 
-**Estado:** preproducción · documentación v0.3 · alcance final definido · lobby, blockout y demo web jugables
+**Estado:** preproducción · documentación v0.4 · alcance final definido · lobby, blockout y demo web jugables · **assets 3D y animación terminados y listos para Unity**
 **Motor:** Unity 6.6.0f1 · URP 17.6 · Input System 1.20
 **Género:** shooter cinemático de defensa sobre trineo (on-rails / semi-libre)
 **Duración objetivo:** 20–30 minutos · **1 mapa** · sin niveles ni progresión
@@ -33,6 +33,7 @@ La gracia del proyecto no es la cantidad de contenido, sino la **intensidad y la
 | 11 | [Alcance final del juego terminado](11_Alcance_Final_Juego_Terminado.md) | **Documento rector:** 1 mapa, sin niveles, todo el 3D en Blender, qué falta y criterios de aceptación. |
 | 12 | [Mapa blockout: escena Game](12_Mapa_Blockout_Game.md) | Qué hay montado, cómo reconstruirlo, controles, rendimiento y dónde sustituir los placeholders. |
 | 13 | [Demo web y publicación](13_Web_Demo_GitHub_Pages.md) | Enlace jugable, cómo se genera el build WebGL, cómo se publica en GitHub Pages y sus límites. |
+| 14 | [**Assets 3D y pipeline VAT**](14_Assets_3D_y_Pipeline_VAT.md) | Qué modelos hay, cómo se animan sin huesos (VAT) y **cómo importarlos a Unity paso a paso**. |
 
 ---
 
@@ -46,8 +47,9 @@ El alcance se protege con una lista cerrada: **1 mapa, 1 misión, 1 boss, 4 reno
 
 **Demo web:** https://josue-rg.github.io/Clous-end-web/
 
-**Siguiente paso:** sustituir el blockout por el kit de Blender (empezando por el centro
-histórico) y montar el combate, los renos y las armas sobre la misión actual.
+**Siguiente paso:** importar el paquete de Blender a Unity (doc 14) y montar el combate,
+los renos y las armas sobre la misión actual. Antes conviene hornear las texturas de
+albedo para que el detalle de Blender viaje al motor.
 
 ---
 
@@ -59,8 +61,14 @@ histórico) y montar el combate, los renos y las armas sobre la misión actual.
 - [x] Blockout jugable de la escena `Game`: Distrito Aurora, vuelo, cámara, mira, disparo y HUD de pruebas.
 - [x] Cronómetro, checkpoint del puente, meta con resultados y game over con reintento.
 - [x] Demo web publicada en GitHub Pages (ver doc 13).
+- [x] **Assets 3D de la v1 hechos en Blender**: Santa, trineo, 4 renos, 4 armas, 4 enemigos
+      con sus variantes, 2 naves, Nicolás Cero, props, arnés y meteoritos.
+- [x] **Rigs, clips y horneado VAT** de todos los assets animados (ver doc 14).
+- [x] **LOD1, LOD2 y mallas de colisión** de los 14 assets animados.
+- [ ] Importar el paquete a Unity (doc 14) y probarlo en la escena `Game`.
+- [ ] Horneado de Albedo/Normal/ORM (el FBX lleva color plano por material).
 - [ ] Pruebas de resolución y rendimiento del HUD y los paneles.
 - [ ] Misión completa con combate, renos, armas y boss.
-- [ ] Assets de Blender integrados y audio.
+- [ ] Audio.
 
 Los documentos marcados como `v0.1` son propuestas vivas: se actualizan cuando una prueba en el editor demuestre que algo no funciona.

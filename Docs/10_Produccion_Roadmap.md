@@ -12,7 +12,12 @@
 | Escena `Game` y blockout del Distrito Aurora | Hecho (doc 12) |
 | Checkpoint, meta, resultados y game over de la demo | Hecho |
 | Demo WebGL en GitHub Pages | Hecho (doc 13) |
-| Mapa y assets de Blender | Pendiente |
+| **Assets 3D de la v1 en Blender** (Santa, trineo, 4 renos, armas, enemigos, naves, boss, props) | **Hecho (doc 14)** |
+| **Rigs, clips y horneado VAT** | **Hecho (doc 14)** |
+| **LODs y colisiones** | **Hecho (doc 14)** |
+| Horneado de Albedo/Normal/ORM | Pendiente |
+| Import del paquete a Unity | Pendiente |
+| Kit del mapa en Blender | Pendiente |
 | Audio | Pendiente |
 | Build de Windows | Pendiente |
 
@@ -65,6 +70,10 @@ el checkpoint, la meta y el game over. Faltan los renos, las armas y los enemigo
 - Kit del mapa: calles, edificios, iglesia, puente, refugio, props.
 - Rigs y animaciones base.
 - Export FBX, integración y prueba de escala/rendimiento.
+
+**Estado:** personajes, armas, enemigos, naves, boss, props, rigs, animaciones
+(VAT), LODs y colisiones **hechos y exportados** (doc 14). Faltan el kit del mapa
+y el horneado de texturas.
 
 **Salida:** el juego se ve como el producto final, aunque falten pulido y audio.
 
@@ -140,13 +149,13 @@ En un equipo de 2–3 personas, los roles se combinan; el alcance no.
 
 ## Próximas 10 tareas
 
-1. Blockout del único mapa en Unity con primitivas.
-2. Blockout de Santa, trineo y reno en Blender.
-3. Primer módulo de calle + edificio + esquina en Blender.
+1. Importar el paquete VAT a Unity y crear los prefabs (doc 14).
+2. Hornear Albedo/Normal/ORM de los assets de Blender.
+3. Primer módulo de calle + edificio + esquina en Blender (kit del mapa).
 4. Integrar ese módulo en Unity y comprobar escala, colisiones y FPS.
-5. Rig y animación de galope del reno base.
-6. Implementar `SleighController` y cámara.
-7. Implementar `ReindeerSquad` y la pérdida de un reno.
+5. Implementar `SleighController` y cámara con los modelos finales.
+6. Implementar `ReindeerSquad` y la pérdida de un reno.
+7. Conectar la animación de muerte del reno y la sacada de arma al gameplay.
 8. Añadir Sabueso y Carbón.
 9. Montar el HUD como prefab editable.
 10. Definir el guion de radio de la intro y el final.
