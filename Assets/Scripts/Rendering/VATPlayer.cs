@@ -255,7 +255,10 @@ namespace ClousEnd.Rendering
             if (targetRenderer == null)
                 return;
 
-            targetRenderer.localBounds = new Bounds(boundsCenter, boundsExtent * 2f);
+            // Un margen extra evita el frustum culling intermitente (parpadeo)
+            // cuando la cámara se acerca o el personaje se mueve al borde.
+            var padded = boundsExtent * 1.5f + Vector3.one * 0.5f;
+            targetRenderer.localBounds = new Bounds(boundsCenter, padded * 2f);
         }
     }
 }

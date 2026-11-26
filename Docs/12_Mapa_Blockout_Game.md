@@ -18,7 +18,7 @@
   pickups, Nicolás Cero en 3 fases, barrera de arena, HUD, pausa y **barras de vida sobre los enemigos**.
 - **Checkpoint** en el puente que repara el casco; game over por casco, renos o caída;
   resultados con tiempo, renos, casco y boss.
-- HUD de pruebas con retícula, controles, nombre de zona, cronómetro y paneles de misión.
+- HUD de combate con retícula, nombre de zona, cronómetro y paneles de misión.
 - Checkpoint en el puente, meta en el Refugio y game over con reintento.
 - Sistema de rendimiento por capas: LODs con crossfade, apagado de zonas lejanas, niebla de
   distancia y props fusionados por material.

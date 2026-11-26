@@ -102,7 +102,12 @@ gira como máximo **40°** con el cuerpo; el resto del giro lo hace el pivote de
 Cada enemigo lleva una **barra de vida** sobre el modelo (`WorldHealthBar`).
 
 - **Pool sin instanciación en runtime:** las oleadas están precolocadas en la
-  escena y el `EnemyDirector` las activa/desactiva por la Z del jugador.
+  escena. El `EnemyDirector` las activa al acercarse y **ya no las desactiva al
+  pasar**: siguen al jugador, se recolocan según hacia dónde mira y hacen zigzag,
+  así que hay que matarlas.
+- **Persecución:** todos los enemigos vuelan a una velocidad similar a la del
+  trineo (45–52 m/s) y mantienen su formación relativa a la orientación del
+  jugador (`anchorOffset` rotado), con una evasión lateral sinusoidal.
 - Los enemigos tienen colliders trigger para que el trineo no se quede
   atascado contra ellos; los disparos sí los alcanzan.
 - La muerte reproduce el clip VAT `Death` cuando el asset lo tiene

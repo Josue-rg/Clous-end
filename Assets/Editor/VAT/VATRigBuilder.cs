@@ -17,7 +17,7 @@ namespace ClousEnd.EditorTools
         public const string WeaponRackName = "WeaponRack";
 
         public static readonly Vector3 SleighOffset = new Vector3(0f, 0.05f, 0f);
-        public static readonly Vector3 SantaOffset = new Vector3(0f, -1f, 0f);
+        public static readonly Vector3 SantaOffset = new Vector3(0f, 0.05f, 0f);
         public static readonly Vector3 SquadOffset = new Vector3(0f, 0.6f, 4.6f);
 
         private static readonly string[] ReindeerNames =

@@ -20,8 +20,7 @@ namespace ClousEnd.Game
     {
         [SerializeField] private Transform player;
         [SerializeField] private EnemyWave[] waves = new EnemyWave[0];
-        [SerializeField] private float activateAhead = 15f;
-        [SerializeField] private float deactivateBehind = 240f;
+        [SerializeField] private float activateAhead = 120f;
 
         private bool[] active;
 
@@ -51,11 +50,6 @@ namespace ClousEnd.Game
                 {
                     Activate(wave);
                     active[i] = true;
-                }
-                else if (active[i] && z > wave.triggerZ + deactivateBehind)
-                {
-                    Deactivate(wave);
-                    active[i] = false;
                 }
             }
         }

@@ -83,7 +83,7 @@ namespace ClousEnd.EditorTools
 
             SerializedField.Set(view, "target", character);
             SerializedField.Set(view, "input", input);
-            SerializedField.Set(view, "targetOffset", new Vector3(0f, 1.8f, 0f));
+            SerializedField.Set(view, "targetOffset", new Vector3(0f, 2.4f, 0f));
             SerializedField.Set(view, "distance", 7f);
             SerializedField.Set(view, "minDistance", 3.5f);
             SerializedField.Set(view, "maxDistance", 12f);
@@ -169,7 +169,7 @@ namespace ClousEnd.EditorTools
                     false);
             }
 
-            var aimPivot = MapObjects.Empty("AimPivot", pivot, new Vector3(0f, 0.28f, 0f)).transform;
+            var aimPivot = MapObjects.Empty("AimPivot", pivot, new Vector3(0f, 1.28f, 0f)).transform;
 
             if (!VATRigBuilder.HasCorePrefabs)
             {

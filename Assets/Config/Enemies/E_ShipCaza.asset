@@ -19,7 +19,7 @@ MonoBehaviour:
   attackRange: 90
   attackCooldown: 4
   telegraphTime: 1
-  moveSpeed: 20
+  moveSpeed: 48
   chargeSpeed: 0
   chargeDuration: 0
   hitRadius: 4

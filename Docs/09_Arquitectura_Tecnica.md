@@ -250,7 +250,7 @@ esas texturas generadas y `_FlipY` debe quedarse en **0**.
 |---|---|
 | `EnemyDefinition` | Vida, daño, velocidad, rango, telegraph y tipo. |
 | `EnemyAgent` | IA de Sabueso, Garfio, Espora, Manto, Torre, naves y obsidiana. |
-| `EnemyDirector` | Activa/desactiva 11 oleadas precolocadas por la Z del jugador. |
+| `EnemyDirector` | Activa 11 oleadas precolocadas y las mantiene persiguiendo al jugador. |
 | `BossController` | Nicolás Cero: escudo, fases, bombas y voleas. |
 | `GiftBomb` | Regalo-bomba con homing y explosión; se puede disparar. |
 | `BossGate` | Barrera de energía de la arena. |

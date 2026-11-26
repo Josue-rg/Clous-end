@@ -66,7 +66,6 @@ namespace ClousEnd.EditorTools
 
             refs.Canvas = canvasGo.GetComponent<RectTransform>();
             refs.Reticle = CreateReticle(refs.Canvas, assets);
-            CreateControlsPanel(refs.Canvas, assets);
             CreateTitle(refs.Canvas, assets);
             CreateZoneTitle(refs.Canvas, assets, viewer);
             refs.TimerLabel = CreateTimer(refs.Canvas, assets);

@@ -38,11 +38,18 @@ namespace ClousEnd.Game
         [SerializeField] private float deathDelay = 1.1f;
         [SerializeField] private float rotationSharpness = 7f;
 
+        [Header("Evasión")]
+        [Tooltip("Cuánto se desplaza lateralmente mientras se acerca.")]
+        [SerializeField] private float evadeAmplitude = 3f;
+        [Tooltip("Velocidad del zigzag lateral.")]
+        [SerializeField] private float evadeFrequency = 0.9f;
+
         private State state;
         private float health;
         private float stateEnd;
         private float nextAttackTime;
         private float deathEnd;
+        private float evadePhase;
         private Vector3 home;
         private Vector3 chargeDirection;
         private Quaternion baseRotation;
@@ -60,6 +67,7 @@ namespace ClousEnd.Game
         {
             baseRotation = transform.rotation;
             home = transform.position;
+            evadePhase = Random.value * Mathf.PI * 2f;
 
             if (definition != null)
                 health = definition.maxHealth;
@@ -139,7 +147,13 @@ namespace ClousEnd.Game
 
         private void UpdateApproach()
         {
-            var desired = target.position + anchorOffset;
+            // La formación gira con el jugador/cámara: si mira a otro lado,
+            // los enemigos se recolocan alrededor de esa dirección. El zigzag
+            // lateral hace que no sean un blanco fijo.
+            var anchor = target.rotation * anchorOffset;
+            var lateral = target.rotation * Vector3.right *
+                          (Mathf.Sin(Time.time * evadeFrequency + evadePhase) * evadeAmplitude);
+            var desired = target.position + anchor + lateral;
             var distanceToTarget = Vector3.Distance(transform.position, target.position);
 
             if (distanceToTarget <= definition.attackRange && Time.time >= nextAttackTime)
