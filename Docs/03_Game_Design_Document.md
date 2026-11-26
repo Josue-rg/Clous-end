@@ -204,7 +204,7 @@ Sin minimapa, sin barras de XP, sin números flotantes grandes. La información 
 
 | Parámetro | Valor |
 |---|---|
-| Velocidad base | 55 m/s |
+| Velocidad base | 45 m/s |
 | Turbo | ×1,6 durante 2,5 s |
 | Corredor lateral | ±8 m (0,35 s de tránsito) |
 | Cadencia Carbón | 8 disparos/s |

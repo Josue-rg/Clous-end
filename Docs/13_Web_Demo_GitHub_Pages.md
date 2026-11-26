@@ -27,7 +27,7 @@ rama: no hay rama `gh-pages` ni repositorio aparte.
 - **4 armas:** Carbón (calor), Nogal (escopeta), Estrella (perfora) y Cascabel
   (cadena); cambio con 1–4 y recarga con R.
 - **5 enemigos + naves:** Sabueso, Garfio, Espora, Manto, Torre y naves Caza y
-  Recolector, en 9 oleadas precolocadas.
+  Recolector, en 11 oleadas precolocadas.
 - **Renos = vidas:** el Garfio puede agarrar uno; rescátalo en 5 s. Escudo de reno.
 - **Casco de 100**, kits, checkpoint del puente y game over.
 - **Nicolás Cero** en 3 fases, con renos de obsidiana y barrera de arena.

@@ -207,6 +207,21 @@ namespace ClousEnd.Game
                 player.position = checkpointPosition;
             }
 
+            // Al reintentar, el jugador miraba hacia donde murió. Se devuelve
+            // el cuerpo y la mira a la orientación inicial; la cámara también
+            // se resetea dentro de VehicleMotor.Teleport.
+            var character = player.Find("CharacterPivot");
+
+            if (character != null)
+            {
+                character.localRotation = Quaternion.identity;
+
+                var aimPivot = character.Find("AimPivot");
+
+                if (aimPivot != null)
+                    aimPivot.localRotation = Quaternion.identity;
+            }
+
             if (input != null)
                 input.enabled = true;
 

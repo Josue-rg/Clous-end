@@ -70,7 +70,7 @@ cinematográficos y albedo/Normal/ORM de los modelos.
 - [x] **LOD1, LOD2 y mallas de colisión** de los 14 assets animados.
 - [x] **Importación del paquete a Unity**: 28 prefabs, 375 materiales, LODs y colliders en el proyecto principal.
 - [x] **Texturas VAT float**: assets `RGBAHalf` generados desde el volcado de Blender (el importador EXR de Unity corrompe las posiciones).
-- [x] **Combate completo**: 4 armas, 5 enemigos, 9 oleadas, rescate de renos,
+- [x] **Combate completo**: 4 armas, 5 enemigos, 11 oleadas, rescate de renos,
       pickups, Nicolás Cero en 3 fases, HUD, pausa, checkpoint y resultados (doc 15).
 - [x] **Rig del jugador integrado**: trineo, Santa, los 4 renos y las 4 armas en la mano; arnés, cascabeles, collar y meteoritos.
 - [x] **Escena `Game` reconstruida** con el arte real, el combate y el jefe.

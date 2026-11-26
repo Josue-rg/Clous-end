@@ -46,6 +46,15 @@ namespace ClousEnd.Game
         /// <summary>Ángulo vertical actual de la cámara, en grados.</summary>
         public float Pitch => pitch;
 
+        /// <summary>Devuelve la cámara a su orientación y distancia iniciales.</summary>
+        public void ResetView()
+        {
+            yaw = initialYaw;
+            pitch = initialPitch;
+            currentDistance = distance;
+            initialized = false;
+        }
+
         private void Awake()
         {
             yaw = initialYaw;

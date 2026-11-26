@@ -61,17 +61,17 @@ namespace ClousEnd.EditorTools
 
             SerializedField.Set(motor, "input", input);
             SerializedField.Set(motor, "view", view);
-            SerializedField.Set(motor, "forwardSpeed", 24f);
-            SerializedField.Set(motor, "reverseSpeed", 11f);
-            SerializedField.Set(motor, "strafeSpeed", 16f);
-            SerializedField.Set(motor, "acceleration", 58f);
-            SerializedField.Set(motor, "deceleration", 78f);
+            SerializedField.Set(motor, "forwardSpeed", 45f);
+            SerializedField.Set(motor, "reverseSpeed", 20f);
+            SerializedField.Set(motor, "strafeSpeed", 28f);
+            SerializedField.Set(motor, "acceleration", 95f);
+            SerializedField.Set(motor, "deceleration", 105f);
             SerializedField.Set(motor, "gravity", -30f);
             SerializedField.Set(motor, "groundedStick", -2f);
-            SerializedField.Set(motor, "turnSharpness", 12f);
+            SerializedField.Set(motor, "turnSharpness", 14f);
             SerializedField.Set(motor, "flying", true);
-            SerializedField.Set(motor, "verticalSpeed", 13f);
-            SerializedField.Set(motor, "verticalAcceleration", 45f);
+            SerializedField.Set(motor, "verticalSpeed", 18f);
+            SerializedField.Set(motor, "verticalAcceleration", 55f);
 
             var weapon = character.GetComponent<WeaponController>();
             SerializedField.Set(weapon, "input", input);

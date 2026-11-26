@@ -402,7 +402,7 @@ Los `.blend` se guardan en `BlenderSource/` en la raíz del proyecto, no dentro 
 - [x] `SleighHealth`: casco, daño, reparación y caída.
 - [x] 4 armas: disparo, calor, munición y cambio.
 - [x] 5 enemigos con ataques y telegraph (más naves y renos de obsidiana).
-- [x] Director de oleadas por Z (9 oleadas precolocadas).
+- [x] Director de oleadas por Z (11 oleadas precolocadas).
 - [x] Boss Nicolás Cero con 3 fases y barrera de arena.
 - [x] Pickups: munición, kit, escudo y armas de historia.
 - [x] Misión: actos, checkpoint del puente, game over y reintento.

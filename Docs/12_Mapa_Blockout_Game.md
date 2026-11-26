@@ -14,8 +14,8 @@
 - Vehículo y personaje de pruebas (un cubo y un cilindro) con movimiento, vuelo, cámara en
   tercera persona, mira con ratón y disparo hitscan. Si el paquete VAT está importado, el
   cubo y el cilindro se sustituyen por el trineo, Santa y los cuatro renos.
-- **Combate completo** (doc 15): 4 armas, 5 enemigos, 9 oleadas, rescate de renos,
-  pickups, Nicolás Cero en 3 fases, barrera de arena, HUD y pausa.
+- **Combate completo** (doc 15): 4 armas, 5 enemigos, 11 oleadas, rescate de renos,
+  pickups, Nicolás Cero en 3 fases, barrera de arena, HUD, pausa y **barras de vida sobre los enemigos**.
 - **Checkpoint** en el puente que repara el casco; game over por casco, renos o caída;
   resultados con tiempo, renos, casco y boss.
 - HUD de pruebas con retícula, controles, nombre de zona, cronómetro y paneles de misión.
@@ -65,8 +65,9 @@ cambiar materiales, añadir props) y los cambios se conservan. La reconstrucció
 
 Valores ajustables en el Inspector:
 
-- `Player` → `VehicleMotor`: velocidades, aceleración, frenada, giro y modo vuelo
-  (`flying`, `verticalSpeed`, `verticalAcceleration`).
+- `Player` → `VehicleMotor`: velocidad **45** (avance), **28** (lateral), **20** (marcha atrás),
+  aceleración **95**, frenada **105**, giro **14** y modo vuelo
+  (`flying`, `verticalSpeed` 18, `verticalAcceleration` 55).
 - `Player Camera` → `ThirdPersonCamera`: distancia **7 m**, offset **1,8**, pitch **12°**,
   sensibilidad, zoom y colisión de cámara.
 - `CharacterPivot` → `CharacterAim`: velocidad de giro de la mira, alcance y **límite de
@@ -82,7 +83,7 @@ El detalle completo está en [15 · Combate, misión y jefe](15_Combate_Mision_y
 - **Armas:** Carbón (automática y calor), Nogal (escopeta), Estrella (perfora) y
   Cascabel (cadena). Se cambian con 1–4; R recarga.
 - **Enemigos:** Sabueso, Garfio, Espora, Manto y Torre, más las naves Caza y
-  Recolector y los renos de obsidiana del jefe. 9 oleadas precolocadas.
+  Recolector y los renos de obsidiana del jefe. 11 oleadas precolocadas.
 - **Renos:** son las 4 vidas. El Garfio puede agarrar uno; hay 5 s para matarlo y
   rescatarlo. El escudo de reno revive o protege.
 - **Casco:** 100 de integridad; a 0 se pierde. El checkpoint del puente lo repara.
@@ -173,7 +174,7 @@ del presupuesto, con margen para los modelos finales de Blender.
 | `MapBackdropBuilder.cs` | Montañas y skyline lejano. |
 | `MapLightingBuilder.cs` | Luna, luces prácticas, niebla y postproceso. |
 | `MapPlayerBuilder.cs` | Rig del jugador (modelos VAT o placeholders), cámara, efectos de disparo y nieve. |
-| `GameplayBuilder.cs` | Armas, renos, 9 oleadas, pickups, jefe, barrera y wiring. |
+| `GameplayBuilder.cs` | Armas, renos, 11 oleadas, pickups, jefe, barrera y wiring. |
 | `GameHudBuilder.cs` | HUD de combate (casco, renos, armas, jefe, rescate). |
 | `MapUIBuilder.cs` | HUD base, cronómetro, resultados, game over y pausa. |
 | `MapAssetFactory.cs` | Materiales, perfil de postproceso y sprite de retícula. |

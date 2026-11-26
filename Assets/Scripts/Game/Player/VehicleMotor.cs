@@ -18,23 +18,23 @@ namespace ClousEnd.Game
         [SerializeField] private ThirdPersonCamera view;
 
         [Header("Velocidad")]
-        [SerializeField] private float forwardSpeed = 18f;
-        [SerializeField] private float reverseSpeed = 9f;
-        [SerializeField] private float strafeSpeed = 12f;
-        [SerializeField] private float acceleration = 46f;
-        [SerializeField] private float deceleration = 64f;
+        [SerializeField] private float forwardSpeed = 45f;
+        [SerializeField] private float reverseSpeed = 20f;
+        [SerializeField] private float strafeSpeed = 28f;
+        [SerializeField] private float acceleration = 95f;
+        [SerializeField] private float deceleration = 105f;
 
         [Header("Vuelo")]
         [SerializeField] private bool flying = true;
-        [SerializeField] private float verticalSpeed = 12f;
-        [SerializeField] private float verticalAcceleration = 40f;
+        [SerializeField] private float verticalSpeed = 18f;
+        [SerializeField] private float verticalAcceleration = 55f;
 
         [Header("Gravedad")]
         [SerializeField] private float gravity = -30f;
         [SerializeField] private float groundedStick = -2f;
 
         [Header("Orientación")]
-        [SerializeField] private float turnSharpness = 12f;
+        [SerializeField] private float turnSharpness = 14f;
 
         private CharacterController controller;
         private Vector3 planarVelocity;
@@ -45,7 +45,7 @@ namespace ClousEnd.Game
             controller = GetComponent<CharacterController>();
         }
 
-        /// <summary>Mueve el vehículo al punto indicado y anula su inercia.</summary>
+        /// <summary>Mueve el vehículo al punto indicado, resetea la vista y anula su inercia.</summary>
         public void Teleport(Vector3 position)
         {
             if (controller == null)
@@ -55,12 +55,16 @@ namespace ClousEnd.Game
                 controller.enabled = false;
 
             transform.position = position;
+            transform.rotation = Quaternion.identity;
 
             if (controller != null)
                 controller.enabled = true;
 
             planarVelocity = Vector3.zero;
             verticalVelocity = 0f;
+
+            if (view != null)
+                view.ResetView();
         }
 
         /// <summary>Corta el movimiento sin mover el vehículo.</summary>

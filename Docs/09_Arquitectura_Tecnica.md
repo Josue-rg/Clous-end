@@ -250,7 +250,7 @@ esas texturas generadas y `_FlipY` debe quedarse en **0**.
 |---|---|
 | `EnemyDefinition` | Vida, daño, velocidad, rango, telegraph y tipo. |
 | `EnemyAgent` | IA de Sabueso, Garfio, Espora, Manto, Torre, naves y obsidiana. |
-| `EnemyDirector` | Activa/desactiva 9 oleadas precolocadas por la Z del jugador. |
+| `EnemyDirector` | Activa/desactiva 11 oleadas precolocadas por la Z del jugador. |
 | `BossController` | Nicolás Cero: escudo, fases, bombas y voleas. |
 | `GiftBomb` | Regalo-bomba con homing y explosión; se puede disparar. |
 | `BossGate` | Barrera de energía de la arena. |
@@ -361,7 +361,7 @@ No se implementará red en el MVP. Solo se evita el diseño que obligaría a ree
 
 ### Gameplay (implementado, pendiente de QA)
 - Compilación y construcción de la escena `Game` verificadas en una copia aislada.
-- 33 agentes, 10 pickups, 9 oleadas, jefe, HUD y pausa cableados sin referencias nulas.
+- 55 agentes, 10 pickups, 11 oleadas, jefe, HUD y pausa cableados sin referencias nulas.
 - Smoke test de PlayMode sin excepciones de los sistemas nuevos (el bucle de batch no
   avanza tiempo de juego, así que el combate completo se prueba en el editor).
 - Pendiente: tests de EditMode para daño/vidas/casco, tests de PlayMode del flujo

@@ -94,11 +94,12 @@ Los datos viven en `Assets/Config/Enemies/E_*.asset`.
 | **Reno de obsidiana** | 65 | 26 | 18 al trineo | Embiste; solo aparece en la fase 1 del jefe. |
 
 La escala visual se configura en `Assets/Config/Enemies/E_*.asset` (`modelScale`) y en
-`BossController.modelScale`: Sabueso **3,8**; Espora **3,6**; Garfio/Manto/Torre **3,0**;
-naves **3,2/2,8**; jefe **2,8**; reno de obsidiana **2,6**. Los materiales VAT aclaran el
+`BossController.modelScale`: Sabueso **4,2**; Espora **4,0**; Garfio/Manto/Torre **3,4**;
+naves **3,6/3,2**; jefe **3,2**; reno de obsidiana **3,0**. Los materiales VAT aclaran el
 color base (los enemigos venían casi negros) y suben `_Ambient`/`_Rim`; el mapa usa
 exposición **+0,65** y saturación **+18**. La cámara del jugador está a **7 m** y Santa
 gira como máximo **40°** con el cuerpo; el resto del giro lo hace el pivote del arma.
+Cada enemigo lleva una **barra de vida** sobre el modelo (`WorldHealthBar`).
 
 - **Pool sin instanciación en runtime:** las oleadas están precolocadas en la
   escena y el `EnemyDirector` las activa/desactiva por la Z del jugador.
@@ -111,15 +112,17 @@ gira como máximo **40°** con el cuerpo; el resto del giro lo hace el pivote de
 
 | Z | Nombre | Contenido |
 |---|---|---|
-| 150 | Primera presión | 2 Sabuesos + 1 Espora |
-| 320 | La jauría | 3 Sabuesos + 1 Espora |
-| 500 | El primer Garfio | Garfio + Sabueso + Espora |
-| 700 | Francotiradores | 2 Mantos + Sabueso |
-| 860 | Enjambre | 3 Esporas + Sabueso + Garfio |
-| 960 | Torre de guardia | Torre + 2 Sabuesos |
-| 1100 | Naves | Nave Caza + Manto + Espora |
-| 1220 | El asedio | 2 Torres + Garfio + Espora |
-| 1300 | La última escuela | Recolector + Caza + Manto |
+| 90 | Primera presión | 2 Sabuesos + 1 Espora |
+| 200 | La jauría | 3 Sabuesos + 2 Esporas |
+| 320 | El primer Garfio | Garfio + 2 Sabuesos + Espora |
+| 440 | Francotiradores | 2 Mantos + 2 Sabuesos + Espora |
+| 560 | Torre de guardia | Torre + 2 Sabuesos + Espora |
+| 680 | Enjambre | 3 Esporas + Sabueso + Garfio |
+| 800 | Naves | Nave Caza + 2 Mantos + 2 Esporas |
+| 920 | El asedio | 2 Torres + Garfio + 2 Esporas + Sabueso |
+| 1040 | Cazadores | 2 Naves Caza + 2 Mantos + Torre |
+| 1160 | El recolector | Nave Recolector + 2 Garfios + 2 Esporas |
+| 1280 | La última escuela | Recolector + 2 Cazas + 2 Mantos + Torre |
 
 ---
 
@@ -160,9 +163,9 @@ Los pickups flotan y giran; el `PickupCollector` los recoge por cercanía
 - **Checkpoint:** al cruzar z=1000 se guarda la posición, se repara el casco y se
   muestra el aviso.
 - **Game over:** casco a 0, los 4 renos perdidos o caer por debajo del mapa.
-- **Reintentar (game over):** vuelve al checkpoint, restaura casco y los 4 renos
-  y reinicia las oleadas y el jefe. Es una simplificación de la demo; el estado
-  exacto del checkpoint se puede guardar más adelante.
+- **Reintentar (game over):** vuelve al checkpoint, restaura casco y los 4 renos,
+  reinicia las oleadas y el jefe, y **devuelve la posición y la cámara al frente**. Es una
+  simplificación de la demo; el estado exacto del checkpoint se puede guardar más adelante.
 - **Resultados:** tiempo, renos vivos, casco restante y si el boss cayó.
 - Los botones **REINTENTAR** y **LOBBY** funcionan; el panel incluye una línea de
   créditos.
@@ -190,6 +193,7 @@ Los pickups flotan y giran; el `PickupCollector` los recoge por cercanía
 - **Abajo izquierda:** casco con barra.
 - **Abajo derecha:** arma, munición o calor y las 4 ranuras.
 - **Arriba centro:** barra del jefe cuando entra en combate.
+- **Sobre cada enemigo:** barra de vida roja; el jefe usa la barra superior del HUD.
 - **Centro:** aviso de rescate con cuenta atrás.
 - **Avisos:** recogidas, checkpoint, fases del jefe y pérdida/rescate.
 - **Pausa (Esc):** REANUDAR, REINICIAR y LOBBY; congela el tiempo y libera el cursor.
@@ -217,6 +221,7 @@ Los pickups flotan y giran; el `PickupCollector` los recoge por cercanía
 | `Assets/Scripts/Game/World/Pickup.cs` · `PickupCollector.cs` · `PickupBob.cs` | Recogibles y flotación. |
 | `Assets/Scripts/Game/World/BossGate.cs` | Barrera de la arena. |
 | `Assets/Scripts/Game/UI/GameHud.cs` | HUD de combate. |
+| `Assets/Scripts/Game/UI/WorldHealthBar.cs` | Barra de vida sobre cada enemigo. |
 | `Assets/Scripts/Game/UI/PauseMenu.cs` | Pausa. |
 | `Assets/Scripts/Rendering/VATClipSet.cs` | Clips VAT por asset para reproducir `Death`/`Hurt`/`Attack`. |
 | `Assets/Scripts/Game/World/MissionManager.cs` | Misión, casco, renos, boss, checkpoint y resultados. |

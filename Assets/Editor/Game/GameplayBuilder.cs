@@ -28,7 +28,9 @@ namespace ClousEnd.EditorTools
     {
         private const string WeaponFolder = "Assets/Config/Weapons";
         private const string EnemyFolder = "Assets/Config/Enemies";
-        private const float BossModelScale = 2.8f;
+        private const float BossModelScale = 3.2f;
+        private static Material barBackground;
+        private static Material barFill;
 
         private sealed class SpawnSpec
         {
@@ -232,21 +234,21 @@ namespace ClousEnd.EditorTools
             return new[]
             {
                 EnsureEnemy("E_Sabueso", "SABUESO", EnemyKind.Sabueso,
-                    30f, 26f, 10f, 8f, 2.8f, 0.45f, 40f, 0.8f, 5f, 0f, 3.8f),
+                    30f, 26f, 10f, 8f, 2.8f, 0.45f, 40f, 0.8f, 5f, 0f, 4.2f),
                 EnsureEnemy("E_Garfio", "GARFIO", EnemyKind.Garfio,
-                    40f, 20f, 0f, 55f, 7f, 0.9f, 30f, 0.5f, 4f, 5f, 3f),
+                    40f, 20f, 0f, 55f, 7f, 0.9f, 30f, 0.5f, 4f, 5f, 3.4f),
                 EnsureEnemy("E_Espora", "ESPORA", EnemyKind.Espora,
-                    18f, 22f, 16f, 7f, 4f, 0.4f, 34f, 1f, 5f, 0f, 3.6f),
+                    18f, 22f, 16f, 7f, 4f, 0.4f, 34f, 1f, 5f, 0f, 4f),
                 EnsureEnemy("E_Manto", "MANTO", EnemyKind.Manto,
-                    40f, 16f, 12f, 75f, 4.5f, 1.2f, 0f, 0f, 4f, 0f, 3f),
+                    40f, 16f, 12f, 75f, 4.5f, 1.2f, 0f, 0f, 4f, 0f, 3.4f),
                 EnsureEnemy("E_Torre", "TORRE", EnemyKind.Torre,
-                    80f, 14f, 14f, 9f, 5.5f, 0.6f, 26f, 0.9f, 6f, 0f, 3f),
+                    80f, 14f, 14f, 9f, 5.5f, 0.6f, 26f, 0.9f, 6f, 0f, 3.4f),
                 EnsureEnemy("E_ShipCaza", "NAVE CAZA", EnemyKind.Ship,
-                    50f, 20f, 12f, 90f, 4f, 1f, 0f, 0f, 4f, 0f, 3.2f),
+                    50f, 20f, 12f, 90f, 4f, 1f, 0f, 0f, 4f, 0f, 3.6f),
                 EnsureEnemy("E_ShipRecolector", "NAVE RECOLECTOR", EnemyKind.Ship,
-                    90f, 16f, 14f, 95f, 4.5f, 1.1f, 0f, 0f, 4f, 0f, 2.8f),
+                    90f, 16f, 14f, 95f, 4.5f, 1.1f, 0f, 0f, 4f, 0f, 3.2f),
                 EnsureEnemy("E_Obsidian", "RENO DE OBSIDIANA", EnemyKind.Obsidian,
-                    65f, 26f, 18f, 10f, 4f, 0.5f, 42f, 0.8f, 6f, 0f, 2.6f)
+                    65f, 26f, 18f, 10f, 4f, 0.5f, 42f, 0.8f, 6f, 0f, 3f)
             };
         }
 
@@ -314,54 +316,80 @@ namespace ClousEnd.EditorTools
 
             var waves = new List<EnemyWave>();
 
-            waves.Add(BuildWave(parent, player.Player.transform, health, squad, "PRIMERA PRESIÓN", 150f,
+            waves.Add(BuildWave(parent, player.Player.transform, health, squad, "PRIMERA PRESIÓN", 90f,
                 Spawn("Sabueso", sabueso, -8f, 3f, 4f),
                 Spawn("Sabueso", sabueso, 8f, 4f, 6f),
                 Spawn("Espora", espora, 0f, 3f, 5f)));
 
-            waves.Add(BuildWave(parent, player.Player.transform, health, squad, "LA JAURÍA", 320f,
+            waves.Add(BuildWave(parent, player.Player.transform, health, squad, "LA JAURÍA", 200f,
                 Spawn("Sabueso", sabueso, -10f, 2f, 4f),
                 Spawn("Sabueso", sabueso, 10f, 3f, 5f),
                 Spawn("Sabueso", sabueso, 0f, 5f, 8f),
-                Spawn("Espora", espora, 6f, 2f, 4f)));
+                Spawn("Espora", espora, -6f, 2f, 4f),
+                Spawn("Espora", espora, 6f, 4f, 6f)));
 
-            waves.Add(BuildWave(parent, player.Player.transform, health, squad, "EL PRIMER GARFIO", 500f,
+            waves.Add(BuildWave(parent, player.Player.transform, health, squad, "EL PRIMER GARFIO", 320f,
                 Spawn("Garfio", garfio, -12f, 6f, 14f),
                 Spawn("Sabueso", sabueso, 8f, 3f, 4f),
+                Spawn("Sabueso", sabueso, -8f, 4f, 7f),
                 Spawn("Espora", espora, -4f, 2f, 5f)));
 
-            waves.Add(BuildWave(parent, player.Player.transform, health, squad, "FRANCOTIRADORES", 700f,
+            waves.Add(BuildWave(parent, player.Player.transform, health, squad, "FRANCOTIRADORES", 440f,
                 Spawn("Robot_Manto", manto, -14f, 8f, 28f),
                 Spawn("Robot_Manto", manto, 14f, 8f, 30f),
-                Spawn("Sabueso", sabueso, 0f, 3f, 5f)));
+                Spawn("Sabueso", sabueso, 0f, 3f, 5f),
+                Spawn("Sabueso", sabueso, -9f, 2f, 4f),
+                Spawn("Espora", espora, 7f, 3f, 6f)));
 
-            waves.Add(BuildWave(parent, player.Player.transform, health, squad, "ENJAMBRE", 860f,
+            waves.Add(BuildWave(parent, player.Player.transform, health, squad, "TORRE DE GUARDIA", 560f,
+                Spawn("Robot_Torre", torre, -8f, 3f, 6f),
+                Spawn("Sabueso", sabueso, 8f, 3f, 4f),
+                Spawn("Sabueso", sabueso, -14f, 4f, 8f),
+                Spawn("Espora", espora, 4f, 2f, 5f)));
+
+            waves.Add(BuildWave(parent, player.Player.transform, health, squad, "ENJAMBRE", 680f,
                 Spawn("Espora", espora, -6f, 2f, 4f),
                 Spawn("Espora", espora, 0f, 4f, 6f),
                 Spawn("Espora", espora, 6f, 2f, 4f),
                 Spawn("Sabueso", sabueso, 10f, 3f, 5f),
                 Spawn("Garfio", garfio, -12f, 5f, 12f)));
 
-            waves.Add(BuildWave(parent, player.Player.transform, health, squad, "TORRE DE GUARDIA", 960f,
-                Spawn("Robot_Torre", torre, -8f, 3f, 6f),
-                Spawn("Sabueso", sabueso, 8f, 3f, 4f),
-                Spawn("Sabueso", sabueso, -14f, 4f, 8f)));
-
-            waves.Add(BuildWave(parent, player.Player.transform, health, squad, "NAVES", 1100f,
+            waves.Add(BuildWave(parent, player.Player.transform, health, squad, "NAVES", 800f,
                 Spawn("Ship_Caza", shipCaza, -14f, 8f, 30f),
                 Spawn("Robot_Manto", manto, 12f, 7f, 26f),
-                Spawn("Espora", espora, 0f, 2f, 5f)));
+                Spawn("Robot_Manto", manto, -12f, 7f, 28f),
+                Spawn("Espora", espora, 0f, 2f, 5f),
+                Spawn("Espora", espora, 6f, 4f, 7f)));
 
-            waves.Add(BuildWave(parent, player.Player.transform, health, squad, "EL ASEDIO", 1220f,
+            waves.Add(BuildWave(parent, player.Player.transform, health, squad, "EL ASEDIO", 920f,
                 Spawn("Robot_Torre", torre, -10f, 3f, 7f),
                 Spawn("Robot_Torre", torre, 10f, 3f, 7f),
                 Spawn("Garfio", garfio, -12f, 6f, 14f),
-                Spawn("Espora", espora, 4f, 2f, 5f)));
+                Spawn("Espora", espora, 4f, 2f, 5f),
+                Spawn("Espora", espora, -4f, 3f, 6f),
+                Spawn("Sabueso", sabueso, 0f, 4f, 4f)));
 
-            waves.Add(BuildWave(parent, player.Player.transform, health, squad, "LA ÚLTIMA ESCUELA", 1300f,
+            waves.Add(BuildWave(parent, player.Player.transform, health, squad, "CAZADORES", 1040f,
+                Spawn("Ship_Caza", shipCaza, -14f, 8f, 30f),
+                Spawn("Ship_Caza", shipCaza, 14f, 8f, 30f),
+                Spawn("Robot_Manto", manto, -8f, 7f, 26f),
+                Spawn("Robot_Manto", manto, 8f, 7f, 26f),
+                Spawn("Robot_Torre", torre, 0f, 4f, 8f)));
+
+            waves.Add(BuildWave(parent, player.Player.transform, health, squad, "EL RECOLECTOR", 1160f,
+                Spawn("Ship_Recolector", shipRecolector, 12f, 9f, 32f),
+                Spawn("Garfio", garfio, -12f, 5f, 14f),
+                Spawn("Garfio", garfio, 12f, 5f, 16f),
+                Spawn("Espora", espora, -6f, 2f, 5f),
+                Spawn("Espora", espora, 6f, 2f, 5f)));
+
+            waves.Add(BuildWave(parent, player.Player.transform, health, squad, "LA ÚLTIMA ESCUELA", 1280f,
                 Spawn("Ship_Recolector", shipRecolector, 12f, 9f, 32f),
                 Spawn("Ship_Caza", shipCaza, -14f, 8f, 30f),
-                Spawn("Robot_Manto", manto, 0f, 7f, 28f)));
+                Spawn("Ship_Caza", shipCaza, 14f, 8f, 30f),
+                Spawn("Robot_Manto", manto, -8f, 7f, 26f),
+                Spawn("Robot_Manto", manto, 8f, 7f, 26f),
+                Spawn("Robot_Torre", torre, 0f, 3f, 7f)));
 
             director.SetWaves(waves.ToArray());
             return director;
@@ -428,6 +456,8 @@ namespace ClousEnd.EditorTools
                 if (UsesBeam(spec.definition.kind))
                     SerializedField.Set(agent, "beam", CreateBeam(instance.transform, true));
 
+                AddHealthBar(instance, agent);
+
                 instance.SetActive(false);
                 agents.Add(agent);
             }
@@ -455,6 +485,104 @@ namespace ClousEnd.EditorTools
                 colliders[i].isTrigger = true;
 
             MapObjects.SetLayerRecursive(instance, 0);
+        }
+
+        private static void AddHealthBar(GameObject enemy, EnemyAgent agent)
+        {
+            var parent = enemy.transform.parent;
+            var bars = parent != null ? parent.Find("HealthBars") : null;
+
+            if (bars == null)
+            {
+                var barsGo = new GameObject("HealthBars");
+
+                if (parent != null)
+                    barsGo.transform.SetParent(parent, false);
+
+                bars = barsGo.transform;
+            }
+
+            var meshFilter = enemy.GetComponentInChildren<MeshFilter>(true);
+            var meshHeight = meshFilter != null && meshFilter.sharedMesh != null
+                ? meshFilter.sharedMesh.bounds.size.z
+                : 3f;
+            var scale = Mathf.Max(0.1f, enemy.transform.localScale.y);
+            var height = meshHeight * scale + 0.8f;
+
+            var root = new GameObject("Bar_" + enemy.name);
+            root.transform.SetParent(bars, false);
+            root.transform.position = enemy.transform.position + Vector3.up * height;
+
+            var background = CreateBarPiece(
+                root.transform,
+                "Background",
+                new Vector3(1.8f, 0.2f, 0.02f),
+                Vector3.zero,
+                GetBarMaterial(false));
+
+            var fill = CreateBarPiece(
+                root.transform,
+                "Fill",
+                new Vector3(1.7f, 0.1f, 0.03f),
+                new Vector3(0f, 0f, -0.03f),
+                GetBarMaterial(true));
+
+            var bar = root.AddComponent<WorldHealthBar>();
+            bar.Configure(
+                enemy.transform,
+                agent,
+                fill.transform,
+                new[] { background.GetComponent<Renderer>(), fill.GetComponent<Renderer>() },
+                height,
+                1.7f);
+        }
+
+        private static GameObject CreateBarPiece(
+            Transform parent,
+            string name,
+            Vector3 size,
+            Vector3 localPosition,
+            Material material)
+        {
+            var go = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            go.name = name;
+            go.transform.SetParent(parent, false);
+            go.transform.localPosition = localPosition;
+            go.transform.localScale = size;
+
+            var collider = go.GetComponent<Collider>();
+
+            if (collider != null)
+                Object.DestroyImmediate(collider);
+
+            var renderer = go.GetComponent<MeshRenderer>();
+
+            if (renderer != null)
+            {
+                renderer.sharedMaterial = material;
+                renderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+                renderer.receiveShadows = false;
+            }
+
+            return go;
+        }
+
+        private static Material GetBarMaterial(bool isFill)
+        {
+            if (isFill)
+            {
+                if (barFill == null)
+                    barFill = VATMaterialFactory.GetOrCreateUnlit(
+                        "M_EnemyBar_Fill", new Color(1f, 0.16f, 0.12f, 1f));
+
+                return barFill;
+            }
+
+            if (barBackground == null)
+                barBackground = VATMaterialFactory.GetOrCreateUnlit(
+                    "M_EnemyBar_Background", new Color(0.02f, 0.025f, 0.035f, 1f));
+
+            return barBackground;
         }
 
         private static LineRenderer CreateBeam(Transform parent, bool narrow)
@@ -619,6 +747,8 @@ namespace ClousEnd.EditorTools
                 SerializedField.Set(agent, "squad", squad);
                 SerializedField.Set(agent, "playback", instance.GetComponent<VATPlayer>());
                 SerializedField.Set(agent, "anchorOffset", new Vector3(offsets[i] * 0.5f, 3f, 5f));
+
+                AddHealthBar(instance, agent);
 
                 instance.SetActive(false);
                 agents.Add(agent);
