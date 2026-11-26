@@ -28,7 +28,7 @@ namespace ClousEnd.EditorTools
     {
         private const string WeaponFolder = "Assets/Config/Weapons";
         private const string EnemyFolder = "Assets/Config/Enemies";
-        private const float BossModelScale = 2.4f;
+        private const float BossModelScale = 2.8f;
 
         private sealed class SpawnSpec
         {
@@ -232,21 +232,21 @@ namespace ClousEnd.EditorTools
             return new[]
             {
                 EnsureEnemy("E_Sabueso", "SABUESO", EnemyKind.Sabueso,
-                    30f, 26f, 10f, 8f, 2.8f, 0.45f, 40f, 0.8f, 5f, 0f, 3.2f),
+                    30f, 26f, 10f, 8f, 2.8f, 0.45f, 40f, 0.8f, 5f, 0f, 3.8f),
                 EnsureEnemy("E_Garfio", "GARFIO", EnemyKind.Garfio,
-                    40f, 20f, 0f, 55f, 7f, 0.9f, 30f, 0.5f, 4f, 5f, 2.6f),
+                    40f, 20f, 0f, 55f, 7f, 0.9f, 30f, 0.5f, 4f, 5f, 3f),
                 EnsureEnemy("E_Espora", "ESPORA", EnemyKind.Espora,
-                    18f, 22f, 16f, 7f, 4f, 0.4f, 34f, 1f, 5f, 0f, 3f),
+                    18f, 22f, 16f, 7f, 4f, 0.4f, 34f, 1f, 5f, 0f, 3.6f),
                 EnsureEnemy("E_Manto", "MANTO", EnemyKind.Manto,
-                    40f, 16f, 12f, 75f, 4.5f, 1.2f, 0f, 0f, 4f, 0f, 2.6f),
+                    40f, 16f, 12f, 75f, 4.5f, 1.2f, 0f, 0f, 4f, 0f, 3f),
                 EnsureEnemy("E_Torre", "TORRE", EnemyKind.Torre,
-                    80f, 14f, 14f, 9f, 5.5f, 0.6f, 26f, 0.9f, 6f, 0f, 2.6f),
+                    80f, 14f, 14f, 9f, 5.5f, 0.6f, 26f, 0.9f, 6f, 0f, 3f),
                 EnsureEnemy("E_ShipCaza", "NAVE CAZA", EnemyKind.Ship,
-                    50f, 20f, 12f, 90f, 4f, 1f, 0f, 0f, 4f, 0f, 2.8f),
+                    50f, 20f, 12f, 90f, 4f, 1f, 0f, 0f, 4f, 0f, 3.2f),
                 EnsureEnemy("E_ShipRecolector", "NAVE RECOLECTOR", EnemyKind.Ship,
-                    90f, 16f, 14f, 95f, 4.5f, 1.1f, 0f, 0f, 4f, 0f, 2.5f),
+                    90f, 16f, 14f, 95f, 4.5f, 1.1f, 0f, 0f, 4f, 0f, 2.8f),
                 EnsureEnemy("E_Obsidian", "RENO DE OBSIDIANA", EnemyKind.Obsidian,
-                    65f, 26f, 18f, 10f, 4f, 0.5f, 42f, 0.8f, 6f, 0f, 2.2f)
+                    65f, 26f, 18f, 10f, 4f, 0.5f, 42f, 0.8f, 6f, 0f, 2.6f)
             };
         }
 

@@ -128,11 +128,18 @@ namespace ClousEnd.Game
                 heat = Mathf.Min(1f, heat + definition.heatPerShot);
 
             var pellets = Mathf.Max(1, definition.pellets);
+            // El disparo sale por el rayo que pasa por el puntero, no por el
+            // centro de la cámara. Así se puede apuntar a los lados sin girar
+            // la cámara con el botón derecho.
+            var pointer = input != null
+                ? input.PointerPosition
+                : new Vector2(Screen.width * 0.5f, Screen.height * 0.5f);
+            var aimRay = aimCamera.ScreenPointToRay(pointer);
 
             for (var pellet = 0; pellet < pellets; pellet++)
             {
-                var direction = Spread(aimCamera.transform.forward, definition.spreadDegrees);
-                var ray = new Ray(aimCamera.transform.position, direction);
+                var direction = Spread(aimRay.direction, definition.spreadDegrees);
+                var ray = new Ray(aimRay.origin, direction);
                 var endPoint = ray.origin + ray.direction * definition.range;
 
                 var hits = Physics.RaycastAll(

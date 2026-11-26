@@ -52,6 +52,10 @@ y la duración del jefe.
 | Zoom | rueda del ratón |
 | Pausa | `Esc` |
 
+El disparo sale por el **rayo que pasa por el puntero** (`ScreenPointToRay`), no por el
+centro de la cámara. Se puede apuntar a los lados sin girar la cámara; el clic derecho
+solo sirve para orbitar la vista.
+
 ---
 
 ## 3. Armas
@@ -90,8 +94,8 @@ Los datos viven en `Assets/Config/Enemies/E_*.asset`.
 | **Reno de obsidiana** | 65 | 26 | 18 al trineo | Embiste; solo aparece en la fase 1 del jefe. |
 
 La escala visual se configura en `Assets/Config/Enemies/E_*.asset` (`modelScale`) y en
-`BossController.modelScale`: Sabueso **3,2**; Espora **3,0**; Garfio/Manto/Torre **2,6**;
-naves **2,8/2,5**; jefe **2,4**; reno de obsidiana **2,2**. Los materiales VAT aclaran el
+`BossController.modelScale`: Sabueso **3,8**; Espora **3,6**; Garfio/Manto/Torre **3,0**;
+naves **3,2/2,8**; jefe **2,8**; reno de obsidiana **2,6**. Los materiales VAT aclaran el
 color base (los enemigos venían casi negros) y suben `_Ambient`/`_Rim`; el mapa usa
 exposición **+0,65** y saturación **+18**. La cámara del jugador está a **7 m** y Santa
 gira como máximo **40°** con el cuerpo; el resto del giro lo hace el pivote del arma.

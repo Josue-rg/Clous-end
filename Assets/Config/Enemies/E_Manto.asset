@@ -23,6 +23,6 @@ MonoBehaviour:
   chargeSpeed: 0
   chargeDuration: 0
   hitRadius: 4
-  modelScale: 2.6
+  modelScale: 3
   grabDuration: 0
   markerColor: {r: 1, g: 0.82, b: 0.2, a: 1}
