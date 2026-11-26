@@ -75,6 +75,9 @@ namespace ClousEnd.EditorTools
             SerializedField.Set(mission, "fallLimitY", -30f);
             SerializedField.Set(mission, "reindeerAlive", 4);
             SerializedField.Set(mission, "lobbyScene", "Login");
+            SerializedField.Set(mission, "gameOverReason", player.Ui.GameOverReason);
+
+            GameplayBuilder.Build(root, player, mission, assets);
 
             UnityEventTools.AddPersistentListener(player.Ui.FinishRetryButton.onClick, new UnityAction(mission.RestartRun));
             UnityEventTools.AddPersistentListener(player.Ui.FinishLobbyButton.onClick, new UnityAction(mission.ReturnToLobby));

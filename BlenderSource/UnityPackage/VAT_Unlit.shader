@@ -21,6 +21,7 @@ Shader "ClousEnd/VAT_Unlit"
         _BaseMap    ("Albedo (opcional, UV0)", 2D) = "white" {}
         _PosTex     ("VAT Posiciones (EXR)", 2D) = "black" {}
         _Frames     ("Frames del clip", Float) = 24
+        _UVFrames   ("Frames del atlas UV (0 = igual)", Float) = 0
         _Frame      ("Frame", Float) = 0
         _VATAmount  ("Cantidad VAT", Range(0,1)) = 1
         _FlipY      ("Voltear Y (0/1)", Range(0,1)) = 0
@@ -34,7 +35,12 @@ Shader "ClousEnd/VAT_Unlit"
 
     SubShader
     {
-        Tags { "RenderType"="Opaque" "Queue"="Geometry" }
+        Tags
+        {
+            "RenderPipeline"="UniversalPipeline"
+            "RenderType"="Opaque"
+            "Queue"="Geometry"
+        }
 
         Pass
         {
@@ -58,6 +64,7 @@ Shader "ClousEnd/VAT_Unlit"
             float4 _Emission;
             float4 _LightDir;
             float _Frames;
+            float _UVFrames;
             float _VATAmount;
             float _FlipY;
             float _Ambient;
@@ -90,7 +97,15 @@ Shader "ClousEnd/VAT_Unlit"
             {
                 float f = fmod(frame, _Frames);
                 float dir = flip > 0.5 ? -1.0 : 1.0;
-                float v = flip > 0.5 ? (1.0 - baseUV.y) : baseUV.y;
+                float baseV = baseUV.y;
+
+                // El atlas UV (UV1) se horneó con el clip mas largo del asset.
+                // Cada clip tiene su propia altura de textura, asi que la fila
+                // base hay que reescalarla al numero de frames de este clip.
+                if (_UVFrames > 0.5)
+                    baseV *= _UVFrames / max(_Frames, 1.0);
+
+                float v = flip > 0.5 ? (1.0 - baseV) : baseV;
                 float2 uv = float2(baseUV.x, v + dir * (f / _Frames));
                 return tex2Dlod(_PosTex, float4(uv, 0, 0)).xyz;
             }
@@ -157,6 +172,7 @@ Shader "ClousEnd/VAT_Unlit"
 
             sampler2D _PosTex;
             float _Frames;
+            float _UVFrames;
             float _VATAmount;
             float _FlipY;
 
@@ -175,7 +191,12 @@ Shader "ClousEnd/VAT_Unlit"
             {
                 float f = fmod(frame, _Frames);
                 float dir = flip > 0.5 ? -1.0 : 1.0;
-                float v = flip > 0.5 ? (1.0 - baseUV.y) : baseUV.y;
+                float baseV = baseUV.y;
+
+                if (_UVFrames > 0.5)
+                    baseV *= _UVFrames / max(_Frames, 1.0);
+
+                float v = flip > 0.5 ? (1.0 - baseV) : baseV;
                 float2 uv = float2(baseUV.x, v + dir * (f / _Frames));
                 return tex2Dlod(_PosTex, float4(uv, 0, 0)).xyz;
             }

@@ -12,7 +12,12 @@
 - Ruta continua de **1,5 km** dividida en las 4 zonas del documento 11: afueras, centro
   histórico, distrito financiero y refugio.
 - Vehículo y personaje de pruebas (un cubo y un cilindro) con movimiento, vuelo, cámara en
-  tercera persona, mira con ratón y disparo hitscan.
+  tercera persona, mira con ratón y disparo hitscan. Si el paquete VAT está importado, el
+  cubo y el cilindro se sustituyen por el trineo, Santa y los cuatro renos.
+- **Combate completo** (doc 15): 4 armas, 5 enemigos, 9 oleadas, rescate de renos,
+  pickups, Nicolás Cero en 3 fases, barrera de arena, HUD y pausa.
+- **Checkpoint** en el puente que repara el casco; game over por casco, renos o caída;
+  resultados con tiempo, renos, casco y boss.
 - HUD de pruebas con retícula, controles, nombre de zona, cronómetro y paneles de misión.
 - Checkpoint en el puente, meta en el Refugio y game over con reintento.
 - Sistema de rendimiento por capas: LODs con crossfade, apagado de zonas lejanas, niebla de
@@ -28,6 +33,9 @@
 | Construir o reconstruir el mapa | `Clous-End > Mapa > Construir escena Game (blockout)` |
 | Abrir la escena | `Clous-End > Mapa > Abrir escena Game` |
 | Probar directamente | `Clous-End > Mapa > Entrar en Play Mode` |
+| Importar los modelos de Blender | `Clous-End > VAT > Importar todo (paquete + prefabs)` |
+| Construir la escena con combate y jefe | `Clous-End > Mapa > Construir escena Game (blockout)` |
+| Integrar solo los modelos en Game sin rehacer el mapa | `Clous-End > VAT > 4 · Integrar modelos en la escena Game` |
 
 La escena se guarda en disco. Una vez construida se puede editar a mano (mover edificios,
 cambiar materiales, añadir props) y los cambios se conservan. La reconstrucción desde el menú
@@ -44,13 +52,16 @@ cambiar materiales, añadir props) y los cambios se conservan. La reconstrucció
 | Acción | Tecla / ratón |
 |---|---|
 | Avanzar / retroceder | `W` / `S` o flechas arriba/abajo |
-| Desplazarse lateralmente | `A` / `D` o flechas izquierda/derecha |
+| Esquivar / desplazarse lateralmente | `A` / `D` o flechas izquierda/derecha |
 | Subir / bajar (vuelo) | `Espacio` / `Ctrl izquierdo` o `Q` |
 | Apuntar | Mover el ratón (la retícula sigue al cursor) |
 | Disparar | Clic izquierdo |
+| Cambiar de arma | `1` Carbón · `2` Nogal · `3` Estrella · `4` Cascabel |
+| Recargar | `R` |
 | Girar la cámara | Clic derecho + arrastrar |
 | Zoom | Rueda del ratón |
-| Terminar la partida | Llegar a la línea del Refugio (z = 1450) |
+| Pausa | `Esc` |
+| Terminar la partida | Derrotar a Nicolás Cero (z≈1420) |
 
 Valores ajustables en el Inspector:
 
@@ -60,6 +71,25 @@ Valores ajustables en el Inspector:
   colisión de cámara.
 - `CharacterPivot` → `CharacterAim`: velocidad de giro de la mira y alcance.
 - `CharacterPivot` → `HitscanWeapon`: alcance, cadencia, automático y máscara de impacto.
+
+---
+
+## Combate y misión (resumen)
+
+El detalle completo está en [15 · Combate, misión y jefe](15_Combate_Mision_y_Jefe.md).
+
+- **Armas:** Carbón (automática y calor), Nogal (escopeta), Estrella (perfora) y
+  Cascabel (cadena). Se cambian con 1–4; R recarga.
+- **Enemigos:** Sabueso, Garfio, Espora, Manto y Torre, más las naves Caza y
+  Recolector y los renos de obsidiana del jefe. 9 oleadas precolocadas.
+- **Renos:** son las 4 vidas. El Garfio puede agarrar uno; hay 5 s para matarlo y
+  rescatarlo. El escudo de reno revive o protege.
+- **Casco:** 100 de integridad; a 0 se pierde. El checkpoint del puente lo repara.
+- **Pickups:** munición, kits, escudos y las armas Estrella (z≈900) y Cascabel
+  (z≈1160).
+- **Jefe:** Nicolás Cero en z≈1420, con barrera en z=1440. Fase 1 (renos de
+  obsidiana), fase 2 (bombas y voleas) y fase 3 (al 40 %).
+- **Final:** al morir el jefe, se abre la barrera y aparecen los resultados.
 
 ---
 
@@ -141,8 +171,10 @@ del presupuesto, con margen para los modelos finales de Blender.
 | `MapGroundBuilder.cs` | Suelo, calzada, aceras, líneas y bancos de nieve. |
 | `MapBackdropBuilder.cs` | Montañas y skyline lejano. |
 | `MapLightingBuilder.cs` | Luna, luces prácticas, niebla y postproceso. |
-| `MapPlayerBuilder.cs` | Cubo, cilindro, cámara, efectos de disparo y nieve. |
-| `MapUIBuilder.cs` | HUD, cronómetro, aviso de checkpoint, paneles de resultados y game over. |
+| `MapPlayerBuilder.cs` | Rig del jugador (modelos VAT o placeholders), cámara, efectos de disparo y nieve. |
+| `GameplayBuilder.cs` | Armas, renos, 9 oleadas, pickups, jefe, barrera y wiring. |
+| `GameHudBuilder.cs` | HUD de combate (casco, renos, armas, jefe, rescate). |
+| `MapUIBuilder.cs` | HUD base, cronómetro, resultados, game over y pausa. |
 | `MapAssetFactory.cs` | Materiales, perfil de postproceso y sprite de retícula. |
 | `MapBuildMenu.cs` | Entradas del menú `Clous-End > Mapa`. |
 
@@ -153,7 +185,15 @@ del presupuesto, con margen para los modelos finales de Blender.
 | `Assets/Scripts/Game/Input/PlayerInputReader.cs` | Única lectura de teclado y ratón. |
 | `Assets/Scripts/Game/Player/VehicleMotor.cs` | Movimiento del vehículo con CharacterController. |
 | `Assets/Scripts/Game/Player/CharacterAim.cs` | Giro del personaje y del arma hacia el ratón. |
-| `Assets/Scripts/Game/Player/HitscanWeapon.cs` | Raycast, trazador e impacto. |
+| `Assets/Scripts/Game/Player/WeaponController.cs` | Las 4 armas: calor, munición, recarga, perforación y cadena. |
+| `Assets/Scripts/Game/Player/SleighHealth.cs` | Casco, daño y reparación. |
+| `Assets/Scripts/Game/Player/ReindeerSquad.cs` | 4 renos, agarre, rescate y pérdida. |
+| `Assets/Scripts/Game/Combat/EnemyAgent.cs` | IA de los enemigos y naves. |
+| `Assets/Scripts/Game/Combat/BossController.cs` | Nicolás Cero y sus fases. |
+| `Assets/Scripts/Game/World/EnemyDirector.cs` | Activación de oleadas por Z. |
+| `Assets/Scripts/Game/World/PickupCollector.cs` | Recogida de pickups. |
+| `Assets/Scripts/Game/UI/GameHud.cs` | HUD de combate. |
+| `Assets/Scripts/Game/UI/PauseMenu.cs` | Pausa y reanudación. |
 | `Assets/Scripts/Game/Camera/ThirdPersonCamera.cs` | Órbita, zoom y colisión de cámara. |
 | `Assets/Scripts/Game/FX/TracerBeam.cs` | Trazador reutilizable (LineRenderer de escena). |
 | `Assets/Scripts/Game/FX/ImpactFlash.cs` | Impacto reutilizable (malla de escena). |
@@ -192,19 +232,25 @@ el trazador y el impacto ya existen en la escena y se reutilizan.
 
 ## Dónde se sustituyen los placeholders
 
-Todo el jugador de pruebas está en `Game > Player`:
+El jugador de pruebas está en `Game > Player`. Desde que existe el paquete VAT,
+la reconstrucción del mapa ya monta el arte de Blender si los prefabs existen; y
+`Clous-End > VAT > 4 · Integrar modelos en la escena Game` hace el cambio en una
+escena ya construida, sin regenerar el mapa.
 
-| Objeto | Qué es | Sustituir por |
+| Objeto | Qué era | Estado |
 |---|---|---|
-| `Player/PH_CarBody` (+ faros) | Cubo rojo del vehículo | `SM_Sleigh` de Blender |
-| `Player/CharacterPivot/PH_Character` | Cilindro del personaje | `SK_Santa` de Blender |
-| `Player/CharacterPivot/AimPivot/PH_Gun` | Arma de prueba | `SM_Carbon` de Blender |
+| `Player/Sleigh` | `PH_CarBody` (cubo rojo) | Sustituido por `PF_Sleigh` (VAT Flight) |
+| `Player/CharacterPivot/Santa` | `PH_Character` (cilindro) | Sustituido por `PF_Santa` (VAT Idle) |
+| `Player/ReindeerSquad` | No existía | Cuatro renos: Rodolfo, Donner, Vixen y Cometa |
+| `Player/CharacterPivot/AimPivot/PH_Gun` | Arma de prueba | **Pendiente**: `SM_Weapon_Carbon` no tiene animación en mano (doc 14 §10) |
 | `Player Camera` | Cámara en tercera persona | Se conserva; ajustar distancia |
 | `Effects/Tracer`, `Effects/Impact` | VFX de disparo | Materiales/VFX finales |
 | `UI` | HUD de prueba | HUD final |
 
-Al reemplazar los modelos, mantener los pivotes (`CharacterPivot`, `AimPivot`, `Muzzle`) y las
-referencias del Inspector. El `CharacterController` y los scripts no cambian.
+Al reemplazar los modelos se mantienen los pivotes (`CharacterPivot`, `AimPivot`,
+`Muzzle`), el `CharacterController`, la cámara y las referencias del Inspector.
+Los offsets del rig (altura del trineo y hueco de Santa) son configuraciones del
+editor en `VATRigBuilder` y se pueden retocar a mano en la escena.
 
 Los edificios se llaman `SM_Bldg_*`, los props `SM_*` y los materiales `M_Map_*`, siguiendo el
 naming del documento 11.
@@ -215,10 +261,12 @@ naming del documento 11.
 
 - La geometría es de primitivas: no es arte final. El documento 11 prohíbe primitivas en la
   entrega final, no en el blockout.
-- El vehículo de pruebas es un cubo que vuela; no es un trineo. La cámara y los controles
-  están pensados para validar el mapa, no para el combate final.
-- La misión completa (combate, renos, armas y boss) no está implementada. La demo sí tiene
-  cronómetro, checkpoint, meta, resultados y game over.
+- El vehículo de pruebas es un cubo que vuela; no es un trineo. Cuando el paquete
+  VAT está importado, la escena usa el trineo, Santa y los cuatro renos reales.
+- La misión completa (combate, oleadas, renos, armas y boss) **está implementada**;
+  falta probarla de principio a fin y ajustar dificultad, cámara y tiempos.
+- No hay audio real, intro cinematográfica ni pantalla de créditos completa.
+- Los edificios y props siguen siendo blockout; el kit modular de Blender está pendiente.
 - La retícula se oculta si el cursor sale de la ventana del juego; en ventana completa no pasa.
 - El suelo es plano; el terreno definitivo (nieve, desniveles, río) llegará con el kit de
   Blender.
@@ -229,8 +277,10 @@ naming del documento 11.
 
 ## Siguiente paso
 
-1. Sustituir el blockout por el primer kit de Blender (calle, edificio, esquina y puente),
-   empezando por el centro histórico.
-2. Montar el combate, los renos y las armas sobre `MissionManager` y el mapa actual.
-3. Repetir la medición de draw calls con los modelos finales y comparar con este presupuesto.
-4. Actualizar la demo web cuando haya una versión estable (ver doc 13).
+1. **Probar la misión completa** desde `Login > JUGAR` y ajustar dificultad,
+   oleadas, daño y tiempos con los assets de `Assets/Config`.
+2. Sustituir el blockout por el kit modular de Blender (calle, edificio, esquina y
+   puente), empezando por el centro histórico.
+3. Añadir audio, intro/final cinematográficos y créditos completos.
+4. Hornear Albedo/Normal/ORM para que los modelos se vean como en Blender.
+5. Repetir la medición de draw calls con el arte final y el combate activo.

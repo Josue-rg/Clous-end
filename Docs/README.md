@@ -1,6 +1,6 @@
 # CLOUS-END — Documentación de diseño
 
-**Estado:** preproducción · documentación v0.4 · alcance final definido · lobby, blockout y demo web jugables · **assets 3D y animación terminados y listos para Unity**
+**Estado:** preproducción · documentación v0.5 · alcance final definido · lobby, blockout, demo web y **combate completo jugable** · assets 3D y animación integrados en Unity
 **Motor:** Unity 6.6.0f1 · URP 17.6 · Input System 1.20
 **Género:** shooter cinemático de defensa sobre trineo (on-rails / semi-libre)
 **Duración objetivo:** 20–30 minutos · **1 mapa** · sin niveles ni progresión
@@ -34,6 +34,7 @@ La gracia del proyecto no es la cantidad de contenido, sino la **intensidad y la
 | 12 | [Mapa blockout: escena Game](12_Mapa_Blockout_Game.md) | Qué hay montado, cómo reconstruirlo, controles, rendimiento y dónde sustituir los placeholders. |
 | 13 | [Demo web y publicación](13_Web_Demo_GitHub_Pages.md) | Enlace jugable, cómo se genera el build WebGL, cómo se publica en GitHub Pages y sus límites. |
 | 14 | [**Assets 3D y pipeline VAT**](14_Assets_3D_y_Pipeline_VAT.md) | Qué modelos hay, cómo se animan sin huesos (VAT) y **cómo importarlos a Unity paso a paso**. |
+| 15 | [**Combate, misión y jefe**](15_Combate_Mision_y_Jefe.md) | Armas, enemigos, oleadas, rescate de renos, pickups, Nicolás Cero, HUD y pausa implementados. |
 
 ---
 
@@ -47,9 +48,9 @@ El alcance se protege con una lista cerrada: **1 mapa, 1 misión, 1 boss, 4 reno
 
 **Demo web:** https://josue-rg.github.io/Clous-end-web/
 
-**Siguiente paso:** importar el paquete de Blender a Unity (doc 14) y montar el combate,
-los renos y las armas sobre la misión actual. Antes conviene hornear las texturas de
-albedo para que el detalle de Blender viaje al motor.
+**Siguiente paso:** probar la misión completa en el editor (`Login > JUGAR`) y
+ajustar dificultad, cámara y tiempos. Después: audio real, intro/final
+cinematográficos y albedo/Normal/ORM de los modelos.
 
 ---
 
@@ -65,10 +66,14 @@ albedo para que el detalle de Blender viaje al motor.
       con sus variantes, 2 naves, Nicolás Cero, props, arnés y meteoritos.
 - [x] **Rigs, clips y horneado VAT** de todos los assets animados (ver doc 14).
 - [x] **LOD1, LOD2 y mallas de colisión** de los 14 assets animados.
-- [ ] Importar el paquete a Unity (doc 14) y probarlo en la escena `Game`.
+- [x] **Importación del paquete a Unity**: 28 prefabs, materiales, LODs y colliders.
+- [x] **Combate completo**: 4 armas, 5 enemigos, 9 oleadas, rescate de renos,
+      pickups, Nicolás Cero en 3 fases, HUD, pausa, checkpoint y resultados (doc 15).
+- [x] **Rig del jugador integrado**: trineo, Santa y los 4 renos reales.
 - [ ] Horneado de Albedo/Normal/ORM (el FBX lleva color plano por material).
-- [ ] Pruebas de resolución y rendimiento del HUD y los paneles.
-- [ ] Misión completa con combate, renos, armas y boss.
-- [ ] Audio.
+- [ ] Audio real (música, SFX, voz de Voss).
+- [ ] Intro/final cinematográficos y pantalla de créditos completa.
+- [ ] Opciones de dificultad y accesibilidad.
+- [ ] Pruebas de resolución, rendimiento y build de Windows.
 
 Los documentos marcados como `v0.1` son propuestas vivas: se actualizan cuando una prueba en el editor demuestre que algo no funciona.

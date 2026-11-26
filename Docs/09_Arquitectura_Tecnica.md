@@ -48,6 +48,7 @@ Results / Credits
 | `Assets/Scenes/Login.unity` | Implementada | Lobby con diorama 3D y botón JUGAR. |
 | `Assets/Scenes/SampleScene.unity` | Plantilla URP | Se conserva como referencia; no es gameplay. |
 | `Game` | Hecho (blockout) | Misión única, mapa Distrito Aurora, checkpoint, meta y game over. |
+| `VAT_Preview` | Herramienta hecha | Revisión de todos los assets VAT en filas; se genera desde el menú. |
 | `Results` | En la demo | Panel de resultados dentro de `Game`; final y créditos pendientes. |
 
 `Login` está en Build Settings como escena 0 y `Game` como escena 1. `SampleScene` se mantiene
@@ -64,18 +65,35 @@ Assets/
   Art/
     Fonts/                 Fuentes y licencias OFL
     Login/                 Shaders, materiales, texturas, mallas del login
+    Materials/VAT/         Materiales M_<Asset>_<Clip> y VAT_<Asset> (clip sets)
     Models/                FBX de Blender: personajes, enemigos, naves, armas, mapa
       VAT/                 mallas de juego + texturas de animación (ver doc 14)
-  Config/                  ScriptableObjects de configuración
+  Config/
+    LoginConfig.asset
+    Weapons/               W_Carbon, W_Nogal, W_Estrella, W_Cascabel
+    Enemies/               E_Sabueso … E_Obsidian
   Editor/
     Login/                 Builders y menús del login
-  Scenes/                  Login, Game
+    Map/                   Blockout, escena Game y HUD base
+    VAT/                   Importador, materiales, prefabs y escena de prueba VAT
+    Game/                  GameplayBuilder y GameHudBuilder
+  Prefabs/
+    Characters/            PF_Santa, PF_Sleigh, PF_Reindeer_*
+    Enemies/               PF_Sabueso … PF_NicolasCero, PF_Ship_*
+    Weapons/               PF_SM_Weapon_*
+    Props/                 pickups, cascabeles, meteoritos, arnés…
+  Scenes/                  Login, Game, VAT_Preview
   Scripts/
     Login/                 Lógica de la pantalla de acceso
-    Rendering/             VATPlayer, FloatPhase (animación en GPU)
-    Core/                  (pendiente) flujo, guardado, eventos
-    Gameplay/              (pendiente) trineo, renos, armas, enemigos
-    UI/                    (pendiente) HUD y menús de gameplay
+    Rendering/             VATPlayer, VATClipSet, FloatPhase (animación en GPU)
+    Game/
+      Input/               PlayerInputReader (única lectura de entrada)
+      Player/              VehicleMotor, CharacterAim, WeaponController, SleighHealth, ReindeerSquad
+      Camera/              ThirdPersonCamera
+      Combat/              EnemyAgent, EnemyDefinition, BossController, GiftBomb, VATTint, daño
+      World/               MissionManager, ZoneStreamer, EnemyDirector, Pickups, BossGate
+      UI/                  GameHud, PauseMenu, PointerReticle, ZoneTitleHud
+      FX/                  TracerBeam, ImpactFlash, SnowFollower
   Shaders/
     VAT/                   VAT_Unlit.shader, FloatWobble.shader
   Settings/                URP assets, volume profiles globales
@@ -173,6 +191,18 @@ importación, está en [14 · Assets 3D y pipeline VAT](14_Assets_3D_y_Pipeline_
 | `VAT_Unlit.shader` | desplaza los vértices en GPU |
 | `VATPlayer.cs` | avanza el frame por instancia |
 
+### Herramientas de importación (editor)
+
+| Archivo | Responsabilidad |
+|---|---|
+| `Assets/Editor/VAT/VATPackageImporter.cs` | Copia el paquete desde `BlenderSource/VAT` y fuerza la reimportación. |
+| `VATAssetPostprocessor.cs` | Aplica los ajustes obligatorios de las texturas EXR y de los FBX. |
+| `VATMaterialFactory.cs` | Crea un material por clip y los materiales de los props. |
+| `VATPrefabBuilder.cs` | Genera los prefabs con `VATPlayer`, LODGroup, collider y bounds. |
+| `VATPreviewSceneBuilder.cs` | Genera `Assets/Scenes/VAT_Preview.unity` con todos los assets. |
+| `VATRigBuilder.cs` · `VATGameIntegration.cs` | Sustituyen los placeholders del jugador por trineo, Santa y renos. |
+| `VATBuildMenu.cs` | Menú `Clous-End > VAT` (importar, prefabs, escena, integrar). |
+
 ### Cómo encaja en la arquitectura
 
 - **No hay `Animator` ni `SkinnedMeshRenderer`.** El coste de animación pasa de
@@ -180,8 +210,8 @@ importación, está en [14 · Assets 3D y pipeline VAT](14_Assets_3D_y_Pipeline_
 - `VATPlayer` no crea nada: solo escribe `_Frame` en un
   `MaterialPropertyBlock`. Cumple la regla de "nada de crear objetos en runtime".
 - Los clips son materiales; cambiar de animación es cambiar la textura
-  (`VATPlayer.SetClip`). La lógica de cuándo cambiar (muerte de un reno, ataque
-  del boss) vivirá en los sistemas de gameplay, no en el reproductor.
+  (`VATPlayer.SetClip`). `VATClipSet` agrupa los clips de cada asset y
+  `EnemyAgent`/`BossController` reproducen `Death`/`Hurt`/`Attack`.
 - `FloatWobble.shader` + `FloatPhase.cs` son la alternativa sin texturas para
   aliens que solo flotan.
 - Los LODs son estáticos: el VAT va en LOD0. Si se quiere animación a distancia,
@@ -189,39 +219,48 @@ importación, está en [14 · Assets 3D y pipeline VAT](14_Assets_3D_y_Pipeline_
 
 ---
 
-## Sistemas planificados para gameplay
+## Sistemas de gameplay implementados
 
-### Core
+### Jugador
 | Sistema | Responsabilidad |
 |---|---|
-| `MissionManager` (demo) | Cronómetro, checkpoint, meta, resultados, game over y reintento. |
-| `MissionFlowService` | Futuro: intro, actos, final y créditos sobre la misión. |
-| `SaveService` | Ajustes; en v1.1 no hay perfil ni progreso guardado. |
-| `InputReader` | Traduce Input Actions a eventos de dominio. |
-| `GameEventBus` | Eventos desacoplados (reno perdido, casco dañado, boss). |
-| `AudioDirector` | Música, mezcla, ducking, radio. |
-| `CheckpointService` | Integrado en `MissionManager` para la demo. |
+| `VehicleMotor` | Avance, lateral, vuelo vertical y teleport del trineo. |
+| `ThirdPersonCamera` | Cámara orbital, zoom y colisión. |
+| `CharacterAim` | Orienta a Santa y el pivote del arma hacia la retícula. |
+| `WeaponController` | 4 armas, calor, munición, recarga, perforación y cadena. |
+| `SleighHealth` | Casco (100), daño, reparación y muerte. |
+| `ReindeerSquad` | 4 renos, agarre del Garfio, rescate, pérdida y escudo. |
+| `PickupCollector` | Recoge munición, kits, escudos y armas por cercanía. |
 
-### Gameplay
+### Enemigos y jefe
 | Sistema | Responsabilidad |
 |---|---|
-| `SleighController` | Movimiento lateral, turbo, dash, inclinación. |
-| `SleighHealth` | Casco, daño, reparación, caída. |
-| `ReindeerSquad` | 4 renos, pasivas, estados, rescate. |
-| `WeaponController` | Arma equipada, calor, munición, cambio. |
-| `Projectile` / `Damageable` | Impactos y daño. |
-| `EnemyDirector` | Spawns por presupuesto de amenaza. |
-| `BossController` | Fases, ataques, puntos débiles. |
-| `PickupCollector` | Kits de casco, munición, escudos y armas de historia. |
-| `MissionDirector` | Actos, oleadas, set pieces y boss. |
+| `EnemyDefinition` | Vida, daño, velocidad, rango, telegraph y tipo. |
+| `EnemyAgent` | IA de Sabueso, Garfio, Espora, Manto, Torre, naves y obsidiana. |
+| `EnemyDirector` | Activa/desactiva 9 oleadas precolocadas por la Z del jugador. |
+| `BossController` | Nicolás Cero: escudo, fases, bombas y voleas. |
+| `GiftBomb` | Regalo-bomba con homing y explosión; se puede disparar. |
+| `BossGate` | Barrera de energía de la arena. |
+| `VATTint` | Tinte de los renos de obsidiana sin duplicar materiales. |
 
-### Datos (ScriptableObjects)
-- `WeaponDefinition`: daño, cadencia, munición, VFX, sonido.
-- `ReindeerDefinition`: nombre, pasiva, modelo, animaciones.
-- `EnemyDefinition`: vida, ataque, telegraph, prioridad.
-- `WaveDefinition`: composición, presupuesto, duración.
-- `MissionDefinition`: actos, checkpoints, música y objetivos.
-- `BossDefinition`: fases, ataques y puntos débiles.
+### Misión y UI
+| Sistema | Responsabilidad |
+|---|---|
+| `MissionManager` | Cronómetro, checkpoint, casco, renos, boss, fin y game over. |
+| `EnemyDirector` | Reinicio de oleadas en el checkpoint. |
+| `GameHud` | Casco, renos, arma, calor/munición, jefe, objetivo y rescate. |
+| `PauseMenu` | Pausa con Escape; reanudar, reiniciar y lobby. |
+
+### Datos (ScriptableObjects) implementados
+- `WeaponDefinition`: daño, cadencia, munición, calor, perforación y cadena.
+- `EnemyDefinition`: vida, ataque, telegraph, velocidad y tipo.
+- Los assets viven en `Assets/Config/Weapons` y `Assets/Config/Enemies`.
+
+### Datos planificados (no bloquean v1)
+- `ReindeerDefinition`: pasivas fijas por reno.
+- `WaveDefinition`: presupuesto de amenaza en vez de oleadas fijas.
+- `MissionDefinition`: actos y música.
+- `BossDefinition`: fases y puntos débiles.
 
 **No hay `UpgradeDefinition`** porque no hay mejoras en v1.
 
@@ -307,10 +346,13 @@ No se implementará red en el MVP. Solo se evita el diseño que obligaría a ree
 - [ ] 2560×1440 (probar).
 - [ ] SALIR en build (probar).
 
-### Gameplay (pendiente)
-- Tests de EditMode para daño, vidas y casco.
-- Tests de PlayMode para el flujo de misión y checkpoint.
-- Prueba manual de la misión completa de 20–30 minutos.
+### Gameplay (implementado, pendiente de QA)
+- Compilación y construcción de la escena `Game` verificadas en una copia aislada.
+- 33 agentes, 10 pickups, 9 oleadas, jefe, HUD y pausa cableados sin referencias nulas.
+- Smoke test de PlayMode sin excepciones de los sistemas nuevos (el bucle de batch no
+  avanza tiempo de juego, así que el combate completo se prueba en el editor).
+- Pendiente: tests de EditMode para daño/vidas/casco, tests de PlayMode del flujo
+  completo y prueba manual de la misión de 20–30 minutos.
 
 ---
 
@@ -329,7 +371,7 @@ No se implementará red en el MVP. Solo se evita el diseño que obligaría a ree
 - El fondo es un diorama low-poly generado con primitivas; no representa el arte final realista.
 - No hay audio todavía (viento, campanas, radio).
 - La contraseña es local y no segura.
-- La escena `Game` no existe; el éxito muestra el modo demo.
+- La escena `Game` existe y es jugable; el login carga `Game`.
 - La tipografía display es Bebas Neue (OFL); el cuerpo es Lato (OFL).
 - Los assets generados se pueden editar, pero el menú de reconstrucción reemplaza la escena.
 
@@ -337,13 +379,10 @@ No se implementará red en el MVP. Solo se evita el diseño que obligaría a ree
 
 ## Próximos pasos técnicos
 
-1. Importar el paquete VAT a Unity (doc 14) y crear los prefabs.
-2. Hornear Albedo/Normal/ORM de los assets para que el detalle llegue al motor.
-3. Crear la escena `Game` con el blockout del único mapa.
-4. Implementar `SleighController` con datos serializados.
-5. Implementar `ReindeerSquad` y el evento de pérdida.
-6. Añadir Sabueso y Carbón.
-7. Montar el HUD como prefab editable.
-8. Integrar el kit de Blender y comprobar escala/rendimiento.
-9. Añadir audio de viento y campanas al login.
-10. Pruebas de resolución y accesibilidad; perfilar el login en build.
+1. Ejecutar la importación VAT y revisar `VAT_Preview` (doc 14).
+2. Reconstruir la escena `Game` y probar la misión completa (doc 15).
+3. Hornear Albedo/Normal/ORM de los assets para que el detalle llegue al motor.
+4. Ajustar dificultad, oleadas, daño y tiempos en `Assets/Config`.
+5. Añadir audio, intro/final cinematográficos y créditos completos.
+6. Integrar el kit de Blender y comprobar escala/rendimiento.
+7. Pruebas de resolución y accesibilidad; build de Windows.

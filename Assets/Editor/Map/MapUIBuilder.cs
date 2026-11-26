@@ -1,7 +1,9 @@
 using ClousEnd.Game;
 using TMPro;
+using UnityEditor.Events;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Events;
 using UnityEngine.InputSystem.UI;
 using UnityEngine.UI;
 
@@ -19,8 +21,15 @@ namespace ClousEnd.EditorTools
         public Button FinishRetryButton;
         public Button FinishLobbyButton;
         public GameObject GameOverPanel;
+        public TMP_Text GameOverReason;
         public Button GameOverRetryButton;
         public Button GameOverLobbyButton;
+        public GameHud Hud;
+        public PauseMenu Pause;
+        public GameObject PausePanel;
+        public Button PauseResumeButton;
+        public Button PauseRestartButton;
+        public Button PauseLobbyButton;
     }
 
     /// <summary>HUD de pruebas: retícula, controles, zona, tiempo y paneles de misión.</summary>
@@ -62,9 +71,11 @@ namespace ClousEnd.EditorTools
             CreateZoneTitle(refs.Canvas, assets, viewer);
             refs.TimerLabel = CreateTimer(refs.Canvas, assets);
             refs.CheckpointToast = CreateCheckpointToast(refs.Canvas, assets);
+            refs.Hud = GameHudBuilder.Build(refs.Canvas, assets);
 
             refs.FinishPanel = CreateResultsPanel(refs.Canvas, assets, refs);
             refs.GameOverPanel = CreateGameOverPanel(refs.Canvas, assets, refs);
+            CreatePausePanel(refs.Canvas, assets, refs, input);
 
             CreateEventSystem(parent);
 
@@ -158,6 +169,17 @@ namespace ClousEnd.EditorTools
                 ButtonDark,
                 assets);
 
+            var credits = CreateText(
+                "FinishCredits",
+                panel.transform,
+                "CLOUS-END  ·  Gracias por jugar  ·  Un juego de Josué R.G.",
+                assets.BodyFont,
+                13f,
+                new Color(0.48f, 0.62f, 0.74f),
+                TextAlignmentOptions.Center,
+                2f);
+            Center(credits.rectTransform, new Vector2(1000f, 24f), new Vector2(0f, -226f));
+
             panel.SetActive(false);
             return panel;
         }
@@ -187,6 +209,7 @@ namespace ClousEnd.EditorTools
                 TextAlignmentOptions.Center,
                 2f);
             Center(subtitle.rectTransform, new Vector2(900f, 30f), new Vector2(0f, 26f));
+            refs.GameOverReason = subtitle;
 
             refs.GameOverRetryButton = CreateButton(
                 "GameOverRetry",
@@ -206,6 +229,92 @@ namespace ClousEnd.EditorTools
 
             panel.SetActive(false);
             return panel;
+        }
+
+        private static void CreatePausePanel(
+            RectTransform canvas,
+            MapAssets assets,
+            MapUiRefs refs,
+            PlayerInputReader input)
+        {
+            var panel = CreateOverlay("PausePanel", canvas, assets);
+
+            var title = CreateText(
+                "PauseTitle",
+                panel.transform,
+                "PAUSA",
+                assets.DisplayFont,
+                56f,
+                new Color(0.86f, 0.97f, 1f),
+                TextAlignmentOptions.Center,
+                8f);
+            Center(title.rectTransform, new Vector2(900f, 80f), new Vector2(0f, 150f));
+
+            var hint = CreateText(
+                "PauseHint",
+                panel.transform,
+                "ESC  REANUDAR     ·     1–4  CAMBIAR ARMA     ·     R  RECARGAR     ·     CLIC IZQ  DISPARAR",
+                assets.BodyFont,
+                15f,
+                new Color(0.62f, 0.76f, 0.88f),
+                TextAlignmentOptions.Center,
+                2f);
+            Center(hint.rectTransform, new Vector2(1400f, 26f), new Vector2(0f, 92f));
+
+            refs.PauseResumeButton = CreateButton(
+                "PauseResume",
+                panel.transform,
+                "REANUDAR",
+                new Vector2(-256f, -40f),
+                ButtonDark,
+                assets);
+
+            refs.PauseRestartButton = CreateButton(
+                "PauseRestart",
+                panel.transform,
+                "REINICIAR",
+                new Vector2(0f, -40f),
+                ButtonRed,
+                assets);
+
+            refs.PauseLobbyButton = CreateButton(
+                "PauseLobby",
+                panel.transform,
+                "LOBBY",
+                new Vector2(256f, -40f),
+                ButtonDark,
+                assets);
+
+            var footer = CreateText(
+                "PauseFooter",
+                panel.transform,
+                "CLOUS-END  ·  DISTRITO AURORA",
+                assets.BodyFont,
+                13f,
+                new Color(0.45f, 0.58f, 0.7f),
+                TextAlignmentOptions.Center,
+                3f);
+            Center(footer.rectTransform, new Vector2(900f, 24f), new Vector2(0f, -150f));
+
+            panel.SetActive(false);
+
+            var pause = canvas.gameObject.AddComponent<PauseMenu>();
+            SerializedField.Set(pause, "input", input);
+            SerializedField.Set(pause, "panel", panel);
+            SerializedField.Set(pause, "reticleRoot", refs.Reticle.gameObject);
+
+            UnityEventTools.AddPersistentListener(
+                refs.PauseResumeButton.onClick,
+                new UnityAction(pause.Resume));
+            UnityEventTools.AddPersistentListener(
+                refs.PauseRestartButton.onClick,
+                new UnityAction(pause.RestartRun));
+            UnityEventTools.AddPersistentListener(
+                refs.PauseLobbyButton.onClick,
+                new UnityAction(pause.ReturnToLobby));
+
+            refs.Pause = pause;
+            refs.PausePanel = panel;
         }
 
         private static GameObject CreateOverlay(string name, RectTransform canvas, MapAssets assets)
@@ -406,13 +515,14 @@ namespace ClousEnd.EditorTools
                 "ControlsText",
                 rect,
                 "W / S  ·  ↑ / ↓    AVANZAR Y RETROCEDER\n" +
-                "A / D  ·  ← / →    DESPLAZARSE\n" +
-                "ESPACIO    SUBIR       CTRL / Q    BAJAR\n" +
-                "CLIC IZQUIERDO    DISPARAR\n" +
+                "A / D  ·  ← / →    ESQUIVAR\n" +
+                "ESPACIO / CTRL    SUBIR / BAJAR\n" +
+                "CLIC IZQUIERDO    DISPARAR        1–4  ARMA\n" +
+                "R    RECARGAR        ESC    PAUSA\n" +
                 "CLIC DERECHO + ARRASTRAR    GIRAR CÁMARA\n" +
                 "RUEDA    ZOOM",
                 assets.BodyFont,
-                17f,
+                16f,
                 new Color(0.78f, 0.87f, 0.96f),
                 TextAlignmentOptions.TopLeft,
                 6f,
@@ -429,7 +539,7 @@ namespace ClousEnd.EditorTools
             var title = CreateText(
                 "Title",
                 canvas,
-                "DISTRITO AURORA  ·  BLOCKOUT",
+                "DISTRITO AURORA",
                 assets.DisplayFont,
                 26f,
                 new Color(0.78f, 0.9f, 1f, 0.92f),
@@ -446,7 +556,7 @@ namespace ClousEnd.EditorTools
             var subtitle = CreateText(
                 "Subtitle",
                 canvas,
-                "CLOUS-END  ·  ESCENA DE PRUEBA",
+                "CLOUS-END  ·  MISIÓN ÚNICA",
                 assets.BodyFont,
                 12f,
                 new Color(0.55f, 0.68f, 0.8f, 0.9f),

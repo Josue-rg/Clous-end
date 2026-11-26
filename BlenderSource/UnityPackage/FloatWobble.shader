@@ -29,7 +29,12 @@ Shader "ClousEnd/FloatWobble"
 
     SubShader
     {
-        Tags { "RenderType"="Opaque" "Queue"="Geometry" }
+        Tags
+        {
+            "RenderPipeline"="UniversalPipeline"
+            "RenderType"="Opaque"
+            "Queue"="Geometry"
+        }
 
         Pass
         {

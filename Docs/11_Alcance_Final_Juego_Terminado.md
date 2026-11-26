@@ -60,12 +60,13 @@ La prioridad no es la cantidad: es que la historia se entienda, que volar y disp
 | Rig y clips de todos los assets animados | **Hecho** (VAT, ver doc 14) |
 | LODs y mallas de colisión | **Hecho** (14 assets animados) |
 | Paquete exportado y listo para importar a Unity | **Hecho** (`BlenderSource/VAT/`, doc 14) |
+| Importador a Unity: materiales, prefabs, LODs y colliders | **Hecho y verificado** (`Assets/Editor/VAT/`, doc 14) |
+| Revisión del paquete en escena (`VAT_Preview`) | **Hecho**; la escena se genera desde el menú |
 | Texturas PBR horneadas (Albedo/Normal/ORM) | Pendiente |
-| Import del paquete a Unity y prueba en escena | Pendiente |
-| Combate, oleadas y rescate de renos | Pendiente |
-| Checkpoint del puente, cronómetro, resultados y game over de la demo | Hecho |
-| HUD final, pausa y créditos | Pendiente |
-| Audio, VFX y voz | Pendiente |
+| Combate, oleadas y rescate de renos | **Hecho** (doc 15) |
+| Checkpoint del puente, cronómetro, resultados y game over de la demo | **Hecho** |
+| HUD final, pausa y créditos | **Hecho** (HUD y pausa; créditos básicos) |
+| Audio, VFX y voz | VFX básicos hechos (VAT, impactos, trazadores, nieve); audio y voz pendientes |
 | Demo web en GitHub Pages | Hecho (ver doc 13) |
 | QA, rendimiento y build de Windows | Pendiente |
 
@@ -388,48 +389,49 @@ Los `.blend` se guardan en `BlenderSource/` en la raíz del proyecto, no dentro 
 - [x] Rigs de Santa, renos, trineo, enemigos y boss (guardados en `SK_*_vat.blend`).
 - [x] Animaciones de los clips principales (idle, galope, muerte, ataque, sacada de arma…).
 - [x] LODs y colisiones.
-- [x] Export FBX (7.4, dos capas UV). **Falta probarlo dentro de Unity.**
+- [x] Export FBX (7.4, dos capas UV). **Importador de Unity, materiales y prefabs hechos y verificados en una copia; falta ejecutar el menú en el proyecto principal.**
 
 ### 2. Unity: sistemas de juego
 
-- [ ] Escena `Game` con el mapa montado.
-- [ ] `SleighController`: movimiento, turbo, dash, inclinación.
-- [ ] Cámara de gameplay.
-- [ ] `ReindeerSquad`: 4 vidas, pasivas, herido, enganche y rescate.
-- [ ] `SleighHealth`: casco, daño, reparación, caída.
-- [ ] 4 armas: disparo, calor, munición, cambio.
-- [ ] 5 enemigos con ataques y telegraph.
-- [ ] Director de oleadas por presupuesto de amenaza.
-- [ ] Boss Nicolás Cero con 3 fases.
-- [ ] Pickups: munición, kit, escudo, armas de historia.
-- [ ] Misión: actos, checkpoint del puente, game over y reintento.
-- [ ] Intro, final y créditos.
-- [ ] Pausa y opciones.
-- [ ] HUD.
-- [ ] Pantalla de resultados.
-- [ ] Guardado de perfil (ya hecho en login).
+- [x] Escena `Game` con el mapa montado.
+- [~] Jugador con arte de Blender: trineo, Santa y renos integrados; falta el arma en mano.
+- [x] `SleighController` funcional sobre `VehicleMotor`: vuelo, avance, lateral y vertical.
+- [x] Cámara de gameplay.
+- [x] `ReindeerSquad`: 4 vidas, herido, enganche y rescate.
+- [x] `SleighHealth`: casco, daño, reparación y caída.
+- [x] 4 armas: disparo, calor, munición y cambio.
+- [x] 5 enemigos con ataques y telegraph (más naves y renos de obsidiana).
+- [x] Director de oleadas por Z (9 oleadas precolocadas).
+- [x] Boss Nicolás Cero con 3 fases y barrera de arena.
+- [x] Pickups: munición, kit, escudo y armas de historia.
+- [x] Misión: actos, checkpoint del puente, game over y reintento.
+- [~] Intro, final y créditos: textos y paneles; falta la puesta en escena cinematográfica.
+- [~] Pausa hecha; faltan opciones (volumen, sensibilidad, subtítulos).
+- [x] HUD de combate.
+- [x] Pantalla de resultados.
+- [x] Guardado de perfil (ya hecho en login).
 - [ ] Build de Windows.
 
 ### 3. UI / 2D
 
 - [ ] Logo final (si se quiere reemplazar el texto).
 - [ ] Iconos de armas, renos y estados.
-- [ ] HUD final.
-- [ ] Pantalla de pausa.
-- [ ] Pantalla de resultados/créditos.
+- [x] HUD de combate (casco, renos, arma, calor/munición, jefe, objetivo y rescate).
+- [x] Pantalla de pausa.
+- [~] Pantalla de resultados hecha; créditos básicos.
 - [ ] Subtítulos.
-- [ ] Indicadores de daño, rescate y objetivo.
+- [x] Indicadores de daño, rescate y objetivo.
 - [ ] Cursores y estados de foco.
 - [ ] Pruebas a 1280×720, 1920×1080 y 2560×1440.
 
 ### 4. Narrativa y voz
 
-- [ ] Guion de la intro: Voss pide ayuda, Santa ve la ciudad y despega.
-- [ ] 6–8 líneas de radio durante la misión (por acto, por pérdida de reno y por el Garfio).
+- [x] Guion de la intro: Voss pide ayuda, Santa ve la ciudad y despega. (Texto de radio implementado.)
+- [~] 6–8 líneas de radio durante la misión: avisos de HUD y fases; falta grabación.
 - [ ] Línea(s) de Nicolás Cero antes y durante el boss.
-- [ ] Final base: el Corazón de Estrella enciende Aurora-9.
+- [~] Final base: panel de resultados; falta la puesta en escena.
 - [ ] Variante secreta si llegan los 4 renos vivos (mismas escena, distintas líneas).
-- [ ] Créditos.
+- [~] Créditos: línea en el panel de resultados; falta pantalla completa.
 - [ ] Subtítulos en español para todas las voces.
 
 ### 5. Audio

@@ -1,5 +1,10 @@
 # CLOUS-END · Paquete VAT para Unity
 
+> **En el proyecto CLOUS-END no se importa a mano.** Usa
+> `Clous-End > VAT > Importar todo (paquete + prefabs)`. El importador copia
+> estos archivos, aplica los ajustes y genera los prefabs. Este README queda como
+> referencia del paquete; la guía del proyecto está en `Docs/14`.
+
 Animación por **Vertex Animation Textures**: Blender hornea la pose de cada
 vértice en una textura EXR y un shader la aplica en la GPU. En Unity **no hay
 huesos, ni SkinRenderer, ni Animator**: la malla es estática y se deforma en el
@@ -24,7 +29,7 @@ Arrastra `SK_<Asset>.fbx` a `Assets/Art/Models/VAT/<Asset>/`.
 
 - **Scale Factor:** 1
 - **Convert Units:** ON
-- **Bake Axis Conversion:** OFF
+- **Bake Axis Conversion:** OFF (la rotación de raíz del FBX se conserva en el prefab)
 - **Import Cameras / Lights:** OFF
 - **Normals:** Import
 - **Tangents:** None (no usamos normal maps todavía)
@@ -66,6 +71,7 @@ Crea un material con **ClousEnd/VAT_Unlit**:
 |---|---|
 | `_PosTex` | la textura EXR del paso 2 |
 | `_Frames` | el campo `frames` del JSON |
+| `_UVFrames` | el mayor `frames` de todos los clips del asset (0 si todos coinciden) |
 | `_BaseColor` | color del asset |
 | `_Ambient` | 0.4–0.6 |
 | `_LightDir` | dirección de la luz principal del nivel |
@@ -80,13 +86,16 @@ usa el mismo EXR en cada una. Todas deben tener **GPU Instancing activado**
 
 ## 4. Componente
 
-En el prefab, añade **VATPlayer**:
+En el prefab, añade **VATPlayer** (espacio de nombres `ClousEnd.Rendering`):
 
 - `frames` = `frames` del JSON
 - `fps` = `fps` del JSON
 - `randomPhase` = ON para enemigos (cada uno va desfasado)
 - `expandBounds` = ON, con `boundsCenter` y `boundsExtent` del JSON
-  (`bounds_min`/`bounds_max`: centro = (min+max)/2, extensión = (max-min)/2 + 0.1)
+  (`bounds_min`/`bounds_max`: centro = (min+max)/2, extensión = (max-min)/2 + 0.1).
+  Ojo: el JSON está en los ejes de la malla (Blender, Z arriba). El prefab debe
+  conservar la rotación de raíz del FBX (90° en X) y los bounds van tal cual, en
+  espacio local. El importador del proyecto lo hace solo.
 
 Sin `expandBounds` el modelo parpadea al acercarse al borde de la pantalla,
 porque Unity lo descarta con el frustum culling usando los bounds de la malla

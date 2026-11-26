@@ -89,5 +89,20 @@ namespace ClousEnd.EditorTools
             property.vector3Value = value;
             serialized.ApplyModifiedPropertiesWithoutUndo();
         }
+
+        /// <summary>Asigna un array de referencias a objetos (Material, GameObject, componentes…).</summary>
+        public static void SetArray<T>(Object target, string fieldName, T[] values) where T : Object
+        {
+            var serialized = new SerializedObject(target);
+            var property = serialized.FindProperty(fieldName);
+            if (property == null) return;
+
+            property.arraySize = values != null ? values.Length : 0;
+
+            for (var i = 0; i < property.arraySize; i++)
+                property.GetArrayElementAtIndex(i).objectReferenceValue = values[i];
+
+            serialized.ApplyModifiedPropertiesWithoutUndo();
+        }
     }
 }

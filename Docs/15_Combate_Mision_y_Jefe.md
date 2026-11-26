@@ -1,0 +1,239 @@
+# 15 · Combate, misión y jefe Nicolás Cero
+
+> **Estado:** implementado en la escena `Game` mediante builders de editor. El
+> jugador vuela, dispara con las 4 armas, defiende a los 4 renos, atraviesa 9
+> oleadas de los 5 enemigos, recoge los pickups y derrota a Nicolás Cero en 3
+> fases. Queda pendiente el audio real y el pulido visual.
+>
+> Documentos relacionados: [09 Arquitectura](09_Arquitectura_Tecnica.md) ·
+> [11 Alcance](11_Alcance_Final_Juego_Terminado.md) ·
+> [12 Mapa](12_Mapa_Blockout_Game.md) · [14 Assets 3D](14_Assets_3D_y_Pipeline_VAT.md)
+
+---
+
+## 1. Flujo de una partida
+
+```
+Login · JUGAR
+  ↓
+Game · intro de radio + despegue (texto de Voss)
+  ↓
+Acto 1 · afueras (oleadas de Sabuesos y Esporas)
+  ↓
+Acto 2 · centro histórico (primer Garfio, rescate de reno)
+  ↓
+Checkpoint del puente · z=1000 · repara el casco
+  ↓
+Acto 3 · distrito financiero (Mantos, Torres, naves, Estrella)
+  ↓
+Acto 4 · Refugio Aurora · barrera, Nicolás Cero y renos de obsidiana
+  ↓
+Final · resultados, tiempo, renos, casco, boss + créditos
+```
+
+Un solo mapa, una sola misión. La partida se puede terminar en unos minutos;
+el objetivo de diseño de 20–30 minutos se ajusta alargando la ruta, las oleadas
+y la duración del jefe.
+
+---
+
+## 2. Controles
+
+| Acción | Tecla / ratón |
+|---|---|
+| Avanzar / retroceder | `W` / `S` o flechas arriba/abajo |
+| Esquivar / desplazarse | `A` / `D` o flechas izquierda/derecha |
+| Subir / bajar | `Espacio` / `Ctrl izquierdo` o `Q` |
+| Apuntar | mover el ratón (la retícula es el puntero) |
+| Disparar | clic izquierdo |
+| Cambiar de arma | `1` Carbón · `2` Nogal · `3` Estrella · `4` Cascabel |
+| Recargar | `R` |
+| Girar la cámara | clic derecho + arrastrar |
+| Zoom | rueda del ratón |
+| Pausa | `Esc` |
+
+---
+
+## 3. Armas
+
+Todas salen de la bolsa. No hay mejoras ni niveles. Los datos viven en
+`Assets/Config/Weapons/W_*.asset` y se pueden ajustar en el Inspector.
+
+| Arma | Tipo | Daño | Cadencia | Munición | Especial |
+|---|---|---|---|---|---|
+| **Carbón** | Fusil automático | 6 | 0,125 s (8/s) | Infinita (calor) | Se sobrecalienta si se mantiene el gatillo; 1,2 s de bloqueo. |
+| **Nogal** | Escopeta | 11 × 6 perdigones | 0,7 s | 8 cartuchos | Dispersión de 6,5°; rompe escudos y enjambres. |
+| **Estrella** | Railgun | 80 | 1,5 s | 3 cargas | Perfora hasta 5 enemigos en línea. |
+| **Cascabel** | Cadena eléctrica | 22 + 55 % en cadena | 0,6 s | 6 cargas | Rebota a 4 enemigos en 18 m. |
+
+- **Carbón** se obtiene al empezar; **Nogal** también.
+- **Estrella** se recoge en el distrito financiero (z≈900).
+- **Cascabel** se recoge antes del refugio (z≈1160).
+- El HUD muestra calor o munición y las 4 ranuras.
+
+---
+
+## 4. Enemigos
+
+Los 5 enemigos de la v1, más las naves y los renos de obsidiana del jefe.
+Los datos viven en `Assets/Config/Enemies/E_*.asset`.
+
+| Enemigo | Vida | Velocidad | Ataque | Comportamiento |
+|---|---|---|---|---|
+| **Sabueso** | 30 | 26 | 10 al trineo | Embiste tras 0,45 s de aviso; muere al impactar. |
+| **Garfio** | 40 | 20 | Secuestra un reno | A 55 m engancha un reno; 5 s para matarlo y rescatarlo. |
+| **Espora** | 18 | 22 | 16 al trineo | Kamikaze; explota al tocar el trineo. |
+| **Manto** | 40 | 16 | 12 al trineo | Francotirador a 75 m con láser de aviso de 1,2 s. |
+| **Torre** | 80 | 14 | 14 al trineo | Tanque lento que embiste; aguanta el fuego. |
+| **Nave Caza** | 50 | 20 | 12 al trineo | Hover a 90 m; dispara tras telegraph. |
+| **Nave Recolector** | 90 | 16 | 14 al trineo | Hover pesado a 95 m. |
+| **Reno de obsidiana** | 65 | 26 | 18 al trineo | Embiste; solo aparece en la fase 1 del jefe. |
+
+- **Pool sin instanciación en runtime:** las oleadas están precolocadas en la
+  escena y el `EnemyDirector` las activa/desactiva por la Z del jugador.
+- Los enemigos tienen colliders trigger para que el trineo no se quede
+  atascado contra ellos; los disparos sí los alcanzan.
+- La muerte reproduce el clip VAT `Death` cuando el asset lo tiene
+  (Sabueso, Garfio, Espora y reno); Manto, Torre y naves se apagan.
+
+### Oleadas
+
+| Z | Nombre | Contenido |
+|---|---|---|
+| 150 | Primera presión | 2 Sabuesos + 1 Espora |
+| 320 | La jauría | 3 Sabuesos + 1 Espora |
+| 500 | El primer Garfio | Garfio + Sabueso + Espora |
+| 700 | Francotiradores | 2 Mantos + Sabueso |
+| 860 | Enjambre | 3 Esporas + Sabueso + Garfio |
+| 960 | Torre de guardia | Torre + 2 Sabuesos |
+| 1100 | Naves | Nave Caza + Manto + Espora |
+| 1220 | El asedio | 2 Torres + Garfio + Espora |
+| 1300 | La última escuela | Recolector + Caza + Manto |
+
+---
+
+## 5. Los 4 renos son las 4 vidas
+
+- `ReindeerSquad` controla los 4 renos visibles: Rodolfo, Donner, Vixen y Cometa.
+- El **Garfio** elige un reno sano, lo oculta y abre una ventana de **5 s**.
+- Si el jugador mata al Garfio dentro de la ventana, el reno vuelve y reproduce
+  `Hurt`. Si el Garfio escapa, el reno se pierde.
+- El **escudo de reno** revive a un reno perdido o absorbe la siguiente pérdida.
+- Si se pierden los 4, la partida termina.
+- El casco es independiente: 100 de integridad; a 0 también se pierde.
+
+---
+
+## 6. Pickups
+
+| Z | Objeto | Efecto |
+|---|---|---|
+| 250 | Munición | Recarga todas las armas. |
+| 380 | Kit de casco | +25 de casco. |
+| 520 | Escudo de reno | Revive un reno perdido o protege al siguiente. |
+| 640 | Munición | Recarga. |
+| 760 | Kit de casco | +25. |
+| 900 | Regalo de arma | Desbloquea la **Estrella**. |
+| 1050 | Munición | Recarga. |
+| 1160 | Regalo de arma | Desbloquea el **Cascabel**. |
+| 1260 | Kit de casco | +25. |
+| 1320 | Escudo de reno | Revive/protege. |
+
+Los pickups flotan y giran; el `PickupCollector` los recoge por cercanía
+(sin triggers), así que no bloquean el vuelo ni los disparos.
+
+---
+
+## 7. Checkpoint, game over y resultados
+
+- **Checkpoint:** al cruzar z=1000 se guarda la posición, se repara el casco y se
+  muestra el aviso.
+- **Game over:** casco a 0, los 4 renos perdidos o caer por debajo del mapa.
+- **Reintentar (game over):** vuelve al checkpoint, restaura casco y los 4 renos
+  y reinicia las oleadas y el jefe. Es una simplificación de la demo; el estado
+  exacto del checkpoint se puede guardar más adelante.
+- **Resultados:** tiempo, renos vivos, casco restante y si el boss cayó.
+- Los botones **REINTENTAR** y **LOBBY** funcionan; el panel incluye una línea de
+  créditos.
+
+---
+
+## 8. Jefe: Nicolás Cero
+
+- Aparece al cruzar **z=1340**; la barrera de energía de z=1440 cierra la salida.
+- El modelo está en `BossArena` (z=1420); tiene **850** de integridad.
+- **Fase 1 · Procesión:** invulnerable; activa dos **renos de obsidiana** (Vixen y
+  Cometa teñidos). Hay que destruirlos para bajar el escudo.
+- **Fase 2 · Reparto:** lanza **regalos-bomba** desde un pool de 8 y dispara
+  voleas con láser de aviso. Las bombas se pueden disparar para desactivarlas.
+- **Fase 3 · Cuerpo a cuerpo:** al 40 % de vida acelera bombas y voleas.
+- Al morir abre la barrera y, 2,5 s después, termina la misión.
+- Los renos de obsidiana usan el clip `Gallop`, `Hurt` y `Death` del reno y se
+  tiñen con `VATTint` sin duplicar materiales.
+
+---
+
+## 9. HUD y pausa
+
+- **Arriba izquierda:** 4 renos con estado (sano / agarrado / perdido) y objetivo.
+- **Abajo izquierda:** casco con barra.
+- **Abajo derecha:** arma, munición o calor y las 4 ranuras.
+- **Arriba centro:** barra del jefe cuando entra en combate.
+- **Centro:** aviso de rescate con cuenta atrás.
+- **Avisos:** recogidas, checkpoint, fases del jefe y pérdida/rescate.
+- **Pausa (Esc):** REANUDAR, REINICIAR y LOBBY; congela el tiempo y libera el cursor.
+- **Resultados:** tiempo, renos, casco, boss y créditos.
+
+---
+
+## 10. Implementación (archivos)
+
+### Runtime
+
+| Archivo | Responsabilidad |
+|---|---|
+| `Assets/Scripts/Game/Player/WeaponController.cs` | Las 4 armas, calor, munición, recarga, perforación y cadena. |
+| `Assets/Scripts/Game/Player/SleighHealth.cs` | Integridad del casco. |
+| `Assets/Scripts/Game/Player/ReindeerSquad.cs` | 4 renos, agarre, rescate, pérdida y escudo. |
+| `Assets/Scripts/Game/Combat/EnemyAgent.cs` | IA de los 5 enemigos, naves y renos de obsidiana. |
+| `Assets/Scripts/Game/Combat/EnemyDefinition.cs` | Datos de cada enemigo. |
+| `Assets/Scripts/Game/Combat/BossController.cs` | Fases, movimiento y ataques de Nicolás Cero. |
+| `Assets/Scripts/Game/Combat/GiftBomb.cs` | Regalo-bomba del jefe. |
+| `Assets/Scripts/Game/Combat/VATTint.cs` | Tinte de los renos de obsidiana. |
+| `Assets/Scripts/Game/Combat/Damageable.cs` | `IDamageable` y resolución de impactos. |
+| `Assets/Scripts/Game/World/EnemyDirector.cs` | Activación de oleadas por Z. |
+| `Assets/Scripts/Game/World/Pickup.cs` · `PickupCollector.cs` · `PickupBob.cs` | Recogibles y flotación. |
+| `Assets/Scripts/Game/World/BossGate.cs` | Barrera de la arena. |
+| `Assets/Scripts/Game/UI/GameHud.cs` | HUD de combate. |
+| `Assets/Scripts/Game/UI/PauseMenu.cs` | Pausa. |
+| `Assets/Scripts/Rendering/VATClipSet.cs` | Clips VAT por asset para reproducir `Death`/`Hurt`/`Attack`. |
+| `Assets/Scripts/Game/World/MissionManager.cs` | Misión, casco, renos, boss, checkpoint y resultados. |
+
+### Editor
+
+| Archivo | Responsabilidad |
+|---|---|
+| `Assets/Editor/Game/GameplayBuilder.cs` | Coloca armas, renos, oleadas, pickups, jefe, barrera y wiring. |
+| `Assets/Editor/Game/GameHudBuilder.cs` | Construye el HUD de combate. |
+| `Assets/Editor/Map/MapUIBuilder.cs` | HUD base, resultados, game over y pausa. |
+| `Assets/Editor/Map/MapPlayerBuilder.cs` | Jugador, cámara y `WeaponController`. |
+| `Assets/Editor/Map/MapSceneBuilder.cs` | Orquesta la escena completa. |
+
+Los datos de armas y enemigos se crean/actualizan como assets en
+`Assets/Config/Weapons` y `Assets/Config/Enemies`.
+
+---
+
+## 11. Lo que falta para el juego “de tienda”
+
+1. **Audio**: música, SFX, voz de Voss, campanas y viento. Sin assets de audio no
+   se puede cerrar el apartado sonoro.
+2. **Intro y final cinematográficos**: hoy son textos y paneles; falta la puesta
+   en escena con cámara y voz.
+3. **Créditos completos**: hay una línea; falta la pantalla con roles.
+4. **Albedo/Normal/ORM**: los modelos usan color plano por material.
+5. **Arma en mano**: falta la animación de las armas y el socket de la mano.
+6. **Dificultad y accesibilidad**: modos Repartidor / Nochebuena / Clous-End,
+   aim assist, subtítulos y remapeo.
+7. **Ajuste fino y QA**: 20–30 minutos reales, boss aprende/gana, 60 FPS,
+   resolución 720p/1080p/1440p y build de Windows.

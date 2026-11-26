@@ -30,6 +30,12 @@ namespace ClousEnd.Game
         public bool FireHeld { get; private set; }
         public bool OrbitHeld { get; private set; }
 
+        /// <summary>1–4 según la tecla numérica; 0 si no se pulsa ninguna.</summary>
+        public int WeaponSlot { get; private set; }
+
+        public bool ReloadPressed { get; private set; }
+        public bool PausePressed { get; private set; }
+
         /// <summary>Espacio: subir el vehículo (modo vuelo).</summary>
         public bool AscendHeld { get; private set; }
 
@@ -61,6 +67,9 @@ namespace ClousEnd.Game
                 OrbitHeld = false;
                 AscendHeld = false;
                 DescendHeld = false;
+                WeaponSlot = 0;
+                ReloadPressed = false;
+                PausePressed = false;
                 return;
             }
 
@@ -91,6 +100,16 @@ namespace ClousEnd.Game
 
             AscendHeld = keyboard.spaceKey.isPressed;
             DescendHeld = keyboard.leftCtrlKey.isPressed || keyboard.qKey.isPressed;
+
+            WeaponSlot = 0;
+
+            if (keyboard.digit1Key.wasPressedThisFrame) WeaponSlot = 1;
+            else if (keyboard.digit2Key.wasPressedThisFrame) WeaponSlot = 2;
+            else if (keyboard.digit3Key.wasPressedThisFrame) WeaponSlot = 3;
+            else if (keyboard.digit4Key.wasPressedThisFrame) WeaponSlot = 4;
+
+            ReloadPressed = keyboard.rKey.wasPressedThisFrame;
+            PausePressed = keyboard.escapeKey.wasPressedThisFrame;
         }
 
         private static void ApplyCursorState(bool hidden)

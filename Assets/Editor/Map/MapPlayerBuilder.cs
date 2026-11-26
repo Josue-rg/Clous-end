@@ -8,14 +8,17 @@ namespace ClousEnd.EditorTools
     internal sealed class MapPlayerResult
     {
         public GameObject Player;
+        public Transform Character;
         public Camera Camera;
+        public WeaponController Weapons;
         public MapUiRefs Ui;
     }
 
     /// <summary>
-    /// Crea el vehículo y el personaje de pruebas (cubo y cilindro), la cámara
-    /// en tercera persona, el HUD y los efectos de disparo. Todo queda en la
-    /// escena para que se pueda reemplazar por los modelos de Blender.
+    /// Crea el jugador: rig de Blender (trineo, Santa y renos) si los prefabs
+    /// VAT existen, o placeholders de blockout si todavía no. Añade la cámara en
+    /// tercera persona, el HUD y los efectos de disparo. Todo queda en la escena
+    /// como objetos editables.
     /// </summary>
     internal static class MapPlayerBuilder
     {
@@ -37,10 +40,9 @@ namespace ClousEnd.EditorTools
             var input = player.AddComponent<PlayerInputReader>();
             var motor = player.AddComponent<VehicleMotor>();
 
-            BuildVehicleVisual(player.transform, assets);
             var character = BuildCharacter(player.transform, assets);
+            BuildVehicleVisual(player.transform, character, assets);
             var camera = BuildCamera(parent, character);
-
             var effects = BuildEffects(parent, assets);
             var ui = MapUIBuilder.Build(parent, assets, input, character);
             BuildWeather(parent, assets, player.transform);
@@ -70,15 +72,12 @@ namespace ClousEnd.EditorTools
             SerializedField.Set(motor, "verticalSpeed", 13f);
             SerializedField.Set(motor, "verticalAcceleration", 45f);
 
-            var weapon = character.GetComponent<HitscanWeapon>();
+            var weapon = character.GetComponent<WeaponController>();
             SerializedField.Set(weapon, "input", input);
             SerializedField.Set(weapon, "aimCamera", camera);
             SerializedField.Set(weapon, "muzzle", character.Find("AimPivot/Muzzle"));
             SerializedField.Set(weapon, "tracer", effects.Tracer);
             SerializedField.Set(weapon, "impact", effects.Impact);
-            SerializedField.Set(weapon, "range", 320f);
-            SerializedField.Set(weapon, "cooldown", 0.14f);
-            SerializedField.Set(weapon, "automatic", false);
             SerializedField.Set(weapon, "hitMask", Physics.DefaultRaycastLayers);
 
             SerializedField.Set(view, "target", character);
@@ -100,11 +99,24 @@ namespace ClousEnd.EditorTools
 
             MapObjects.SetLayerRecursive(player, LayerMask.NameToLayer("Ignore Raycast"));
 
-            return new MapPlayerResult { Player = player, Camera = camera, Ui = ui };
+            return new MapPlayerResult
+            {
+                Player = player,
+                Character = character,
+                Camera = camera,
+                Weapons = character.GetComponent<WeaponController>(),
+                Ui = ui
+            };
         }
 
-        private static void BuildVehicleVisual(Transform player, MapAssets assets)
+        private static void BuildVehicleVisual(Transform player, Transform character, MapAssets assets)
         {
+            if (VATRigBuilder.HasCorePrefabs)
+            {
+                VATRigBuilder.Build(player, character);
+                return;
+            }
+
             MapObjects.Box(
                 player,
                 "PH_CarBody",
@@ -140,30 +152,36 @@ namespace ClousEnd.EditorTools
         {
             var pivot = MapObjects.Empty("CharacterPivot", player, new Vector3(0f, 1.55f, -0.9f)).transform;
             pivot.gameObject.AddComponent<CharacterAim>();
-            pivot.gameObject.AddComponent<HitscanWeapon>();
+            pivot.gameObject.AddComponent<WeaponController>();
 
-            MapObjects.Cylinder(
-                pivot,
-                "PH_Character",
-                Vector3.zero,
-                0.42f,
-                1.75f,
-                assets.Character,
-                false,
-                true,
-                false);
+            if (!VATRigBuilder.HasCorePrefabs)
+            {
+                MapObjects.Cylinder(
+                    pivot,
+                    "PH_Character",
+                    Vector3.zero,
+                    0.42f,
+                    1.75f,
+                    assets.Character,
+                    false,
+                    true,
+                    false);
+            }
 
             var aimPivot = MapObjects.Empty("AimPivot", pivot, new Vector3(0f, 1.28f, 0f)).transform;
 
-            MapObjects.Box(
-                aimPivot,
-                "PH_Gun",
-                new Vector3(0f, 0f, 0.58f),
-                new Vector3(0.22f, 0.22f, 1.15f),
-                assets.Gunmetal,
-                false,
-                true,
-                false);
+            if (!VATRigBuilder.HasCorePrefabs)
+            {
+                MapObjects.Box(
+                    aimPivot,
+                    "PH_Gun",
+                    new Vector3(0f, 0f, 0.58f),
+                    new Vector3(0.22f, 0.22f, 1.15f),
+                    assets.Gunmetal,
+                    false,
+                    true,
+                    false);
+            }
 
             MapObjects.Empty("Muzzle", aimPivot, new Vector3(0f, 0f, 1.2f));
             return pivot;

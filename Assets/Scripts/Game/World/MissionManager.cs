@@ -16,11 +16,20 @@ namespace ClousEnd.Game
         [SerializeField] private VehicleMotor motor;
         [SerializeField] private PlayerInputReader input;
 
+        [Header("Sistemas")]
+        [SerializeField] private SleighHealth health;
+        [SerializeField] private ReindeerSquad squad;
+        [SerializeField] private BossController boss;
+        [SerializeField] private EnemyDirector director;
+        [SerializeField] private GameHud hud;
+        [SerializeField] private PauseMenu pause;
+
         [Header("UI")]
         [SerializeField] private GameObject finishPanel;
         [SerializeField] private TMP_Text finishTime;
         [SerializeField] private TMP_Text finishRenos;
         [SerializeField] private GameObject gameOverPanel;
+        [SerializeField] private TMP_Text gameOverReason;
         [SerializeField] private TMP_Text timerLabel;
         [SerializeField] private CanvasGroup checkpointToast;
 
@@ -41,6 +50,8 @@ namespace ClousEnd.Game
         private bool finished;
         private bool gameOver;
 
+        public bool IsPlaying => !finished && !gameOver;
+
         private void Start()
         {
             checkpointPosition = player != null ? player.position : Vector3.zero;
@@ -50,6 +61,9 @@ namespace ClousEnd.Game
             if (gameOverPanel != null) gameOverPanel.SetActive(false);
             if (checkpointToast != null) checkpointToast.alpha = 0f;
 
+            if (hud != null)
+                hud.ShowToast("VOSS: Santa, la ciudad está en llamas. Despega.", 5f);
+
             UpdateTimer();
         }
 
@@ -57,6 +71,18 @@ namespace ClousEnd.Game
         {
             if (finished || gameOver || player == null)
                 return;
+
+            if (health != null && health.IsDead)
+            {
+                TriggerGameOver("EL CASCO CEDIÓ");
+                return;
+            }
+
+            if (squad != null && squad.AllLost)
+            {
+                TriggerGameOver("SE PERDIERON LOS RENOS");
+                return;
+            }
 
             UpdateTimer();
             UpdateToast();
@@ -70,23 +96,32 @@ namespace ClousEnd.Game
                     Mathf.Clamp(position.x, -8f, 8f),
                     12f,
                     checkpointZ + 14f);
+
+                if (health != null)
+                    health.RepairFull();
+
                 ShowCheckpoint();
+
+                if (hud != null)
+                    hud.ShowToast("CHECKPOINT  ·  CASCO REPARADO", 3f);
             }
 
-            if (position.z >= finishZ && Mathf.Abs(position.x) <= halfWidth && position.y <= maxHeight)
+            var bossDefeated = boss == null || boss.IsDefeated;
+
+            if (position.z >= finishZ && bossDefeated && Mathf.Abs(position.x) <= halfWidth && position.y <= maxHeight)
             {
                 Finish();
                 return;
             }
 
             if (position.y < fallLimitY)
-                TriggerGameOver();
+                TriggerGameOver("EL TRINEO CAYÓ");
         }
 
         /// <summary>Termina la misión con el panel de resultados.</summary>
         public void Finish()
         {
-            if (finished)
+            if (finished || gameOver)
                 return;
 
             finished = true;
@@ -98,7 +133,13 @@ namespace ClousEnd.Game
                 finishTime.text = "TIEMPO  " + FormatTime(elapsed);
 
             if (finishRenos != null)
-                finishRenos.text = "RENOS  " + reindeerAlive + " / 4";
+            {
+                var alive = squad != null ? squad.AliveCount : reindeerAlive;
+                var hull = health != null ? Mathf.CeilToInt(health.Current) : 0;
+                var bossText = boss == null ? "—" : boss.IsDefeated ? "SÍ" : "NO";
+
+                finishRenos.text = "RENOS " + alive + " / 4   ·   CASCO " + hull + "%   ·   BOSS " + bossText;
+            }
 
             if (finishPanel != null)
                 finishPanel.SetActive(true);
@@ -107,14 +148,23 @@ namespace ClousEnd.Game
             ShowCursor();
         }
 
-        /// <summary>Game over: el trineo ha caído.</summary>
+        /// <summary>Game over por caída o por perder los renos.</summary>
         public void TriggerGameOver()
+        {
+            TriggerGameOver("EL TRINEO CAYÓ");
+        }
+
+        /// <summary>Game over con motivo visible en el panel.</summary>
+        public void TriggerGameOver(string reason)
         {
             if (gameOver || finished)
                 return;
 
             gameOver = true;
             StopControls();
+
+            if (gameOverReason != null)
+                gameOverReason.text = reason;
 
             if (gameOverPanel != null)
                 gameOverPanel.SetActive(true);
@@ -130,9 +180,22 @@ namespace ClousEnd.Game
                 return;
 
             gameOver = false;
+            Time.timeScale = 1f;
 
             if (gameOverPanel != null)
                 gameOverPanel.SetActive(false);
+
+            if (health != null)
+                health.RepairFull();
+
+            if (squad != null)
+                squad.RestoreAll();
+
+            if (boss != null)
+                boss.ResetBoss();
+
+            if (director != null)
+                director.ResetWaves();
 
             if (motor != null)
             {
@@ -155,12 +218,15 @@ namespace ClousEnd.Game
         /// <summary>Reinicia la partida desde el principio.</summary>
         public void RestartRun()
         {
+            Time.timeScale = 1f;
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
 
         /// <summary>Vuelve al lobby.</summary>
         public void ReturnToLobby()
         {
+            Time.timeScale = 1f;
+
             if (!string.IsNullOrWhiteSpace(lobbyScene))
                 SceneManager.LoadScene(lobbyScene);
         }
