@@ -79,6 +79,6 @@ Las reglas de trabajo están en [`AGENTS.md`](AGENTS.md). En resumen:
 - Construcción: `Assets/Editor/Login/`
 - Fondo: `Assets/Art/Login/`
 
-La escena `Game` existe con el blockout del Distrito Aurora (doc 12) y la demo web
-está publicada (doc 13). Los modelos 3D finales están hechos y esperan importación
-(doc 14).
+La escena `Game` ya usa los modelos 3D finales de Blender (trineo, Santa, renos,
+armas, enemigos, jefe y props) con el combate completo. La demo web se regenera
+con el build WebGL (doc 13).

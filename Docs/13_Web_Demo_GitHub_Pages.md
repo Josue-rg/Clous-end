@@ -1,8 +1,8 @@
 # 13 · Demo web y publicación
 
-> **Estado:** demo WebGL publicada en GitHub Pages con el **combate completo**:
-> lobby → JUGAR → misión → jefe → resultados. Incluye el trineo, Santa, los 4
-> renos, las 4 armas, los 5 enemigos y Nicolás Cero.
+> **Estado:** el código incluye el combate completo, los modelos de Blender y las
+> texturas VAT generadas. La demo publicada en GitHub Pages se regenera con el
+> build WebGL; hasta entonces el enlace puede servir un build anterior.
 
 ---
 
