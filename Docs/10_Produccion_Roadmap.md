@@ -7,12 +7,14 @@
 | Entregable | Estado |
 |---|---|
 | Documentación de visión, historia, gameplay, arte, técnica y alcance | Hecha |
-| Login jugable con perfil local | Hecho |
+| Lobby con botón JUGAR (sin credenciales) | Hecho |
 | Alcance final congelado (1 mapa, sin niveles) | Hecho |
-| Escena `Game` | Pendiente |
+| Escena `Game` y blockout del Distrito Aurora | Hecho (doc 12) |
+| Checkpoint, meta, resultados y game over de la demo | Hecho |
+| Demo WebGL en GitHub Pages | Hecho (doc 13) |
 | Mapa y assets de Blender | Pendiente |
 | Audio | Pendiente |
-| Build de prueba | Pendiente |
+| Build de Windows | Pendiente |
 
 ---
 
@@ -51,6 +53,9 @@
 - `SleighController`, cámara, 4 renos, 2 armas y Sabueso.
 - Corredor de prueba de 2–3 minutos.
 - HUD mínimo.
+
+**Estado:** parcial. Ya están el mapa completo, la cámara, el vuelo, la mira, el disparo, el HUD,
+el checkpoint, la meta y el game over. Faltan los renos, las armas y los enemigos de esta fase.
 
 **Salida:** volar, disparar y perder un reno ya funciona con placeholders.
 

@@ -11,11 +11,13 @@
 - Escena **`Assets/Scenes/Game.unity`**, con el Distrito Aurora completo en blockout.
 - Ruta continua de **1,5 km** dividida en las 4 zonas del documento 11: afueras, centro
   histórico, distrito financiero y refugio.
-- Vehículo y personaje de pruebas (un cubo y un cilindro) con movimiento, cámara en tercera
-  persona, mira con ratón y disparo hitscan.
-- HUD de pruebas con retícula, controles y nombre de zona.
+- Vehículo y personaje de pruebas (un cubo y un cilindro) con movimiento, vuelo, cámara en
+  tercera persona, mira con ratón y disparo hitscan.
+- HUD de pruebas con retícula, controles, nombre de zona, cronómetro y paneles de misión.
+- Checkpoint en el puente, meta en el Refugio y game over con reintento.
 - Sistema de rendimiento por capas: LODs con crossfade, apagado de zonas lejanas, niebla de
   distancia y props fusionados por material.
+- **Demo web publicada:** https://josue-rg.github.io/Clous-end-web/ (ver doc 13).
 
 ---
 
@@ -31,7 +33,9 @@ La escena se guarda en disco. Una vez construida se puede editar a mano (mover e
 cambiar materiales, añadir props) y los cambios se conservan. La reconstrucción desde el menú
 **reemplaza** la escena, así que conviene duplicarla o hacer commit antes de reconstruir.
 
-`Game.unity` ya está en Build Settings, después de `Login`. El botón del login carga `Game`.
+`Game.unity` ya está en Build Settings, después de `Login`. El botón **JUGAR** del lobby carga
+`Game`. La demo web usa estas dos escenas; el proceso de publicación está en
+[13 · Demo web](13_Web_Demo_GitHub_Pages.md).
 
 ---
 
@@ -87,7 +91,7 @@ Z = 0                        Z = 340               Z = 820          Z = 1180    
 
 ## Sistema de rendimiento
 
-El mapa usa cuatro capas para que no se renderice lo que no se ve:
+El mapa usa cinco capas para que no se renderice lo que no se ve:
 
 1. **Fog de distancia.** Niebla exponencial (densidad 0,0024). A 760 m un objeto conserva
    menos del 4 % de visibilidad, así que su desaparición no se nota.
@@ -106,7 +110,8 @@ El mapa usa cuatro capas para que no se renderice lo que no se ve:
 
 ### Medición del blockout
 
-Con el jugador al inicio y dos zonas activas:
+Con el jugador al inicio y dos zonas activas (medición del blockout, antes de añadir los
+paneles de misión):
 
 | Métrica | Valor |
 |---|---|
@@ -137,7 +142,7 @@ del presupuesto, con margen para los modelos finales de Blender.
 | `MapBackdropBuilder.cs` | Montañas y skyline lejano. |
 | `MapLightingBuilder.cs` | Luna, luces prácticas, niebla y postproceso. |
 | `MapPlayerBuilder.cs` | Cubo, cilindro, cámara, efectos de disparo y nieve. |
-| `MapUIBuilder.cs` | HUD de pruebas. |
+| `MapUIBuilder.cs` | HUD, cronómetro, aviso de checkpoint, paneles de resultados y game over. |
 | `MapAssetFactory.cs` | Materiales, perfil de postproceso y sprite de retícula. |
 | `MapBuildMenu.cs` | Entradas del menú `Clous-End > Mapa`. |
 
@@ -212,7 +217,8 @@ naming del documento 11.
   entrega final, no en el blockout.
 - El vehículo de pruebas es un cubo que vuela; no es un trineo. La cámara y los controles
   están pensados para validar el mapa, no para el combate final.
-- La misión, enemigos, renos, armas finales y boss no están implementados.
+- La misión completa (combate, renos, armas y boss) no está implementada. La demo sí tiene
+  cronómetro, checkpoint, meta, resultados y game over.
 - La retícula se oculta si el cursor sale de la ventana del juego; en ventana completa no pasa.
 - El suelo es plano; el terreno definitivo (nieve, desniveles, río) llegará con el kit de
   Blender.
@@ -223,7 +229,8 @@ naming del documento 11.
 
 ## Siguiente paso
 
-1. Revisar la ruta en Play y ajustar velocidades, cámara y composición de cada zona.
-2. Exportar el primer kit de Blender (calle, edificio, esquina, puente) y sustituir los
-   módulos de una zona piloto (centro histórico).
+1. Sustituir el blockout por el primer kit de Blender (calle, edificio, esquina y puente),
+   empezando por el centro histórico.
+2. Montar el combate, los renos y las armas sobre `MissionManager` y el mapa actual.
 3. Repetir la medición de draw calls con los modelos finales y comparar con este presupuesto.
+4. Actualizar la demo web cuando haya una versión estable (ver doc 13).

@@ -45,12 +45,14 @@ Results / Credits
 
 | Escena | Estado | Contenido |
 |---|---|---|
-| `Assets/Scenes/Login.unity` | Implementada | Diorama 3D + Canvas de acceso. |
+| `Assets/Scenes/Login.unity` | Implementada | Lobby con diorama 3D y botón JUGAR. |
 | `Assets/Scenes/SampleScene.unity` | Plantilla URP | Se conserva como referencia; no es gameplay. |
-| `Game` | Pendiente | Misión única, mapa Distrito Aurora, boss final. |
-| `Results` | Pendiente | Resultados, final y créditos. |
+| `Game` | Hecho (blockout) | Misión única, mapa Distrito Aurora, checkpoint, meta y game over. |
+| `Results` | En la demo | Panel de resultados dentro de `Game`; final y créditos pendientes. |
 
-`Login` está en Build Settings como escena 0. `SampleScene` se mantiene como escena secundaria. **No habrá escenas por capítulo.**
+`Login` está en Build Settings como escena 0 y `Game` como escena 1. `SampleScene` se mantiene
+como escena secundaria. **No habrá escenas por capítulo.** La demo web usa exactamente esas dos
+escenas (ver [13 · Demo web](13_Web_Demo_GitHub_Pages.md)).
 
 ---
 
@@ -66,7 +68,7 @@ Assets/
   Config/                  ScriptableObjects de configuración
   Editor/
     Login/                 Builders y menús del login
-  Scenes/                  Login, Game, Results
+  Scenes/                  Login, Game
   Scripts/
     Login/                 Lógica de la pantalla de acceso
     Core/                  (pendiente) flujo, guardado, eventos
@@ -154,12 +156,13 @@ Los builders son **idempotentes en assets**: si un material, sprite o config ya 
 ### Core
 | Sistema | Responsabilidad |
 |---|---|
-| `MissionFlowService` | Intro, actos, checkpoint, game over, final y créditos. |
-| `SaveService` | Perfil y ajustes; no guarda progreso de misión. |
+| `MissionManager` (demo) | Cronómetro, checkpoint, meta, resultados, game over y reintento. |
+| `MissionFlowService` | Futuro: intro, actos, final y créditos sobre la misión. |
+| `SaveService` | Ajustes; en v1.1 no hay perfil ni progreso guardado. |
 | `InputReader` | Traduce Input Actions a eventos de dominio. |
 | `GameEventBus` | Eventos desacoplados (reno perdido, casco dañado, boss). |
 | `AudioDirector` | Música, mezcla, ducking, radio. |
-| `CheckpointService` | Estado del checkpoint del puente en memoria. |
+| `CheckpointService` | Integrado en `MissionManager` para la demo. |
 
 ### Gameplay
 | Sistema | Responsabilidad |

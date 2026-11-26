@@ -135,7 +135,8 @@ No hay sistema de niveles, XP, monedas, mejoras, inventario ni árbol de habilid
 - **Trineo:** el casco se repara en el checkpoint y con kits; no hay mejoras permanentes.
 - **Renos:** las pasivas son fijas; no se mejoran.
 - **Rejugabilidad:** dominar el vuelo, el rescate y el boss. No hay desbloqueos que cambien las estadísticas.
-- **Guardado:** solo perfil local; la misión no se guarda entre sesiones y el checkpoint vive en memoria.
+- **Guardado:** no hay perfil ni credenciales; la misión no se guarda y el checkpoint vive en
+  memoria. Volver a jugar recarga la escena.
 
 ---
 
@@ -149,7 +150,11 @@ Al terminar (o al perder), se muestra un resumen breve:
 | Renos vivos / perdidos | El coste emocional de la partida |
 | Integridad del casco | Saber si se llegó al límite |
 | Boss derrotado | Sí / no |
-| Botones | Reintentar misión · Volver al login · Salir |
+| Botones | Reintentar misión · Volver al lobby |
+
+La demo actual ya muestra tiempo y renos (4 / 4). La integridad del casco y el boss se añadirán
+con el combate. Los botones son **REINTENTAR** (nueva partida) y **LOBBY**; en el game over,
+**REINTENTAR** vuelve al último checkpoint.
 
 Sin puntos, sin rango, sin monedas y sin desbloqueos. El resultado es información, no una economía.
 

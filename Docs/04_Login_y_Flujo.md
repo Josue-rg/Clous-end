@@ -5,6 +5,13 @@
 > perfiles que sigue se conserva como archivo de ideas; la implementación actual usa
 > `LoginFormController` como lobby y `LoginConfig` solo para la escena de destino y los tiempos.
 
+## Lobby actual (implementado)
+
+- Panel con **DISTRITO AURORA**, **LA CIUDAD TE ESPERA**, **JUGAR** y **SALIR**.
+- Sin nombre de jugador, sin contraseña y sin perfiles.
+- **JUGAR** hace un fundido y carga `Game`; **SALIR** cierra el juego (en el editor detiene el Play).
+- El diorama 3D, la cámara con deriva y las animaciones de entrada se conservan.
+
 ## Objetivo
 
 La primera pantalla del juego debe vender el tono en menos de cinco segundos: **Navidad, invasión y cine**. No es un formulario de banco. Es la puerta al último refugio.
@@ -189,19 +196,19 @@ El fondo se construye con URP, niebla, bloom y viñeta. La UI es un **Canvas rea
 
 | Archivo | Función |
 |---|---|
-| `Assets/Scenes/Login.unity` | Escena completa: diorama 3D, Canvas, panel, botones y textos. |
-| `Assets/Scripts/Login/LoginConfig.cs` | ScriptableObject con validación, tiempos y escena siguiente. |
-| `Assets/Scripts/Login/LoginFormController.cs` | Une la UI con el perfil local y la transición. |
-| `Assets/Scripts/Login/LocalProfileStore.cs` | Guarda y valida el perfil local. |
+| `Assets/Scenes/Login.unity` | Escena completa: diorama 3D, Canvas, lobby, botones y textos. |
+| `Assets/Scripts/Login/LoginConfig.cs` | ScriptableObject con la escena siguiente y los tiempos. |
+| `Assets/Scripts/Login/LoginFormController.cs` | Lobby: botón JUGAR y transición a `Game`. |
+| `Assets/Scripts/Login/LocalProfileStore.cs` | Sin uso en el lobby v1.1; se conserva como archivo de ideas. |
 | `Assets/Scripts/Login/LoginIntroAnimator.cs` | Entrada escalonada de los bloques. |
 | `Assets/Scripts/Login/CinematicCameraDrift.cs` | Deriva de cámara del diorama. |
-| `Assets/Scripts/Login/FieldFocusHighlight.cs` | Subrayado del campo activo. |
-| `Assets/Scripts/Login/RectShaker.cs` | Sacudida de error. |
+| `Assets/Scripts/Login/FieldFocusHighlight.cs` | Archivo: subrayado de campos del login antiguo. |
+| `Assets/Scripts/Login/RectShaker.cs` | Archivo: sacudida de error del login antiguo. |
 | `Assets/Scripts/Login/HoverLift.cs` | Elevación de botones al pasar el cursor. |
 | `Assets/Scripts/Login/Spinner.cs` | Giro del indicador de carga. |
 | `Assets/Scripts/Login/SceneQuitter.cs` | Salir en build / detener Play en editor. |
 | `Assets/Editor/Login/LoginSceneBuilder.cs` | Constructor de la escena desde un `[MenuItem]`. |
-| `Assets/Editor/Login/LoginUIBuilder.cs` | Crea el Canvas y los objetos de UI reales. |
+| `Assets/Editor/Login/LoginUIBuilder.cs` | Crea el Canvas, el lobby y los botones. |
 | `Assets/Editor/Login/LoginEnvironmentBuilder.cs` | Crea cámara, cielo, luces, terreno y nieve. |
 | `Assets/Editor/Login/LoginVillageBuilder.cs` | Crea pueblo, iglesia, árbol, pinos y muñeco de nieve. |
 | `Assets/Editor/Login/LoginAssetFactory.cs` | Genera fuentes, sprites, materiales y postproceso. |

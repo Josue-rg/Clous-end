@@ -57,10 +57,12 @@ La prioridad no es la cantidad: es que la historia se entienda, que volar y disp
 | Kit del mapa en Blender | Pendiente |
 | Santa, trineo y 4 renos en Blender | Pendiente |
 | Armas, enemigos, naves y boss en Blender | Pendiente |
-| Combate, oleadas, rescate y checkpoint | Pendiente |
-| HUD, pausa, resultados y créditos | Pendiente |
+| Combate, oleadas y rescate de renos | Pendiente |
+| Checkpoint del puente, cronómetro, resultados y game over de la demo | Hecho |
+| HUD final, pausa y créditos | Pendiente |
 | Audio, VFX y voz | Pendiente |
-| QA, rendimiento y build | Pendiente |
+| Demo web en GitHub Pages | Hecho (ver doc 13) |
+| QA, rendimiento y build de Windows | Pendiente |
 
 ---
 
@@ -69,14 +71,14 @@ La prioridad no es la cantidad: es que la historia se entienda, que volar y disp
 El juego está terminado cuando una persona puede:
 
 1. Abrir el juego.
-2. Crear o entrar con su perfil.
+2. Pulsar **JUGAR** en el lobby.
 3. Ver una intro corta que explica la invasión y el objetivo.
 4. Volar por el único mapa durante 20–30 minutos.
 5. Disparar con 4 armas, esquivar y proteger a los 4 renos.
 6. Llegar al Refugio Aurora.
 7. Derrotar a Nicolás Cero.
 8. Ver un final y unos créditos.
-9. Volver al login o cerrar el juego sin errores.
+9. Volver al lobby o cerrar el juego sin errores.
 
 Y todo eso debe funcionar **sin placeholders visibles**, a 60 FPS en un PC medio, con el mapa y los personajes hechos en Blender.
 
@@ -85,7 +87,7 @@ Y todo eso debe funcionar **sin placeholders visibles**, a 60 FPS en un PC medio
 ## Bucle de juego final
 
 ```
-Login
+Lobby (Login)
   ↓
 Intro de radio + despegue (cinemática corta, saltables)
   ↓

@@ -1,6 +1,6 @@
 # CLOUS-END — Documentación de diseño
 
-**Estado:** preproducción · documentación v0.2 · alcance final definido · lobby y blockout jugables
+**Estado:** preproducción · documentación v0.3 · alcance final definido · lobby, blockout y demo web jugables
 **Motor:** Unity 6.6.0f1 · URP 17.6 · Input System 1.20
 **Género:** shooter cinemático de defensa sobre trineo (on-rails / semi-libre)
 **Duración objetivo:** 20–30 minutos · **1 mapa** · sin niveles ni progresión
@@ -32,6 +32,7 @@ La gracia del proyecto no es la cantidad de contenido, sino la **intensidad y la
 | 10 | [Producción y roadmap](10_Produccion_Roadmap.md) | Hitos, estimación, riesgos y orden de trabajo. |
 | 11 | [Alcance final del juego terminado](11_Alcance_Final_Juego_Terminado.md) | **Documento rector:** 1 mapa, sin niveles, todo el 3D en Blender, qué falta y criterios de aceptación. |
 | 12 | [Mapa blockout: escena Game](12_Mapa_Blockout_Game.md) | Qué hay montado, cómo reconstruirlo, controles, rendimiento y dónde sustituir los placeholders. |
+| 13 | [Demo web y publicación](13_Web_Demo_GitHub_Pages.md) | Enlace jugable, cómo se genera el build WebGL, cómo se publica en GitHub Pages y sus límites. |
 
 ---
 
@@ -43,19 +44,23 @@ El alcance se protege con una lista cerrada: **1 mapa, 1 misión, 1 boss, 4 reno
 
 **Documento rector:** [11 · Alcance final](11_Alcance_Final_Juego_Terminado.md).
 
-**Siguiente paso:** revisar el blockout jugable de `Game` y empezar el primer kit modular del
-mapa en Blender (calle, edificio, esquina y puente).
+**Demo web:** https://josue-rg.github.io/Clous-end-web/
+
+**Siguiente paso:** sustituir el blockout por el kit de Blender (empezando por el centro
+histórico) y montar el combate, los renos y las armas sobre la misión actual.
 
 ---
 
 ## Estado de implementación
 
 - [x] Documentación de visión, historia, gameplay, mapas, personajes, monstruos, arte, técnica, producción y alcance final.
-- [x] Lobby jugable con botón JUGAR, SALIR y diorama 3D.
+- [x] Lobby jugable con botón JUGAR, SALIR y diorama 3D (sin credenciales).
 - [x] Reglas de trabajo en `AGENTS.md` (sin creación en runtime, datos en Inspector/ScriptableObjects).
-- [x] Blockout jugable de la escena `Game` con el Distrito Aurora, cámara, mira, disparo y HUD de pruebas.
-- [ ] Pruebas de resolución y error de credenciales del login.
-- [ ] Misión completa con boss.
+- [x] Blockout jugable de la escena `Game`: Distrito Aurora, vuelo, cámara, mira, disparo y HUD de pruebas.
+- [x] Cronómetro, checkpoint del puente, meta con resultados y game over con reintento.
+- [x] Demo web publicada en GitHub Pages (ver doc 13).
+- [ ] Pruebas de resolución y rendimiento del HUD y los paneles.
+- [ ] Misión completa con combate, renos, armas y boss.
 - [ ] Assets de Blender integrados y audio.
 
 Los documentos marcados como `v0.1` son propuestas vivas: se actualizan cuando una prueba en el editor demuestre que algo no funciona.
