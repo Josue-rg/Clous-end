@@ -1,0 +1,48 @@
+{
+  "asset": "SK_Garfio",
+  "mesh": "SK_Garfio.fbx",
+  "triangles": 2454,
+  "vertices": 1245,
+  "clips": [
+    {
+      "name": "Hover",
+      "frames": 36,
+      "fps": 30,
+      "loop": true,
+      "texture": "T_Garfio_Hover_Pos.exr",
+      "texture_width": 1024,
+      "texture_height": 72,
+      "rows": 2,
+      "bounds_min": [
+        -0.4415,
+        -1.7315,
+        0.2277
+      ],
+      "bounds_max": [
+        0.442,
+        0.3316,
+        1.9265
+      ]
+    },
+    {
+      "name": "Death",
+      "frames": 28,
+      "fps": 30,
+      "loop": false,
+      "texture": "T_Garfio_Death_Pos.exr",
+      "texture_width": 1024,
+      "texture_height": 56,
+      "rows": 2,
+      "bounds_min": [
+        -0.531,
+        -1.4776,
+        -0.6999
+      ],
+      "bounds_max": [
+        0.5227,
+        0.3017,
+        1.9441
+      ]
+    }
+  ]
+}

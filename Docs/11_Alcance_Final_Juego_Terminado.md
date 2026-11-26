@@ -60,8 +60,9 @@ La prioridad no es la cantidad: es que la historia se entienda, que volar y disp
 | Rig y clips de todos los assets animados | **Hecho** (VAT, ver doc 14) |
 | LODs y mallas de colisión | **Hecho** (14 assets animados) |
 | Paquete exportado y listo para importar a Unity | **Hecho** (`BlenderSource/VAT/`, doc 14) |
-| Importador a Unity: materiales, prefabs, LODs y colliders | **Hecho y verificado** (`Assets/Editor/VAT/`, doc 14) |
+| Importador a Unity: materiales, prefabs, LODs y colliders | **Hecho y ejecutado en el proyecto principal** (28 prefabs, 375 materiales) |
 | Revisión del paquete en escena (`VAT_Preview`) | **Hecho**; la escena se genera desde el menú |
+| Texturas VAT float para Unity | **Hecho** (assets `RGBAHalf` generados; el importador EXR de Unity corrompe los valores) |
 | Texturas PBR horneadas (Albedo/Normal/ORM) | Pendiente |
 | Combate, oleadas y rescate de renos | **Hecho** (doc 15) |
 | Checkpoint del puente, cronómetro, resultados y game over de la demo | **Hecho** |
@@ -389,12 +390,12 @@ Los `.blend` se guardan en `BlenderSource/` en la raíz del proyecto, no dentro 
 - [x] Rigs de Santa, renos, trineo, enemigos y boss (guardados en `SK_*_vat.blend`).
 - [x] Animaciones de los clips principales (idle, galope, muerte, ataque, sacada de arma…).
 - [x] LODs y colisiones.
-- [x] Export FBX (7.4, dos capas UV). **Importador de Unity, materiales y prefabs hechos y verificados en una copia; falta ejecutar el menú en el proyecto principal.**
+- [x] Export FBX (7.4, dos capas UV). **Importado en el proyecto principal**: 28 prefabs, 375 materiales, texturas float y escena `Game` reconstruida.
 
 ### 2. Unity: sistemas de juego
 
 - [x] Escena `Game` con el mapa montado.
-- [~] Jugador con arte de Blender: trineo, Santa y renos integrados; falta el arma en mano.
+- [x] Jugador con arte de Blender: trineo, Santa, renos y **las 4 armas en la mano** integrados.
 - [x] `SleighController` funcional sobre `VehicleMotor`: vuelo, avance, lateral y vertical.
 - [x] Cámara de gameplay.
 - [x] `ReindeerSquad`: 4 vidas, herido, enganche y rescate.
@@ -411,7 +412,6 @@ Los `.blend` se guardan en `BlenderSource/` en la raíz del proyecto, no dentro 
 - [x] Pantalla de resultados.
 - [x] Guardado de perfil (ya hecho en login).
 - [ ] Build de Windows.
-
 ### 3. UI / 2D
 
 - [ ] Logo final (si se quiere reemplazar el texto).

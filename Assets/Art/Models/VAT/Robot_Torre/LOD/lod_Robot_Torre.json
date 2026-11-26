@@ -1,0 +1,20 @@
+{
+  "asset": "Robot_Torre",
+  "lod0_triangles": 1564,
+  "levels": [
+    {
+      "level": "LOD1",
+      "mesh": "SK_Robot_Torre_LOD1.fbx",
+      "triangles": 702
+    },
+    {
+      "level": "LOD2",
+      "mesh": "SK_Robot_Torre_LOD2.fbx",
+      "triangles": 274
+    }
+  ],
+  "collision": {
+    "mesh": "SK_Robot_Torre_COL.fbx",
+    "triangles": 72
+  }
+}

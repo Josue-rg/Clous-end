@@ -35,3 +35,13 @@ La documentación vive en `Docs/`. Antes de implementar una pantalla o sistema, 
 - **Todos los assets 3D se modelan y animan en Blender.** La UI/2D y el audio se hacen fuera de Blender.
 - No añadir capítulos, mapas adicionales, progresión, mejoras, assets 3D de Asset Store ni sistemas de nivel sin aprobación explícita.
 - Si una idea no mejora volar, defender o perder a un reno, no entra en v1: se apunta para una secuela.
+
+---
+
+## Control de versiones
+
+- La única rama del proyecto es `main`. **Todos los cambios se commitean y se suben directamente a `main`.**
+- No se crean ramas de trabajo, ramas `gh-pages` ni repositorios aparte.
+- Al terminar cualquier tarea: `git add -A`, commit con un mensaje claro y `git push origin main`.
+- La demo WebGL se publica desde `main` (raíz del repo): `index.html`, `WebGL/` y `TemplateData/`.
+- No reescribir el historial ni hacer `push --force` sobre `main`.

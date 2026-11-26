@@ -242,10 +242,13 @@ escena ya construida, sin regenerar el mapa.
 | `Player/Sleigh` | `PH_CarBody` (cubo rojo) | Sustituido por `PF_Sleigh` (VAT Flight) |
 | `Player/CharacterPivot/Santa` | `PH_Character` (cilindro) | Sustituido por `PF_Santa` (VAT Idle) |
 | `Player/ReindeerSquad` | No existía | Cuatro renos: Rodolfo, Donner, Vixen y Cometa |
-| `Player/CharacterPivot/AimPivot/PH_Gun` | Arma de prueba | **Pendiente**: `SM_Weapon_Carbon` no tiene animación en mano (doc 14 §10) |
+| `Player/CharacterPivot/AimPivot/PH_Gun` | Arma de prueba | **Sustituido** por un `WeaponRack` con los 4 modelos; `WeaponVisualSwitcher` muestra la equipada |
 | `Player Camera` | Cámara en tercera persona | Se conserva; ajustar distancia |
 | `Effects/Tracer`, `Effects/Impact` | VFX de disparo | Materiales/VFX finales |
 | `UI` | HUD de prueba | HUD final |
+
+El rig incluye también `Player/VATProps` (arnés, cascabeles y collar) y
+`Game/VATProps` (meteoritos caídos como decoración del recorrido).
 
 Al reemplazar los modelos se mantienen los pivotes (`CharacterPivot`, `AimPivot`,
 `Muzzle`), el `CharacterController`, la cámara y las referencias del Inspector.
@@ -277,7 +280,7 @@ naming del documento 11.
 
 ## Siguiente paso
 
-1. **Probar la misión completa** desde `Login > JUGAR` y ajustar dificultad,
+1. **Probar la misión completa** desde `Login > JUGAR` con los modelos reales y ajustar dificultad,
    oleadas, daño y tiempos con los assets de `Assets/Config`.
 2. Sustituir el blockout por el kit modular de Blender (calle, edificio, esquina y
    puente), empezando por el centro histórico.

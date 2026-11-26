@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 365ea36b1911fcc4b9b516ea17f4c114, type: 3}
+  m_Name: W_Estrella
+  m_EditorClassIdentifier: Assembly-CSharp::ClousEnd.Game.WeaponDefinition
+  id: W_Estrella
+  displayName: ESTRELLA
+  damageType: 2
+  damage: 80
+  cooldown: 1.5
+  range: 420
+  automatic: 0
+  pellets: 1
+  spreadDegrees: 0
+  magazine: 3
+  reloadTime: 1.9
+  usesHeat: 0
+  heatPerShot: 0
+  heatCooling: 0
+  overheatLock: 1.2
+  pierces: 1
+  maxPierceTargets: 5
+  chainTargets: 0
+  chainRadius: 18
+  tracerColor: {r: 1, g: 1, b: 1, a: 1}

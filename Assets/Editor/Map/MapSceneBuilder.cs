@@ -78,6 +78,7 @@ namespace ClousEnd.EditorTools
             SerializedField.Set(mission, "gameOverReason", player.Ui.GameOverReason);
 
             GameplayBuilder.Build(root, player, mission, assets);
+            VATPropBuilder.Build(root);
 
             UnityEventTools.AddPersistentListener(player.Ui.FinishRetryButton.onClick, new UnityAction(mission.RestartRun));
             UnityEventTools.AddPersistentListener(player.Ui.FinishLobbyButton.onClick, new UnityAction(mission.ReturnToLobby));

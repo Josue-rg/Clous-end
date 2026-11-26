@@ -1,0 +1,20 @@
+{
+  "asset": "Reindeer_Donner",
+  "lod0_triangles": 24000,
+  "levels": [
+    {
+      "level": "LOD1",
+      "mesh": "SK_Reindeer_Donner_LOD1.fbx",
+      "triangles": 10800
+    },
+    {
+      "level": "LOD2",
+      "mesh": "SK_Reindeer_Donner_LOD2.fbx",
+      "triangles": 4320
+    }
+  ],
+  "collision": {
+    "mesh": "SK_Reindeer_Donner_COL.fbx",
+    "triangles": 82
+  }
+}

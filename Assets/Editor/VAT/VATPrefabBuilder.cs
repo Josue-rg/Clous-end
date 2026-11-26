@@ -648,6 +648,13 @@ namespace ClousEnd.EditorTools
 
         private static Texture2D LoadClipTexture(string folderName, VATClipData clip)
         {
+            var name = Path.GetFileNameWithoutExtension(clip.texture);
+            var generated = AssetDatabase.LoadAssetAtPath<Texture2D>(
+                VATPaths.GeneratedTexturesRoot + "/" + name + ".asset");
+
+            if (generated != null)
+                return generated;
+
             var path = VATPaths.ModelsRoot + "/" + folderName + "/" + clip.texture;
             return AssetDatabase.LoadAssetAtPath<Texture2D>(path);
         }

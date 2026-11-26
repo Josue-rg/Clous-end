@@ -1,0 +1,20 @@
+{
+  "asset": "Robot_Manto",
+  "lod0_triangles": 1464,
+  "levels": [
+    {
+      "level": "LOD1",
+      "mesh": "SK_Robot_Manto_LOD1.fbx",
+      "triangles": 658
+    },
+    {
+      "level": "LOD2",
+      "mesh": "SK_Robot_Manto_LOD2.fbx",
+      "triangles": 260
+    }
+  ],
+  "collision": {
+    "mesh": "SK_Robot_Manto_COL.fbx",
+    "triangles": 55
+  }
+}

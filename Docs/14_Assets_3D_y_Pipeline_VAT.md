@@ -20,8 +20,10 @@ horneada en una imagen y un shader mueve la malla en la GPU.
 **El paquete se importa con una herramienta de editor.** `Assets/Editor/VAT/`
 copia los FBX, EXR y JSON a `Assets/`, fuerza los ajustes de importación, crea un
 material por clip y arma los prefabs con `VATPlayer`, LODs y collider. El paso a
-paso está en la sección 5. La primera importación real está pendiente de
-ejecutar el menú en Unity; las herramientas ya están hechas y compiladas.
+paso está en la sección 5. En el proyecto principal ya está importado: **28
+prefabs**, **375 materiales** y la escena `Game` usa los modelos reales. Las
+texturas de posiciones se generan como assets `RGBAHalf` nativos (ver 5.1)
+porque el importador EXR de esta versión de Unity corrompe los valores.
 
 ---
 
@@ -108,6 +110,7 @@ BlenderSource/                    fuera de Assets (Unity no lo importa)
       SK_<Asset>_vat.blend        rig + clips (para rehornear)
       LOD/                        LOD1, LOD2, _COL y lod_<Asset>.json
     Static/<Prop>/                props sin animación
+  VATRaw/                         volcado float32 (.rgba32f) para Unity; ignorado por git
   UnityPackage/
     VAT_Unlit.shader              shader principal
     FloatWobble.shader            animación matemática (sin texturas)
@@ -123,6 +126,7 @@ Assets/
   Art/
     Models/VAT/<Asset>/           FBX, EXR, JSON y LOD/ copiados del paquete
       Static/<Prop>/              props sin animación
+      Generated/                  texturas VAT RGBAHalf generadas (las usan los materiales)
     Materials/VAT/                M_<Asset>_<Clip>.mat y M_<Asset>_LOD.mat
   Shaders/VAT/                    VAT_Unlit.shader, FloatWobble.shader
   Scripts/Rendering/              VATPlayer.cs, FloatPhase.cs
@@ -141,6 +145,9 @@ hijo `LOD0` con la malla y los materiales; `LOD1`/`LOD2` son hijos estáticos. L
 props estáticos son un solo objeto con `MeshRenderer` y `BoxCollider`.
 
 Peso total de las texturas de animación: **26,5 MB** (EXR 16 bits con ZIP).
+En Unity se usan las texturas generadas `RGBAHalf`: conservan la precisión de
+medio float y ocupan unos **124 MB** como assets (65 MB en GPU). Es el precio de
+evitar el importador EXR; se puede optimizar más adelante.
 
 ---
 
@@ -154,12 +161,21 @@ En Unity, en la barra de menús:
    - Copia `BlenderSource/VAT` a `Assets/Art/Models/VAT`.
    - Copia los shaders y los scripts si todavía no existen.
    - Fuerza los ajustes de textura y de modelo de cada asset.
+   - Genera las texturas VAT como assets `RGBAHalf` (si existe el volcado crudo).
    - Crea un material por clip y un prefab por asset, con su clip por defecto y
      con LODGroup/collider cuando corresponde.
-2. **`Clous-End > VAT > 3 · Crear escena de prueba VAT`**
-3. Abre `Assets/Scenes/VAT_Preview.unity` y dale **Play**. Todos los assets
+2. **`Clous-End > VAT > 6 · Generar texturas VAT (float)`**
+   - Lee los volcados `BlenderSource/VATRaw/<Asset>/<Textura>.rgba32f`.
+   - Crea `Assets/Art/Models/VAT/Generated/<Textura>.asset` y actualiza el
+     `_PosTex` de todos los materiales.
+   - El volcado se genera con `BlenderSource/scripts/export_vat_raw.py`:
+     `blender --background --python BlenderSource/scripts/export_vat_raw.py`.
+   - Hace falta porque el importador EXR de Unity transforma las posiciones
+     (las vuelve colores/planos); este paso conserva los floats originales.
+3. **`Clous-End > VAT > 3 · Crear escena de prueba VAT`**
+4. Abre `Assets/Scenes/VAT_Preview.unity` y dale **Play**. Todos los assets
    deben verse en filas y animarse.
-4. **`Clous-End > VAT > 4 · Integrar modelos en la escena Game`** cuando la
+5. **`Clous-End > VAT > 4 · Integrar modelos en la escena Game`** cuando la
    revisión esté bien: sustituye los placeholders del jugador (cubo, cilindro y
    arma) por el trineo, Santa y los cuatro renos, sin regenerar el mapa.
    > Ese menú solo cambia el arte del jugador. Para tener el gameplay completo
@@ -272,6 +288,8 @@ Pon el prefab en la escena, dale Play. Si se mueve, repite con el resto.
 
 | Síntoma | Causa | Solución |
 |---|---|---|
+| La malla se ve como tablas, planos o papel arrugado | El importador EXR de Unity corrompe las posiciones; el material sigue apuntando al EXR | Ejecutar `Clous-End > VAT > 6 · Generar texturas VAT (float)`; los materiales deben apuntar a `Assets/Art/Models/VAT/Generated` |
+| El arma/reno aparece con `_FlipY=1` y se colapsa | Se activó el volteo en pruebas | `_FlipY` debe ser 0 con las texturas generadas |
 | La malla tiembla o se ve "cuadriculada" | Textura con filtro Bilinear o comprimida | Point + Compression None |
 | Está todo negro | `_BaseColor` en negro o falta `_PosTex` | Asignar color y textura |
 | Se ve la pose de reposo, sin animación | `_VATAmount` = 0, falta VATPlayer o `frames` no coincide | Revisar los tres |
@@ -333,9 +351,14 @@ Se ejecutan dentro de Blender (con el servidor MCP activo). El detalle está en
   del asset y cada textura tiene su propia altura. El shader usa `_UVFrames`
   para reescalar la fila base; sin eso, las patas, las astas y el arnés del reno
   caían dentro del cuerpo.
-- **En el proyecto principal queda ejecutar el menú** `Clous-End > VAT >
-  Importar todo` una vez; el editor estaba abierto durante la integración y por
-  eso la ejecución se hizo sobre una copia.
+- **En el proyecto principal ya está ejecutado**: paquete importado, 28 prefabs,
+  375 materiales, texturas `RGBAHalf` generadas y escena `Game` reconstruida con
+  el rig real. Se verificó en Play: Santa, trineo, 4 renos, 4 armas en la mano,
+  props y enemigos.
+- **El importador EXR de Unity 6.6 corrompe las posiciones** (las convierte en
+  valores tipo color). Por eso las texturas se generan desde el volcado crudo de
+  Blender (`export_vat_raw.py` + `VATTextureBuilder`). Con las texturas
+  generadas y `_FlipY=0`, los modelos se ven como en Blender.
 
 ---
 
@@ -345,12 +368,15 @@ Se ejecutan dentro de Blender (con el servidor MCP activo). El detalle está en
    material: la silueta y la animación son finales, pero el detalle procedural de
    Blender no viaja. Es lo que más se nota al importar.
 2. **Clips que faltan:** enganchado por el Garfio, salto, victoria/derrota, y las
-   animaciones de las armas en mano. El rig y el pipeline ya están; es añadir
-   clips y rehornear.
+   animaciones de las armas en mano (los modelos ya están colocados, pero no
+   tienen clip de recarga/disparo propio).
 3. **LODs animados** si se quiere VAT también en LOD1/LOD2.
-4. **Revisión visual y ajuste de offsets**: se hace en `VAT_Preview` y en la
-   escena `Game` (altura del trineo y hueco de Santa). El rig del jugador está
-   montado con offsets serializados en `VATRigBuilder`, fáciles de retocar.
+4. **Optimizar el peso de las texturas VAT generadas** (124 MB de assets). Una
+   opción es normalizar posiciones por clip y usar un formato de 32 bits, o
+   comprimir con BC6H.
+5. **Revisión visual fina y offsets** del arma, el arnés y el hueco de Santa; se
+   hace en `VAT_Preview` y en la escena `Game`, y los offsets viven en los
+   builders (`VATRigBuilder`, `VATPropBuilder`).
 
 ---
 

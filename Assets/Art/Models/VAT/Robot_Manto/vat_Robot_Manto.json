@@ -1,0 +1,48 @@
+{
+  "asset": "SK_Robot_Manto",
+  "mesh": "SK_Robot_Manto.fbx",
+  "triangles": 1464,
+  "vertices": 776,
+  "clips": [
+    {
+      "name": "Idle",
+      "frames": 36,
+      "fps": 30,
+      "loop": true,
+      "texture": "T_Robot_Manto_Idle_Pos.exr",
+      "texture_width": 1024,
+      "texture_height": 36,
+      "rows": 1,
+      "bounds_min": [
+        -0.719,
+        -1.3786,
+        0.0017
+      ],
+      "bounds_max": [
+        0.789,
+        0.2763,
+        2.0135
+      ]
+    },
+    {
+      "name": "Attack",
+      "frames": 28,
+      "fps": 30,
+      "loop": false,
+      "texture": "T_Robot_Manto_Attack_Pos.exr",
+      "texture_width": 1024,
+      "texture_height": 28,
+      "rows": 1,
+      "bounds_min": [
+        -0.9494,
+        -1.3916,
+        -0.0445
+      ],
+      "bounds_max": [
+        1.212,
+        0.3316,
+        2.0308
+      ]
+    }
+  ]
+}

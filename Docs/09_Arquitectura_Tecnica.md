@@ -68,6 +68,7 @@ Assets/
     Materials/VAT/         Materiales M_<Asset>_<Clip> y VAT_<Asset> (clip sets)
     Models/                FBX de Blender: personajes, enemigos, naves, armas, mapa
       VAT/                 mallas de juego + texturas de animación (ver doc 14)
+        Generated/         texturas VAT RGBAHalf generadas (las usan los materiales)
   Config/
     LoginConfig.asset
     Weapons/               W_Carbon, W_Nogal, W_Estrella, W_Cascabel
@@ -191,6 +192,15 @@ importación, está en [14 · Assets 3D y pipeline VAT](14_Assets_3D_y_Pipeline_
 | `VAT_Unlit.shader` | desplaza los vértices en GPU |
 | `VATPlayer.cs` | avanza el frame por instancia |
 
+### Texturas de posiciones en Unity
+
+El importador EXR de Unity 6.6 transforma los valores de posición (los convierte
+en valores tipo color y deforma la malla). Por eso el pipeline no usa el EXR
+directamente: `BlenderSource/scripts/export_vat_raw.py` vuelca los píxeles a
+float32 en `BlenderSource/VATRaw/` (ignorado por git) y `VATTextureBuilder` crea
+assets `RGBAHalf` en `Assets/Art/Models/VAT/Generated`. Los materiales apuntan a
+esas texturas generadas y `_FlipY` debe quedarse en **0**.
+
 ### Herramientas de importación (editor)
 
 | Archivo | Responsabilidad |
@@ -198,6 +208,8 @@ importación, está en [14 · Assets 3D y pipeline VAT](14_Assets_3D_y_Pipeline_
 | `Assets/Editor/VAT/VATPackageImporter.cs` | Copia el paquete desde `BlenderSource/VAT` y fuerza la reimportación. |
 | `VATAssetPostprocessor.cs` | Aplica los ajustes obligatorios de las texturas EXR y de los FBX. |
 | `VATMaterialFactory.cs` | Crea un material por clip y los materiales de los props. |
+| `VATTextureBuilder.cs` | Genera texturas `RGBAHalf` nativas desde el volcado float de Blender (evita el importador EXR de Unity). |
+| `VATPropBuilder.cs` | Coloca arnés, cascabeles, collar y meteoritos. |
 | `VATPrefabBuilder.cs` | Genera los prefabs con `VATPlayer`, LODGroup, collider y bounds. |
 | `VATPreviewSceneBuilder.cs` | Genera `Assets/Scenes/VAT_Preview.unity` con todos los assets. |
 | `VATRigBuilder.cs` · `VATGameIntegration.cs` | Sustituyen los placeholders del jugador por trineo, Santa y renos. |
@@ -228,6 +240,7 @@ importación, está en [14 · Assets 3D y pipeline VAT](14_Assets_3D_y_Pipeline_
 | `ThirdPersonCamera` | Cámara orbital, zoom y colisión. |
 | `CharacterAim` | Orienta a Santa y el pivote del arma hacia la retícula. |
 | `WeaponController` | 4 armas, calor, munición, recarga, perforación y cadena. |
+| `WeaponVisualSwitcher` | Muestra solo el modelo del arma equipada. |
 | `SleighHealth` | Casco (100), daño, reparación y muerte. |
 | `ReindeerSquad` | 4 renos, agarre del Garfio, rescate, pérdida y escudo. |
 | `PickupCollector` | Recoge munición, kits, escudos y armas por cercanía. |
@@ -366,6 +379,14 @@ No se implementará red en el MVP. Solo se evita el diseño que obligaría a ree
 
 ---
 
+## Control de versiones y publicación
+
+- La única rama es `main`. Todos los cambios se commitean y se suben **directamente a `main`**; no se usan ramas de trabajo, `gh-pages` ni repositorios separados.
+- La demo WebGL se publica desde `main` (raíz del repo): `index.html`, `WebGL/` y `TemplateData/`. GitHub Pages sirve esa ruta.
+- Al cerrar una tarea, el cambio se commitea y se empuja a `main` (ver `AGENTS.md`).
+
+---
+
 ## Limitaciones conocidas del login
 
 - El fondo es un diorama low-poly generado con primitivas; no representa el arte final realista.
@@ -379,10 +400,10 @@ No se implementará red en el MVP. Solo se evita el diseño que obligaría a ree
 
 ## Próximos pasos técnicos
 
-1. Ejecutar la importación VAT y revisar `VAT_Preview` (doc 14).
-2. Reconstruir la escena `Game` y probar la misión completa (doc 15).
+1. Revisar `VAT_Preview` y la escena `Game` con los modelos reales (importación y escena ya ejecutadas, doc 14).
+2. Probar la misión completa con el arte final y ajustar dificultad, oleadas, daño y tiempos (doc 15).
 3. Hornear Albedo/Normal/ORM de los assets para que el detalle llegue al motor.
-4. Ajustar dificultad, oleadas, daño y tiempos en `Assets/Config`.
+4. Optimizar las texturas VAT generadas (124 MB de assets; normalizar por clip o BC6H).
 5. Añadir audio, intro/final cinematográficos y créditos completos.
 6. Integrar el kit de Blender y comprobar escala/rendimiento.
 7. Pruebas de resolución y accesibilidad; build de Windows.

@@ -11,7 +11,7 @@ namespace ClousEnd.EditorTools
     /// mapa: borra los placeholders del jugador y coloca trineo, Santa y renos
     /// conservando los pivotes, el CharacterController y los scripts.
     /// </summary>
-    internal static class VATGameIntegration
+    public static class VATGameIntegration
     {
         private const string GameScenePath = "Assets/Scenes/Game.unity";
 
@@ -56,6 +56,7 @@ namespace ClousEnd.EditorTools
 
             RemovePlaceholders(player, characterPivot);
             VATRigBuilder.Build(player, characterPivot);
+            MapObjects.SetLayerRecursive(player.gameObject, LayerMask.NameToLayer("Ignore Raycast"));
 
             EditorSceneManager.MarkSceneDirty(scene);
             EditorSceneManager.SaveScene(scene, GameScenePath);

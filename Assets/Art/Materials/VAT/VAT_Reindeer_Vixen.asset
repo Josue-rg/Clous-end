@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad13f8e56011cd041b15dc482b17a0a6, type: 3}
+  m_Name: VAT_Reindeer_Vixen
+  m_EditorClassIdentifier: Assembly-CSharp::ClousEnd.Rendering.VATClipSet
+  clips:
+  - name: Gallop
+    positions: {fileID: 2800000, guid: 25bd4ef24ecf2e044b7ce47c494bcf11, type: 3}
+    frames: 24
+    fps: 30
+    loop: 1
+  - name: Death
+    positions: {fileID: 2800000, guid: e7c20bd82cf68d543ac9b30bc0e2b46f, type: 3}
+    frames: 38
+    fps: 30
+    loop: 0
+  - name: Hurt
+    positions: {fileID: 2800000, guid: dc70d7e403a2b244996f875b21690830, type: 3}
+    frames: 16
+    fps: 30
+    loop: 0

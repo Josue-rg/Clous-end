@@ -1,3 +1,4 @@
+using ClousEnd.Game;
 using UnityEditor;
 using UnityEngine;
 
@@ -13,6 +14,7 @@ namespace ClousEnd.EditorTools
         public const string SleighName = "Sleigh";
         public const string SantaName = "Santa";
         public const string SquadName = "ReindeerSquad";
+        public const string WeaponRackName = "WeaponRack";
 
         public static readonly Vector3 SleighOffset = new Vector3(0f, 0.05f, 0f);
         public static readonly Vector3 SantaOffset = new Vector3(0f, -1f, 0f);
@@ -24,6 +26,14 @@ namespace ClousEnd.EditorTools
             "Reindeer_Donner",
             "Reindeer_Vixen",
             "Reindeer_Cometa"
+        };
+
+        private static readonly string[] WeaponNames =
+        {
+            "SM_Weapon_Carbon",
+            "SM_Weapon_Nogal",
+            "SM_Weapon_Estrella",
+            "SM_Weapon_Cascabel"
         };
 
         private static readonly Vector3[] ReindeerOffsets =
@@ -47,6 +57,7 @@ namespace ClousEnd.EditorTools
             if (characterPivot != null)
             {
                 Spawn(SantaName, characterPivot, SantaOffset);
+                BuildWeaponRack(characterPivot);
             }
 
             var squad = new GameObject(SquadName);
@@ -80,7 +91,66 @@ namespace ClousEnd.EditorTools
             var characterPivot = player.Find("CharacterPivot");
 
             if (characterPivot != null)
+            {
                 DestroyChild(characterPivot, SantaName);
+                var aimPivot = characterPivot.Find("AimPivot");
+
+                if (aimPivot != null)
+                    DestroyChild(aimPivot, WeaponRackName);
+            }
+        }
+
+        /// <summary>
+        /// Coloca los cuatro modelos de arma en la mano y añade el conmutador que
+        /// muestra solo la equipada. No crea nada en runtime: las armas viven en
+        /// el rig como hijos desactivados.
+        /// </summary>
+        private static void BuildWeaponRack(Transform characterPivot)
+        {
+            var aimPivot = characterPivot.Find("AimPivot");
+
+            if (aimPivot == null)
+            {
+                Debug.LogWarning("[Clous-End VAT] El personaje no tiene AimPivot; no se colocan las armas.");
+                return;
+            }
+
+            var rack = new GameObject(WeaponRackName);
+            rack.transform.SetParent(aimPivot, false);
+            rack.transform.localPosition = new Vector3(0f, 0f, 0.35f);
+            rack.transform.localRotation = Quaternion.identity;
+
+            var visuals = new GameObject[WeaponNames.Length];
+
+            for (var i = 0; i < WeaponNames.Length; i++)
+            {
+                var instance = Spawn(WeaponNames[i], rack.transform, Vector3.zero);
+
+                if (instance == null)
+                    continue;
+
+                // El arma es solo visual: sin collider para no chocar con el
+                // CharacterController ni bloquear los raycast del jugador.
+                foreach (var hitbox in instance.GetComponentsInChildren<Collider>(true))
+                    Object.DestroyImmediate(hitbox);
+
+                instance.SetActive(false);
+                visuals[i] = instance;
+            }
+
+            if (visuals.Length > 0 && visuals[0] != null)
+                visuals[0].SetActive(true);
+
+            var controller = characterPivot.GetComponent<WeaponController>();
+            var switcher = characterPivot.GetComponent<WeaponVisualSwitcher>();
+
+            if (switcher == null)
+                switcher = characterPivot.gameObject.AddComponent<WeaponVisualSwitcher>();
+
+            SerializedField.Set(switcher, "controller", controller);
+            SerializedField.SetArray(switcher, "visuals", visuals);
+
+            Debug.Log("[Clous-End VAT] Armas colocadas en la mano: " + WeaponNames.Length + ".");
         }
 
         private static GameObject Spawn(

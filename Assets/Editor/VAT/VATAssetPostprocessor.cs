@@ -39,6 +39,15 @@ namespace ClousEnd.EditorTools
             importer.maxTextureSize = 2048;
             importer.isReadable = false;
             importer.streamingMipmaps = false;
+
+            // Las posiciones del VAT son floats con negativos y valores >1:
+            // en RGBA32 (8 bits) se recortan y la malla se deforma. Hay que
+            // forzar medio float en la plataforma por defecto.
+            var settings = importer.GetDefaultPlatformTextureSettings();
+            settings.format = TextureImporterFormat.RGBAHalf;
+            settings.textureCompression = TextureImporterCompression.Uncompressed;
+            settings.maxTextureSize = 2048;
+            importer.SetPlatformTextureSettings(settings);
         }
 
         private void OnPreprocessModel()

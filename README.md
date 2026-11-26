@@ -10,7 +10,7 @@
 - **Mapas:** 1 (Distrito Aurora)
 - **Progresión:** ninguna (sin niveles, XP, monedas ni mejoras)
 - **Arte 3D:** 100 % Blender (mapa, Santa, trineo, renos, naves, enemigos, armas)
-- **Estado:** preproducción + login y demo jugables + **assets 3D y animación terminados, listos para Unity**
+- **Estado:** preproducción + login y demo jugables + **assets 3D integrados en `Game`** (trineo, Santa, 4 renos, armas, enemigos, jefe y props) con texturas VAT float
 
 ![Pantalla de login](Docs/Images/login_preview.png)
 
@@ -55,7 +55,7 @@ Toda la documentación está en [`Docs/`](Docs/README.md):
 ## Qué falta (resumen)
 
 1. **Blender:** ~~kit del mapa, Santa, trineo, 4 renos, 4 armas, enemigos, naves, Nicolás Cero y animaciones~~ → hecho, ver [Docs/14](Docs/14_Assets_3D_y_Pipeline_VAT.md). Faltan el **kit del mapa** y el **horneado de texturas**.
-2. **Unity:** importar el paquete de assets, 4 vidas de reno, oleadas, rescate, boss, HUD, pausa y resultados.
+2. **Unity:** ~~importar el paquete de assets~~ → hecho (28 prefabs y texturas float); la escena `Game` ya tiene el rig real, el combate, las armas en la mano y los props.
 3. **UI/2D:** HUD final, iconos, pantalla de pausa, resultados y créditos.
 4. **Audio:** música, SFX, voz de Voss y mezcla.
 5. **QA/build:** misión de 20–30 minutos, 60 FPS y build de Windows.

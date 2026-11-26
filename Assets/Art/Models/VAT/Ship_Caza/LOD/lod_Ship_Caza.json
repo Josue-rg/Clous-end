@@ -1,0 +1,20 @@
+{
+  "asset": "Ship_Caza",
+  "lod0_triangles": 1028,
+  "levels": [
+    {
+      "level": "LOD1",
+      "mesh": "SK_Ship_Caza_LOD1.fbx",
+      "triangles": 462
+    },
+    {
+      "level": "LOD2",
+      "mesh": "SK_Ship_Caza_LOD2.fbx",
+      "triangles": 178
+    }
+  ],
+  "collision": {
+    "mesh": "SK_Ship_Caza_COL.fbx",
+    "triangles": 39
+  }
+}

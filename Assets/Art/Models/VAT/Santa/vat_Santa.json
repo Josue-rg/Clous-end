@@ -1,0 +1,88 @@
+{
+  "asset": "SK_Santa",
+  "mesh": "SK_Santa.fbx",
+  "triangles": 46000,
+  "vertices": 23298,
+  "clips": [
+    {
+      "name": "Idle",
+      "frames": 30,
+      "fps": 30,
+      "loop": true,
+      "texture": "T_Santa_Idle_Pos.exr",
+      "texture_width": 1024,
+      "texture_height": 690,
+      "rows": 23,
+      "bounds_min": [
+        -0.4607,
+        -0.2818,
+        -0.0241
+      ],
+      "bounds_max": [
+        0.4607,
+        0.2847,
+        1.9276
+      ]
+    },
+    {
+      "name": "Draw",
+      "frames": 34,
+      "fps": 30,
+      "loop": false,
+      "texture": "T_Santa_Draw_Pos.exr",
+      "texture_width": 1024,
+      "texture_height": 782,
+      "rows": 23,
+      "bounds_min": [
+        -0.4728,
+        -0.4835,
+        -0.0441
+      ],
+      "bounds_max": [
+        0.7275,
+        0.2821,
+        1.9678
+      ]
+    },
+    {
+      "name": "Shoot",
+      "frames": 14,
+      "fps": 30,
+      "loop": false,
+      "texture": "T_Santa_Shoot_Pos.exr",
+      "texture_width": 1024,
+      "texture_height": 322,
+      "rows": 23,
+      "bounds_min": [
+        -0.4429,
+        -0.3723,
+        -0.0141
+      ],
+      "bounds_max": [
+        0.4431,
+        0.2792,
+        1.9292
+      ]
+    },
+    {
+      "name": "Reload",
+      "frames": 26,
+      "fps": 30,
+      "loop": false,
+      "texture": "T_Santa_Reload_Pos.exr",
+      "texture_width": 1024,
+      "texture_height": 598,
+      "rows": 23,
+      "bounds_min": [
+        -0.4577,
+        -0.2697,
+        -0.0141
+      ],
+      "bounds_max": [
+        0.5849,
+        0.3564,
+        1.9193
+      ]
+    }
+  ]
+}

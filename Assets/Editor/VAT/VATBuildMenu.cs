@@ -13,6 +13,7 @@ namespace ClousEnd.EditorTools
             if (!VATPackageImporter.Import())
                 return;
 
+            VATTextureBuilder.Build();
             VATPrefabBuilder.BuildAll();
         }
 
@@ -65,6 +66,31 @@ namespace ClousEnd.EditorTools
             }
 
             EditorApplication.isPlaying = true;
+        }
+
+        [MenuItem("Clous-End/VAT/5 · Colocar props en la escena Game", false, 46)]
+        public static void BuildSceneProps()
+        {
+            var game = GameObject.Find("Game");
+
+            if (game == null)
+            {
+                Debug.LogWarning("[Clous-End VAT] Abre la escena Game antes de colocar los props.");
+                return;
+            }
+
+            VATPropBuilder.Build(game.transform);
+
+            var scene = UnityEngine.SceneManagement.SceneManager.GetActiveScene();
+
+            if (scene.IsValid())
+            {
+                EditorSceneManager.MarkSceneDirty(scene);
+                EditorSceneManager.SaveScene(scene);
+            }
+
+            AssetDatabase.SaveAssets();
+            Debug.Log("[Clous-End VAT] Arnés, cascabeles, collar y meteoritos colocados en Game.");
         }
     }
 }

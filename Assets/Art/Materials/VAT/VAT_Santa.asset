@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad13f8e56011cd041b15dc482b17a0a6, type: 3}
+  m_Name: VAT_Santa
+  m_EditorClassIdentifier: Assembly-CSharp::ClousEnd.Rendering.VATClipSet
+  clips:
+  - name: Idle
+    positions: {fileID: 2800000, guid: af74a653ff29b0f4eae6167c4764cf17, type: 3}
+    frames: 30
+    fps: 30
+    loop: 1
+  - name: Draw
+    positions: {fileID: 2800000, guid: da3b4e44763f9f647ab6db62b3604ca6, type: 3}
+    frames: 34
+    fps: 30
+    loop: 0
+  - name: Shoot
+    positions: {fileID: 2800000, guid: c764ca06031c72c4898b03d836f9f465, type: 3}
+    frames: 14
+    fps: 30
+    loop: 0
+  - name: Reload
+    positions: {fileID: 2800000, guid: a6e120b5049e91946a52834c606631e2, type: 3}
+    frames: 26
+    fps: 30
+    loop: 0

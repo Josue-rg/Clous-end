@@ -1,0 +1,48 @@
+{
+  "asset": "SK_Robot_Torre",
+  "mesh": "SK_Robot_Torre.fbx",
+  "triangles": 1564,
+  "vertices": 824,
+  "clips": [
+    {
+      "name": "Idle",
+      "frames": 36,
+      "fps": 30,
+      "loop": true,
+      "texture": "T_Robot_Torre_Idle_Pos.exr",
+      "texture_width": 1024,
+      "texture_height": 36,
+      "rows": 1,
+      "bounds_min": [
+        -0.8053,
+        -0.5569,
+        0.0034
+      ],
+      "bounds_max": [
+        0.8061,
+        0.3096,
+        2.2537
+      ]
+    },
+    {
+      "name": "Attack",
+      "frames": 28,
+      "fps": 30,
+      "loop": false,
+      "texture": "T_Robot_Torre_Attack_Pos.exr",
+      "texture_width": 1024,
+      "texture_height": 28,
+      "rows": 1,
+      "bounds_min": [
+        -1.0633,
+        -0.7757,
+        -0.0426
+      ],
+      "bounds_max": [
+        1.0633,
+        0.3716,
+        2.2685
+      ]
+    }
+  ]
+}

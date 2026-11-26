@@ -168,7 +168,7 @@ namespace ClousEnd.EditorTools
                     false);
             }
 
-            var aimPivot = MapObjects.Empty("AimPivot", pivot, new Vector3(0f, 1.28f, 0f)).transform;
+            var aimPivot = MapObjects.Empty("AimPivot", pivot, new Vector3(0f, 0.28f, 0f)).transform;
 
             if (!VATRigBuilder.HasCorePrefabs)
             {

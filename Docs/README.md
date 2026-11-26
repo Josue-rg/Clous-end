@@ -1,6 +1,6 @@
 # CLOUS-END — Documentación de diseño
 
-**Estado:** preproducción · documentación v0.5 · alcance final definido · lobby, blockout, demo web y **combate completo jugable** · assets 3D y animación integrados en Unity
+**Estado:** preproducción · documentación v0.6 · alcance final definido · lobby, blockout, demo web, **combate completo jugable** y **modelos 3D de Blender integrados en `Game`** con texturas VAT float
 **Motor:** Unity 6.6.0f1 · URP 17.6 · Input System 1.20
 **Género:** shooter cinemático de defensa sobre trineo (on-rails / semi-libre)
 **Duración objetivo:** 20–30 minutos · **1 mapa** · sin niveles ni progresión
@@ -44,6 +44,8 @@ La gracia del proyecto no es la cantidad de contenido, sino la **intensidad y la
 
 El alcance se protege con una lista cerrada: **1 mapa, 1 misión, 1 boss, 4 renos, 4 armas, 5 enemigos, 0 niveles**. Todo el 3D final se hace en Blender. Todo lo demás es post-lanzamiento.
 
+**Git:** una única rama, `main`. Todos los cambios se commitean y se suben directamente a `main` (ver `AGENTS.md`).
+
 **Documento rector:** [11 · Alcance final](11_Alcance_Final_Juego_Terminado.md).
 
 **Demo web:** https://josue-rg.github.io/Clous-end-web/
@@ -66,11 +68,14 @@ cinematográficos y albedo/Normal/ORM de los modelos.
       con sus variantes, 2 naves, Nicolás Cero, props, arnés y meteoritos.
 - [x] **Rigs, clips y horneado VAT** de todos los assets animados (ver doc 14).
 - [x] **LOD1, LOD2 y mallas de colisión** de los 14 assets animados.
-- [x] **Importación del paquete a Unity**: 28 prefabs, materiales, LODs y colliders.
+- [x] **Importación del paquete a Unity**: 28 prefabs, 375 materiales, LODs y colliders en el proyecto principal.
+- [x] **Texturas VAT float**: assets `RGBAHalf` generados desde el volcado de Blender (el importador EXR de Unity corrompe las posiciones).
 - [x] **Combate completo**: 4 armas, 5 enemigos, 9 oleadas, rescate de renos,
       pickups, Nicolás Cero en 3 fases, HUD, pausa, checkpoint y resultados (doc 15).
-- [x] **Rig del jugador integrado**: trineo, Santa y los 4 renos reales.
+- [x] **Rig del jugador integrado**: trineo, Santa, los 4 renos y las 4 armas en la mano; arnés, cascabeles, collar y meteoritos.
+- [x] **Escena `Game` reconstruida** con el arte real, el combate y el jefe.
 - [ ] Horneado de Albedo/Normal/ORM (el FBX lleva color plano por material).
+- [ ] Optimizar el peso de las texturas VAT generadas (124 MB de assets).
 - [ ] Audio real (música, SFX, voz de Voss).
 - [ ] Intro/final cinematográficos y pantalla de créditos completa.
 - [ ] Opciones de dificultad y accesibilidad.

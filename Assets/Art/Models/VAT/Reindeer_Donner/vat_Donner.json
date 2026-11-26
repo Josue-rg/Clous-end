@@ -1,0 +1,68 @@
+{
+  "asset": "SK_Reindeer_Donner",
+  "mesh": "SK_Reindeer_Donner.fbx",
+  "triangles": 24000,
+  "vertices": 12100,
+  "clips": [
+    {
+      "name": "Gallop",
+      "frames": 24,
+      "fps": 30,
+      "loop": true,
+      "texture": "T_Reindeer_Donner_Gallop_Pos.exr",
+      "texture_width": 1024,
+      "texture_height": 288,
+      "rows": 12,
+      "bounds_min": [
+        -0.3873,
+        -1.8633,
+        -0.1085
+      ],
+      "bounds_max": [
+        0.3873,
+        1.0865,
+        2.6413
+      ]
+    },
+    {
+      "name": "Death",
+      "frames": 38,
+      "fps": 30,
+      "loop": false,
+      "texture": "T_Reindeer_Donner_Death_Pos.exr",
+      "texture_width": 1024,
+      "texture_height": 456,
+      "rows": 12,
+      "bounds_min": [
+        -2.0807,
+        -2.0247,
+        -0.6464
+      ],
+      "bounds_max": [
+        0.3853,
+        1.0831,
+        2.5076
+      ]
+    },
+    {
+      "name": "Hurt",
+      "frames": 16,
+      "fps": 30,
+      "loop": false,
+      "texture": "T_Reindeer_Donner_Hurt_Pos.exr",
+      "texture_width": 1024,
+      "texture_height": 192,
+      "rows": 12,
+      "bounds_min": [
+        -0.4621,
+        -1.8389,
+        -0.0803
+      ],
+      "bounds_max": [
+        0.4978,
+        1.0866,
+        2.5634
+      ]
+    }
+  ]
+}

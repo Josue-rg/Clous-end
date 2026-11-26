@@ -1,0 +1,20 @@
+{
+  "asset": "NicolasCero",
+  "lod0_triangles": 9192,
+  "levels": [
+    {
+      "level": "LOD1",
+      "mesh": "SK_NicolasCero_LOD1.fbx",
+      "triangles": 4136
+    },
+    {
+      "level": "LOD2",
+      "mesh": "SK_NicolasCero_LOD2.fbx",
+      "triangles": 1654
+    }
+  ],
+  "collision": {
+    "mesh": "SK_NicolasCero_COL.fbx",
+    "triangles": 73
+  }
+}

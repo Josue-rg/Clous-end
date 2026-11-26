@@ -193,6 +193,7 @@ Los pickups flotan y giran; el `PickupCollector` los recoge por cercanía
 | Archivo | Responsabilidad |
 |---|---|
 | `Assets/Scripts/Game/Player/WeaponController.cs` | Las 4 armas, calor, munición, recarga, perforación y cadena. |
+| `Assets/Scripts/Game/Player/WeaponVisualSwitcher.cs` | Muestra el modelo del arma equipada entre los cuatro del rig. |
 | `Assets/Scripts/Game/Player/SleighHealth.cs` | Integridad del casco. |
 | `Assets/Scripts/Game/Player/ReindeerSquad.cs` | 4 renos, agarre, rescate, pérdida y escudo. |
 | `Assets/Scripts/Game/Combat/EnemyAgent.cs` | IA de los 5 enemigos, naves y renos de obsidiana. |
@@ -215,6 +216,8 @@ Los pickups flotan y giran; el `PickupCollector` los recoge por cercanía
 |---|---|
 | `Assets/Editor/Game/GameplayBuilder.cs` | Coloca armas, renos, oleadas, pickups, jefe, barrera y wiring. |
 | `Assets/Editor/Game/GameHudBuilder.cs` | Construye el HUD de combate. |
+| `Assets/Editor/VAT/VATPropBuilder.cs` | Arnés, cascabeles, collar y meteoritos del recorrido. |
+| `Assets/Editor/VAT/VATTextureBuilder.cs` | Genera las texturas VAT `RGBAHalf` desde el volcado de Blender. |
 | `Assets/Editor/Map/MapUIBuilder.cs` | HUD base, resultados, game over y pausa. |
 | `Assets/Editor/Map/MapPlayerBuilder.cs` | Jugador, cámara y `WeaponController`. |
 | `Assets/Editor/Map/MapSceneBuilder.cs` | Orquesta la escena completa. |
@@ -232,8 +235,11 @@ Los datos de armas y enemigos se crean/actualizan como assets en
    en escena con cámara y voz.
 3. **Créditos completos**: hay una línea; falta la pantalla con roles.
 4. **Albedo/Normal/ORM**: los modelos usan color plano por material.
-5. **Arma en mano**: falta la animación de las armas y el socket de la mano.
+5. **Armas en mano**: los 4 modelos ya están en el rig y cambian con 1–4; falta
+   la animación de disparo/recarga y pulir el offset de la mano.
 6. **Dificultad y accesibilidad**: modos Repartidor / Nochebuena / Clous-End,
    aim assist, subtítulos y remapeo.
 7. **Ajuste fino y QA**: 20–30 minutos reales, boss aprende/gana, 60 FPS,
    resolución 720p/1080p/1440p y build de Windows.
+8. **Optimizar texturas VAT**: las generadas ocupan 124 MB de assets (65 MB en
+   GPU); normalizar por clip o comprimir con BC6H si el build web se hace pesado.

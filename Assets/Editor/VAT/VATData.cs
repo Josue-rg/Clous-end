@@ -75,6 +75,7 @@ namespace ClousEnd.EditorTools
     {
         public const string ModelsRoot = "Assets/Art/Models/VAT";
         public const string StaticModelsRoot = ModelsRoot + "/Static";
+        public const string GeneratedTexturesRoot = ModelsRoot + "/Generated";
         public const string MaterialsRoot = "Assets/Art/Materials/VAT";
         public const string ShaderRoot = "Assets/Shaders/VAT";
         public const string RuntimeRoot = "Assets/Scripts/Rendering";

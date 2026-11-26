@@ -1,0 +1,20 @@
+{
+  "asset": "Reindeer_Vixen",
+  "lod0_triangles": 22000,
+  "levels": [
+    {
+      "level": "LOD1",
+      "mesh": "SK_Reindeer_Vixen_LOD1.fbx",
+      "triangles": 9900
+    },
+    {
+      "level": "LOD2",
+      "mesh": "SK_Reindeer_Vixen_LOD2.fbx",
+      "triangles": 3960
+    }
+  ],
+  "collision": {
+    "mesh": "SK_Reindeer_Vixen_COL.fbx",
+    "triangles": 86
+  }
+}
