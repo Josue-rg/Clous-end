@@ -10,13 +10,12 @@
 
 | Qué | Dónde |
 |---|---|
-| Jugar en el navegador | https://josue-rg.github.io/Clous-end-web/ |
-| Repo del build (público) | https://github.com/Josue-rg/Clous-end-web |
-| Código del proyecto (privado) | https://github.com/Josue-rg/Clous-end |
+| Jugar en el navegador | https://josue-rg.github.io/Clous-end/ |
+| Repositorio del proyecto y la demo | https://github.com/Josue-rg/Clous-end |
 
-El repositorio del proyecto es **privado** y el plan actual no permite Pages en repos privados.
-Por eso el build se publica en un repositorio público aparte (`Clous-end-web`); el código no se
-duplica ni se hace público.
+El proyecto y la demo viven en el mismo repositorio público. GitHub Pages publica desde la
+rama `main` (raíz), donde están `index.html`, `WebGL/` y `TemplateData/`. `main` es la única
+rama: no hay rama `gh-pages` ni repositorio aparte.
 
 ---
 
@@ -47,9 +46,11 @@ duplica ni se hace público.
    - **Data Caching:** activado.
 4. Tamaño de lienzo por defecto: 1600 × 900.
 5. El build genera `index.html`, `Build/`, `TemplateData/` y las mallas comprimidas
-   `.unityweb`. Se añade un archivo `.nojekyll` en la raíz.
-6. Esa carpeta se publica en la rama `gh-pages` del repo `Clous-end-web`. GitHub Pages la
-   sirve como sitio estático; el loader de Unity descomprime los `.unityweb` en el navegador.
+   `.unityweb`.
+6. En el repo, la carpeta `Build/` se guarda como `WebGL/` (el `.gitignore` de Unity
+   ignora `Build/`) y `index.html` apunta a `WebGL`. Se añade `.nojekyll` en la raíz.
+7. Todo se sube a `main`. GitHub Pages publica desde `main` / (root) y el loader de Unity
+   descomprime los `.unityweb` en el navegador.
 
 No hay backend ni guardado remoto. La demo es un sitio estático.
 
@@ -65,13 +66,13 @@ en batch.
 ## Cómo actualizar la demo
 
 1. Reconstruir las escenas si han cambiado (`Clous-End > Login` y `Clous-End > Mapa`).
-2. Cambiar el target a **WebGL** y ejecutar el build en una carpeta limpia.
-3. En esa carpeta:
-   - crear `.nojekyll`;
-   - `git init` en la rama `gh-pages`;
-   - commit y `git push -f` a `https://github.com/Josue-rg/Clous-end-web.git`.
-4. Esperar a que Pages reconstruya (1–2 minutos).
-5. Recargar con **Ctrl + F5** para saltar la caché del navegador.
+2. Cambiar el target a **WebGL** y ejecutar `Clous-End > Build > WebGL para GitHub Pages`
+   (genera la carpeta `Builds/WebGL`, ignorada por git).
+3. Copiar a la raíz del repo: `index.html`, `TemplateData/` y `.nojekyll`; renombrar la
+   carpeta `Build` del build a `WebGL` (y dejar `index.html` apuntando a `WebGL`).
+4. Commit y `push` a `main`.
+5. Esperar a que Pages reconstruya (1–2 minutos) y recargar con **Ctrl + F5** para saltar la
+   caché del navegador.
 
 ---
 
