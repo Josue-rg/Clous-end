@@ -1,24 +1,68 @@
 {
   "asset": "SK_Reindeer_Cometa",
   "mesh": "SK_Reindeer_Cometa.fbx",
-  "triangles": 38144,
-  "vertices": 19170,
-  "clip": "Gallop",
-  "frames": 24,
-  "fps": 30,
-  "loop": true,
-  "texture": "T_Reindeer_Cometa_Gallop_Pos.exr",
-  "texture_width": 1024,
-  "texture_height": 456,
-  "rows": 19,
-  "bounds_min": [
-    -0.3119,
-    -1.7415,
-    -0.1022
-  ],
-  "bounds_max": [
-    0.3119,
-    1.0155,
-    2.4401
+  "triangles": 22000,
+  "vertices": 11098,
+  "clips": [
+    {
+      "name": "Gallop",
+      "frames": 24,
+      "fps": 30,
+      "loop": true,
+      "texture": "T_Reindeer_Cometa_Gallop_Pos.exr",
+      "texture_width": 1024,
+      "texture_height": 264,
+      "rows": 11,
+      "bounds_min": [
+        -0.3119,
+        -1.7414,
+        -0.1022
+      ],
+      "bounds_max": [
+        0.3119,
+        1.0155,
+        2.4401
+      ]
+    },
+    {
+      "name": "Death",
+      "frames": 38,
+      "fps": 30,
+      "loop": false,
+      "texture": "T_Reindeer_Cometa_Death_Pos.exr",
+      "texture_width": 1024,
+      "texture_height": 418,
+      "rows": 11,
+      "bounds_min": [
+        -1.9284,
+        -1.8678,
+        -0.6038
+      ],
+      "bounds_max": [
+        0.3106,
+        1.0123,
+        2.3107
+      ]
+    },
+    {
+      "name": "Hurt",
+      "frames": 16,
+      "fps": 30,
+      "loop": false,
+      "texture": "T_Reindeer_Cometa_Hurt_Pos.exr",
+      "texture_width": 1024,
+      "texture_height": 176,
+      "rows": 11,
+      "bounds_min": [
+        -0.3812,
+        -1.7184,
+        -0.0762
+      ],
+      "bounds_max": [
+        0.4223,
+        1.0155,
+        2.3649
+      ]
+    }
   ]
 }

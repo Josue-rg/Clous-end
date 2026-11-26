@@ -1,24 +1,68 @@
 {
   "asset": "SK_Reindeer_Rodolfo",
   "mesh": "SK_Reindeer_Rodolfo.fbx",
-  "triangles": 38396,
-  "vertices": 19296,
-  "clip": "Gallop",
-  "frames": 24,
-  "fps": 30,
-  "loop": true,
-  "texture": "T_Reindeer_Rodolfo_Gallop_Pos.exr",
-  "texture_width": 1024,
-  "texture_height": 456,
-  "rows": 19,
-  "bounds_min": [
-    -0.3247,
-    -1.7619,
-    -0.1056
-  ],
-  "bounds_max": [
-    0.3247,
-    1.0155,
-    2.3583
+  "triangles": 24000,
+  "vertices": 12098,
+  "clips": [
+    {
+      "name": "Gallop",
+      "frames": 24,
+      "fps": 30,
+      "loop": true,
+      "texture": "T_Reindeer_Rodolfo_Gallop_Pos.exr",
+      "texture_width": 1024,
+      "texture_height": 288,
+      "rows": 12,
+      "bounds_min": [
+        -0.3247,
+        -1.7619,
+        -0.1056
+      ],
+      "bounds_max": [
+        0.3247,
+        1.0155,
+        2.3583
+      ]
+    },
+    {
+      "name": "Death",
+      "frames": 38,
+      "fps": 30,
+      "loop": false,
+      "texture": "T_Reindeer_Rodolfo_Death_Pos.exr",
+      "texture_width": 1024,
+      "texture_height": 456,
+      "rows": 12,
+      "bounds_min": [
+        -1.8563,
+        -1.8523,
+        -0.614
+      ],
+      "bounds_max": [
+        0.3231,
+        1.0123,
+        2.2287
+      ]
+    },
+    {
+      "name": "Hurt",
+      "frames": 16,
+      "fps": 30,
+      "loop": false,
+      "texture": "T_Reindeer_Rodolfo_Hurt_Pos.exr",
+      "texture_width": 1024,
+      "texture_height": 192,
+      "rows": 12,
+      "bounds_min": [
+        -0.3947,
+        -1.7388,
+        -0.0762
+      ],
+      "bounds_max": [
+        0.433,
+        1.0155,
+        2.2837
+      ]
+    }
   ]
 }

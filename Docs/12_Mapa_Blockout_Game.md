@@ -154,6 +154,7 @@ del presupuesto, con margen para los modelos finales de Blender.
 | `Assets/Scripts/Game/FX/ImpactFlash.cs` | Impacto reutilizable (malla de escena). |
 | `Assets/Scripts/Game/FX/SnowFollower.cs` | La nieve sigue al jugador sin mover sus partículas. |
 | `Assets/Scripts/Game/World/ZoneStreamer.cs` | Enciende y apaga zonas por distancia. |
+| `Assets/Scripts/Game/World/MissionManager.cs` | Cronómetro, checkpoint, meta, game over y reintento. |
 | `Assets/Scripts/Game/UI/PointerReticle.cs` | La retícula sigue al ratón. |
 | `Assets/Scripts/Game/UI/ZoneTitleHud.cs` | Nombre de zona con desvanecido. |
 
@@ -171,12 +172,18 @@ el trazador y el impacto ya existen en la escena y se reutilizan.
 - Los pinos tienen un collider de tronco; la nieve y los bancos son decorativos.
 - El `CharacterController` usa radio 1,9 m para que el cubo de pruebas no se meta en las paredes.
 
-## Meta y fin de partida
+## Meta, checkpoint y fin de partida
 
-- La meta es la línea **z = 1450**, marcada con un arco y una franja luminosa en el Refugio.
-- `MissionGoal` compara la posición del jugador (funciona a pie, volando o a gran velocidad).
-- Al cruzarla: se desactivan `VehicleMotor` y `PlayerInputReader` y aparece el panel
-  **MISIÓN COMPLETADA** con el texto de cierre.
+- **Checkpoint:** al cruzar el puente (z = 1000) se guarda el punto de reaparición en el carril,
+  justo después del puente. Un aviso **CHECKPOINT** aparece y se desvanece.
+- **Meta:** la línea **z = 1450**, marcada con un arco y una franja luminosa en el Refugio.
+- `MissionManager` compara la posición del jugador (funciona a pie, volando o a gran velocidad).
+  Lleva el cronómetro visible arriba a la derecha.
+- **Al cruzar la meta:** se muestran **MISIÓN COMPLETADA**, el tiempo, los renos vivos
+  (4 / 4 como base) y los botones **REINTENTAR** (nueva partida) y **LOBBY**.
+- **Game over:** si el trineo cae por debajo del mapa, aparece **PARTIDA TERMINADA** con
+  **REINTENTAR** (vuelve al último checkpoint) y **LOBBY**. Los botones usan el EventSystem
+  del juego y el cursor se libera solo en esos paneles.
 
 ## Dónde se sustituyen los placeholders
 

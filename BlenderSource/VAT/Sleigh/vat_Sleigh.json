@@ -3,22 +3,46 @@
   "mesh": "SK_Sleigh.fbx",
   "triangles": 33084,
   "vertices": 16976,
-  "clip": "Flight",
-  "frames": 36,
-  "fps": 30,
-  "loop": true,
-  "texture": "T_Sleigh_Flight_Pos.exr",
-  "texture_width": 1024,
-  "texture_height": 612,
-  "rows": 17,
-  "bounds_min": [
-    -1.0821,
-    -2.9079,
-    -0.0508
-  ],
-  "bounds_max": [
-    1.0822,
-    3.0707,
-    2.0759
+  "clips": [
+    {
+      "name": "Flight",
+      "frames": 36,
+      "fps": 30,
+      "loop": true,
+      "texture": "T_Sleigh_Flight_Pos.exr",
+      "texture_width": 1024,
+      "texture_height": 612,
+      "rows": 17,
+      "bounds_min": [
+        -0.8441,
+        -2.2682,
+        -0.046
+      ],
+      "bounds_max": [
+        0.8441,
+        2.3952,
+        1.6253
+      ]
+    },
+    {
+      "name": "Impact",
+      "frames": 18,
+      "fps": 30,
+      "loop": false,
+      "texture": "T_Sleigh_Impact_Pos.exr",
+      "texture_width": 1024,
+      "texture_height": 306,
+      "rows": 17,
+      "bounds_min": [
+        -0.8416,
+        -2.2413,
+        -0.3225
+      ],
+      "bounds_max": [
+        0.8416,
+        2.4227,
+        1.6575
+      ]
+    }
   ]
 }

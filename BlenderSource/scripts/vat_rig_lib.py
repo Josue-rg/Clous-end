@@ -79,9 +79,17 @@ def collection(name):
 
 
 def select(objs, active=None):
-    bpy.ops.object.select_all(action='DESELECT')
+    """Selecciona sin operadores (funciona tras abrir un .blend)."""
+    for o in bpy.context.view_layer.objects:
+        try:
+            o.select_set(False)
+        except Exception:
+            pass
     for o in objs:
-        o.select_set(True)
+        try:
+            o.select_set(True)
+        except Exception:
+            pass
     bpy.context.view_layer.objects.active = active or objs[0]
 
 
@@ -257,6 +265,21 @@ def clear_animation(arm):
             bpy.data.actions.remove(act)
 
 
+def purge_actions():
+    """Elimina TODAS las acciones (evita AN_X.001, .002 entre rebuilds)."""
+    try:
+        for obj in bpy.data.objects:
+            if obj.animation_data:
+                obj.animation_data_clear()
+    except Exception:
+        pass
+    for act in list(bpy.data.actions):
+        try:
+            bpy.data.actions.remove(act)
+        except Exception:
+            pass
+
+
 def iter_fcurves(action):
     """Blender 4.4+ guarda las curvas en layers/strips/channelbags."""
     try:
@@ -333,6 +356,49 @@ def make_clip(arm, name, frames, tracks, loc_tracks=None, fps=30):
             kp.handle_right_type = 'AUTO_CLAMPED'
     action.use_fake_user = True
     print("[clip] %s %d frames" % (name, frames))
+    return action
+
+
+def make_clip_pose(arm, name, frames, poses, fps=30):
+    """
+    Clip de una sola pasada (no loop).
+    poses: [(frame, {bone: (rx,ry,rz)}, {bone: (lx,ly,lz)})]  grados / metros
+    """
+    clear_animation(arm)
+    arm.animation_data_create()
+    action = bpy.data.actions.new(name)
+    arm.animation_data.action = action
+    bpy.context.scene.render.fps = fps
+
+    def key(frame, bone, rot=None, loc=None):
+        pb = arm.pose.bones.get(bone)
+        if pb is None:
+            return
+        pb.rotation_mode = 'XYZ'
+        if rot is not None:
+            pb.rotation_euler = (D2R(rot[0]), D2R(rot[1]), D2R(rot[2]))
+            pb.keyframe_insert("rotation_euler", frame=frame, group=bone)
+        if loc is not None:
+            pb.location = loc
+            pb.keyframe_insert("location", frame=frame, group=bone)
+
+    # frame 1: todo a cero para no arrastrar poses
+    for pb in arm.pose.bones:
+        key(1, pb.name, rot=(0, 0, 0), loc=(0, 0, 0))
+
+    for frame, rots, locs in poses:
+        for bone, rot in (rots or {}).items():
+            key(frame, bone, rot=rot)
+        for bone, loc in (locs or {}).items():
+            key(frame, bone, loc=loc)
+
+    for fc in iter_fcurves(action):
+        for kp in fc.keyframe_points:
+            kp.interpolation = 'BEZIER'
+            kp.handle_left_type = 'AUTO_CLAMPED'
+            kp.handle_right_type = 'AUTO_CLAMPED'
+    action.use_fake_user = True
+    print("[clip pose] %s %d frames" % (name, frames))
     return action
 
 

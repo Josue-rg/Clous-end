@@ -1,0 +1,20 @@
+{
+  "asset": "Sleigh",
+  "lod0_triangles": 33084,
+  "levels": [
+    {
+      "level": "LOD1",
+      "mesh": "SK_Sleigh_LOD1.fbx",
+      "triangles": 14886
+    },
+    {
+      "level": "LOD2",
+      "mesh": "SK_Sleigh_LOD2.fbx",
+      "triangles": 5933
+    }
+  ],
+  "collision": {
+    "mesh": "SK_Sleigh_COL.fbx",
+    "triangles": 131
+  }
+}

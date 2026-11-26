@@ -1,22 +1,43 @@
 using ClousEnd.Game;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.InputSystem.UI;
 using UnityEngine.UI;
 
 namespace ClousEnd.EditorTools
 {
-    /// <summary>HUD de pruebas: retícula, controles y nombre de zona.</summary>
+    internal sealed class MapUiRefs
+    {
+        public RectTransform Canvas;
+        public RectTransform Reticle;
+        public TMP_Text TimerLabel;
+        public CanvasGroup CheckpointToast;
+        public GameObject FinishPanel;
+        public TMP_Text FinishTime;
+        public TMP_Text FinishRenos;
+        public Button FinishRetryButton;
+        public Button FinishLobbyButton;
+        public GameObject GameOverPanel;
+        public Button GameOverRetryButton;
+        public Button GameOverLobbyButton;
+    }
+
+    /// <summary>HUD de pruebas: retícula, controles, zona, tiempo y paneles de misión.</summary>
     internal static class MapUIBuilder
     {
-        public static GameObject Build(
+        private static readonly Color PanelDark = new Color(0.004f, 0.008f, 0.016f, 0.995f);
+        private static readonly Color ButtonRed = new Color(0.62f, 0.09f, 0.12f, 0.96f);
+        private static readonly Color ButtonDark = new Color(0.05f, 0.09f, 0.14f, 0.92f);
+
+        public static MapUiRefs Build(
             Transform parent,
             MapAssets assets,
             PlayerInputReader input,
-            Transform viewer,
-            out RectTransform canvasRect,
-            out RectTransform reticle,
-            out GameObject finishPanel)
+            Transform viewer)
         {
+            var refs = new MapUiRefs();
+
             var canvasGo = new GameObject(
                 "UI",
                 typeof(RectTransform),
@@ -34,52 +55,54 @@ namespace ClousEnd.EditorTools
             scaler.referenceResolution = new Vector2(1920f, 1080f);
             scaler.matchWidthOrHeight = 0.5f;
 
-            canvasRect = canvasGo.GetComponent<RectTransform>();
-            reticle = CreateReticle(canvasRect, assets);
-            CreateControlsPanel(canvasRect, assets);
-            CreateTitle(canvasRect, assets);
-            CreateZoneTitle(canvasRect, assets, viewer);
-            finishPanel = CreateFinishPanel(canvasRect, assets);
+            refs.Canvas = canvasGo.GetComponent<RectTransform>();
+            refs.Reticle = CreateReticle(refs.Canvas, assets);
+            CreateControlsPanel(refs.Canvas, assets);
+            CreateTitle(refs.Canvas, assets);
+            CreateZoneTitle(refs.Canvas, assets, viewer);
+            refs.TimerLabel = CreateTimer(refs.Canvas, assets);
+            refs.CheckpointToast = CreateCheckpointToast(refs.Canvas, assets);
+
+            refs.FinishPanel = CreateResultsPanel(refs.Canvas, assets, refs);
+            refs.GameOverPanel = CreateGameOverPanel(refs.Canvas, assets, refs);
+
+            CreateEventSystem(parent);
 
             var pointer = canvasGo.AddComponent<PointerReticle>();
             SerializedField.Set(pointer, "input", input);
-            SerializedField.Set(pointer, "canvasRect", canvasRect);
-            SerializedField.Set(pointer, "reticle", reticle);
+            SerializedField.Set(pointer, "canvasRect", refs.Canvas);
+            SerializedField.Set(pointer, "reticle", refs.Reticle);
             SerializedField.Set(pointer, "hideSystemCursor", true);
 
-            return canvasGo;
+            return refs;
         }
 
-        private static GameObject CreateFinishPanel(RectTransform canvas, MapAssets assets)
+        private static void CreateEventSystem(Transform parent)
         {
-            var go = new GameObject("FinishPanel", typeof(RectTransform));
-            var rect = go.GetComponent<RectTransform>();
-            rect.SetParent(canvas, false);
-            rect.anchorMin = Vector2.zero;
-            rect.anchorMax = Vector2.one;
-            rect.offsetMin = Vector2.zero;
-            rect.offsetMax = Vector2.zero;
+            var go = new GameObject("EventSystem", typeof(EventSystem), typeof(InputSystemUIInputModule));
+            go.transform.SetParent(parent, false);
+            go.GetComponent<InputSystemUIInputModule>().AssignDefaultActions();
+        }
 
-            var background = go.AddComponent<Image>();
-            background.sprite = assets.Panel;
-            background.color = new Color(0.004f, 0.008f, 0.016f, 0.995f);
-            background.raycastTarget = false;
+        private static GameObject CreateResultsPanel(RectTransform canvas, MapAssets assets, MapUiRefs refs)
+        {
+            var panel = CreateOverlay("FinishPanel", canvas, assets);
 
             var title = CreateText(
                 "FinishTitle",
-                rect,
+                panel.transform,
                 "MISIÓN COMPLETADA",
                 assets.DisplayFont,
                 58f,
                 new Color(0.86f, 0.98f, 1f),
                 TextAlignmentOptions.Center,
                 7f);
-            Center(title.rectTransform, new Vector2(1000f, 80f), new Vector2(0f, 46f));
+            Center(title.rectTransform, new Vector2(1100f, 80f), new Vector2(0f, 112f));
 
             var line = new GameObject("FinishLine", typeof(RectTransform));
             var lineRect = line.GetComponent<RectTransform>();
-            lineRect.SetParent(rect, false);
-            Center(lineRect, new Vector2(140f, 2f), new Vector2(0f, 2f));
+            lineRect.SetParent(panel.transform, false);
+            Center(lineRect, new Vector2(140f, 2f), new Vector2(0f, 64f));
 
             var lineImage = line.AddComponent<Image>();
             lineImage.sprite = assets.Panel;
@@ -88,39 +111,222 @@ namespace ClousEnd.EditorTools
 
             var subtitle = CreateText(
                 "FinishSubtitle",
-                rect,
+                panel.transform,
                 "REFUGIO AURORA ALCANZADO",
                 assets.BodyFont,
                 18f,
                 new Color(0.55f, 0.95f, 0.9f),
                 TextAlignmentOptions.Center,
                 5f);
-            Center(subtitle.rectTransform, new Vector2(900f, 30f), new Vector2(0f, -24f));
+            Center(subtitle.rectTransform, new Vector2(900f, 28f), new Vector2(0f, 36f));
 
-            var note = CreateText(
-                "FinishNote",
-                rect,
-                "Gracias por jugar la demo de Distrito Aurora.",
+            refs.FinishTime = CreateText(
+                "FinishTime",
+                panel.transform,
+                "TIEMPO  00:00",
                 assets.BodyFont,
-                15f,
-                new Color(0.8f, 0.88f, 0.96f),
+                24f,
+                new Color(0.86f, 0.92f, 1f),
+                TextAlignmentOptions.Center,
+                3f);
+            Center(refs.FinishTime.rectTransform, new Vector2(900f, 34f), new Vector2(0f, -26f));
+
+            refs.FinishRenos = CreateText(
+                "FinishRenos",
+                panel.transform,
+                "RENOS  4 / 4",
+                assets.BodyFont,
+                16f,
+                new Color(0.62f, 0.85f, 0.95f),
+                TextAlignmentOptions.Center,
+                3f);
+            Center(refs.FinishRenos.rectTransform, new Vector2(900f, 26f), new Vector2(0f, -62f));
+
+            refs.FinishRetryButton = CreateButton(
+                "FinishRetry",
+                panel.transform,
+                "REINTENTAR",
+                new Vector2(-132f, -150f),
+                ButtonRed,
+                assets);
+
+            refs.FinishLobbyButton = CreateButton(
+                "FinishLobby",
+                panel.transform,
+                "LOBBY",
+                new Vector2(132f, -150f),
+                ButtonDark,
+                assets);
+
+            panel.SetActive(false);
+            return panel;
+        }
+
+        private static GameObject CreateGameOverPanel(RectTransform canvas, MapAssets assets, MapUiRefs refs)
+        {
+            var panel = CreateOverlay("GameOverPanel", canvas, assets);
+
+            var title = CreateText(
+                "GameOverTitle",
+                panel.transform,
+                "PARTIDA TERMINADA",
+                assets.DisplayFont,
+                54f,
+                new Color(1f, 0.55f, 0.55f),
+                TextAlignmentOptions.Center,
+                6f);
+            Center(title.rectTransform, new Vector2(1100f, 76f), new Vector2(0f, 78f));
+
+            var subtitle = CreateText(
+                "GameOverSubtitle",
+                panel.transform,
+                "El trineo cayó.",
+                assets.BodyFont,
+                20f,
+                new Color(0.8f, 0.86f, 0.94f),
                 TextAlignmentOptions.Center,
                 2f);
-            Center(note.rectTransform, new Vector2(900f, 26f), new Vector2(0f, -66f));
+            Center(subtitle.rectTransform, new Vector2(900f, 30f), new Vector2(0f, 26f));
 
-            var hint = CreateText(
-                "FinishHint",
-                rect,
-                "Recarga la página para volver a volar.",
-                assets.BodyFont,
-                12f,
-                new Color(0.5f, 0.62f, 0.74f),
-                TextAlignmentOptions.Center,
-                1f);
-            Center(hint.rectTransform, new Vector2(900f, 22f), new Vector2(0f, -94f));
+            refs.GameOverRetryButton = CreateButton(
+                "GameOverRetry",
+                panel.transform,
+                "REINTENTAR",
+                new Vector2(-132f, -48f),
+                ButtonRed,
+                assets);
 
-            go.SetActive(false);
+            refs.GameOverLobbyButton = CreateButton(
+                "GameOverLobby",
+                panel.transform,
+                "LOBBY",
+                new Vector2(132f, -48f),
+                ButtonDark,
+                assets);
+
+            panel.SetActive(false);
+            return panel;
+        }
+
+        private static GameObject CreateOverlay(string name, RectTransform canvas, MapAssets assets)
+        {
+            var go = new GameObject(name, typeof(RectTransform));
+            var rect = go.GetComponent<RectTransform>();
+            rect.SetParent(canvas, false);
+            rect.anchorMin = Vector2.zero;
+            rect.anchorMax = Vector2.one;
+            rect.offsetMin = Vector2.zero;
+            rect.offsetMax = Vector2.zero;
+
+            var image = go.AddComponent<Image>();
+            image.sprite = assets.Panel;
+            image.color = PanelDark;
+            image.raycastTarget = true;
+
             return go;
+        }
+
+        private static Button CreateButton(
+            string name,
+            Transform parent,
+            string label,
+            Vector2 position,
+            Color background,
+            MapAssets assets)
+        {
+            var go = new GameObject(name, typeof(RectTransform));
+            var rect = go.GetComponent<RectTransform>();
+            rect.SetParent(parent, false);
+            Center(rect, new Vector2(244f, 54f), position);
+
+            var image = go.AddComponent<Image>();
+            image.sprite = assets.Panel;
+            image.color = background;
+            image.raycastTarget = true;
+
+            var button = go.AddComponent<Button>();
+            button.targetGraphic = image;
+            button.transition = Selectable.Transition.ColorTint;
+            button.navigation = new Navigation { mode = Navigation.Mode.None };
+            button.colors = new ColorBlock
+            {
+                normalColor = Color.white,
+                highlightedColor = new Color(0.84f, 0.92f, 1f),
+                pressedColor = new Color(0.68f, 0.76f, 0.86f),
+                selectedColor = Color.white,
+                disabledColor = new Color(0.45f, 0.45f, 0.45f, 0.5f),
+                colorMultiplier = 1f,
+                fadeDuration = 0.08f
+            };
+
+            var text = CreateText(
+                name + "Label",
+                rect,
+                label,
+                assets.BodyBoldFont,
+                16f,
+                new Color(0.96f, 0.98f, 1f),
+                TextAlignmentOptions.Center,
+                3f);
+
+            text.rectTransform.anchorMin = Vector2.zero;
+            text.rectTransform.anchorMax = Vector2.one;
+            text.rectTransform.offsetMin = Vector2.zero;
+            text.rectTransform.offsetMax = Vector2.zero;
+            return button;
+        }
+
+        private static TMP_Text CreateTimer(RectTransform canvas, MapAssets assets)
+        {
+            var text = CreateText(
+                "Timer",
+                canvas,
+                "00:00",
+                assets.DisplayFont,
+                28f,
+                new Color(0.74f, 0.9f, 1f, 0.92f),
+                TextAlignmentOptions.TopRight,
+                4f);
+
+            var rect = text.rectTransform;
+            rect.anchorMin = new Vector2(1f, 1f);
+            rect.anchorMax = new Vector2(1f, 1f);
+            rect.pivot = new Vector2(1f, 1f);
+            rect.anchoredPosition = new Vector2(-30f, -24f);
+            rect.sizeDelta = new Vector2(220f, 40f);
+            return text;
+        }
+
+        private static CanvasGroup CreateCheckpointToast(RectTransform canvas, MapAssets assets)
+        {
+            var go = new GameObject("CheckpointToast", typeof(RectTransform));
+            var rect = go.GetComponent<RectTransform>();
+            rect.SetParent(canvas, false);
+            rect.anchorMin = new Vector2(0.5f, 1f);
+            rect.anchorMax = new Vector2(0.5f, 1f);
+            rect.pivot = new Vector2(0.5f, 1f);
+            rect.anchoredPosition = new Vector2(0f, -128f);
+            rect.sizeDelta = new Vector2(600f, 46f);
+
+            var text = CreateText(
+                "CheckpointLabel",
+                rect,
+                "CHECKPOINT",
+                assets.DisplayFont,
+                30f,
+                new Color(0.55f, 1f, 0.88f, 0.95f),
+                TextAlignmentOptions.Center,
+                7f);
+            text.rectTransform.anchorMin = Vector2.zero;
+            text.rectTransform.anchorMax = Vector2.one;
+            text.rectTransform.offsetMin = Vector2.zero;
+            text.rectTransform.offsetMax = Vector2.zero;
+
+            var group = go.AddComponent<CanvasGroup>();
+            group.alpha = 0f;
+            group.blocksRaycasts = false;
+            group.interactable = false;
+            return group;
         }
 
         private static void Center(RectTransform rect, Vector2 size, Vector2 position)

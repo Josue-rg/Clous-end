@@ -9,7 +9,7 @@ namespace ClousEnd.EditorTools
     {
         public GameObject Player;
         public Camera Camera;
-        public GameObject FinishPanel;
+        public MapUiRefs Ui;
     }
 
     /// <summary>
@@ -42,7 +42,7 @@ namespace ClousEnd.EditorTools
             var camera = BuildCamera(parent, character);
 
             var effects = BuildEffects(parent, assets);
-            MapUIBuilder.Build(parent, assets, input, character, out _, out _, out var finishPanel);
+            var ui = MapUIBuilder.Build(parent, assets, input, character);
             BuildWeather(parent, assets, player.transform);
 
             var aim = character.GetComponent<CharacterAim>();
@@ -100,7 +100,7 @@ namespace ClousEnd.EditorTools
 
             MapObjects.SetLayerRecursive(player, LayerMask.NameToLayer("Ignore Raycast"));
 
-            return new MapPlayerResult { Player = player, Camera = camera, FinishPanel = finishPanel };
+            return new MapPlayerResult { Player = player, Camera = camera, Ui = ui };
         }
 
         private static void BuildVehicleVisual(Transform player, MapAssets assets)

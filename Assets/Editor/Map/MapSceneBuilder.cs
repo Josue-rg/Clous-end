@@ -3,8 +3,10 @@ using System.Linq;
 using ClousEnd.Game;
 using ClousEnd.World;
 using UnityEditor;
+using UnityEditor.Events;
 using UnityEditor.SceneManagement;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
 namespace ClousEnd.EditorTools
@@ -53,18 +55,31 @@ namespace ClousEnd.EditorTools
 
             var player = MapPlayerBuilder.Build(root, assets);
 
-            var goalGo = new GameObject("MissionGoal");
-            goalGo.transform.SetParent(root, false);
-            goalGo.transform.localPosition = new Vector3(0f, 0f, 1450f);
+            var missionGo = new GameObject("Mission");
+            missionGo.transform.SetParent(root, false);
 
-            var goal = goalGo.AddComponent<MissionGoal>();
-            SerializedField.Set(goal, "player", player.Player.transform);
-            SerializedField.Set(goal, "finishPanel", player.FinishPanel);
-            SerializedField.Set(goal, "motor", player.Player.GetComponent<VehicleMotor>());
-            SerializedField.Set(goal, "input", player.Player.GetComponent<PlayerInputReader>());
-            SerializedField.Set(goal, "finishZ", 1450f);
-            SerializedField.Set(goal, "halfWidth", 130f);
-            SerializedField.Set(goal, "maxHeight", 400f);
+            var mission = missionGo.AddComponent<MissionManager>();
+            SerializedField.Set(mission, "player", player.Player.transform);
+            SerializedField.Set(mission, "motor", player.Player.GetComponent<VehicleMotor>());
+            SerializedField.Set(mission, "input", player.Player.GetComponent<PlayerInputReader>());
+            SerializedField.Set(mission, "finishPanel", player.Ui.FinishPanel);
+            SerializedField.Set(mission, "finishTime", player.Ui.FinishTime);
+            SerializedField.Set(mission, "finishRenos", player.Ui.FinishRenos);
+            SerializedField.Set(mission, "gameOverPanel", player.Ui.GameOverPanel);
+            SerializedField.Set(mission, "timerLabel", player.Ui.TimerLabel);
+            SerializedField.Set(mission, "checkpointToast", player.Ui.CheckpointToast);
+            SerializedField.Set(mission, "finishZ", 1450f);
+            SerializedField.Set(mission, "checkpointZ", 1000f);
+            SerializedField.Set(mission, "halfWidth", 130f);
+            SerializedField.Set(mission, "maxHeight", 400f);
+            SerializedField.Set(mission, "fallLimitY", -30f);
+            SerializedField.Set(mission, "reindeerAlive", 4);
+            SerializedField.Set(mission, "lobbyScene", "Login");
+
+            UnityEventTools.AddPersistentListener(player.Ui.FinishRetryButton.onClick, new UnityAction(mission.RestartRun));
+            UnityEventTools.AddPersistentListener(player.Ui.FinishLobbyButton.onClick, new UnityAction(mission.ReturnToLobby));
+            UnityEventTools.AddPersistentListener(player.Ui.GameOverRetryButton.onClick, new UnityAction(mission.RetryFromCheckpoint));
+            UnityEventTools.AddPersistentListener(player.Ui.GameOverLobbyButton.onClick, new UnityAction(mission.ReturnToLobby));
 
             var worldGo = new GameObject("World");
             worldGo.transform.SetParent(root, false);

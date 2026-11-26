@@ -1,24 +1,68 @@
 {
   "asset": "SK_Reindeer_Vixen",
   "mesh": "SK_Reindeer_Vixen.fbx",
-  "triangles": 38540,
-  "vertices": 19374,
-  "clip": "Gallop",
-  "frames": 24,
-  "fps": 30,
-  "loop": true,
-  "texture": "T_Reindeer_Vixen_Gallop_Pos.exr",
-  "texture_width": 1024,
-  "texture_height": 456,
-  "rows": 19,
-  "bounds_min": [
-    -0.2821,
-    -1.6196,
-    -0.1027
-  ],
-  "bounds_max": [
-    0.2821,
-    0.9445,
-    2.0665
+  "triangles": 22000,
+  "vertices": 11104,
+  "clips": [
+    {
+      "name": "Gallop",
+      "frames": 24,
+      "fps": 30,
+      "loop": true,
+      "texture": "T_Reindeer_Vixen_Gallop_Pos.exr",
+      "texture_width": 1024,
+      "texture_height": 264,
+      "rows": 11,
+      "bounds_min": [
+        -0.2821,
+        -1.6195,
+        -0.1027
+      ],
+      "bounds_max": [
+        0.2821,
+        0.9445,
+        2.0665
+      ]
+    },
+    {
+      "name": "Death",
+      "frames": 38,
+      "fps": 30,
+      "loop": false,
+      "texture": "T_Reindeer_Vixen_Death_Pos.exr",
+      "texture_width": 1024,
+      "texture_height": 418,
+      "rows": 11,
+      "bounds_min": [
+        -1.6306,
+        -1.6787,
+        -0.5902
+      ],
+      "bounds_max": [
+        0.2808,
+        0.9414,
+        1.941
+      ]
+    },
+    {
+      "name": "Hurt",
+      "frames": 16,
+      "fps": 30,
+      "loop": false,
+      "texture": "T_Reindeer_Vixen_Hurt_Pos.exr",
+      "texture_width": 1024,
+      "texture_height": 176,
+      "rows": 11,
+      "bounds_min": [
+        -0.3479,
+        -1.5981,
+        -0.0722
+      ],
+      "bounds_max": [
+        0.3921,
+        0.9444,
+        2.0073
+      ]
+    }
   ]
 }

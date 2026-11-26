@@ -50,6 +50,7 @@ namespace ClousEnd.EditorTools
 
         public VolumeProfile Volume;
         public TMP_FontAsset BodyFont;
+        public TMP_FontAsset BodyBoldFont;
         public TMP_FontAsset DisplayFont;
         public Sprite Crosshair;
         public Sprite Panel;
@@ -106,6 +107,7 @@ namespace ClousEnd.EditorTools
                 Gunmetal = Lit("M_Map_Gunmetal", MapPalette.Gunmetal, 0.52f, 0.65f),
 
                 BodyFont = AssetDatabase.LoadAssetAtPath<TMP_FontAsset>("Assets/Art/Fonts/TMP/Lato-Regular SDF.asset"),
+                BodyBoldFont = AssetDatabase.LoadAssetAtPath<TMP_FontAsset>("Assets/Art/Fonts/TMP/Lato-Bold SDF.asset"),
                 DisplayFont = AssetDatabase.LoadAssetAtPath<TMP_FontAsset>("Assets/Art/Fonts/TMP/BebasNeue SDF.asset"),
                 Crosshair = CreateCrosshairSprite(),
                 Panel = AssetDatabase.LoadAssetAtPath<Sprite>(LoginRoot + "/Textures/ui-white.png")

@@ -447,6 +447,14 @@ def build():
         displace(snow, 0.008, 0.03)
         add(snow, P['snow'])
 
+    # ================================================================ ESCALA
+    # 5,9 m era demasiado frente a un reno de 1,33 m. Se baja a ~4,6 m.
+    SLEIGH_SCALE = 0.78
+    for p in parts:
+        for v in p.data.vertices:
+            v.co *= SLEIGH_SCALE
+        p.location *= SLEIGH_SCALE
+
     # ================================================================ CIERRE
     root = bpy.data.objects.new("SM_Sleigh", None)
     root.empty_display_type = 'PLAIN_AXES'

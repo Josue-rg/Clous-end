@@ -16,16 +16,16 @@ OUT = r"C:\Users\Josue\Desktop\CLOUS-END_Modelos3D\Previews"
 TMP = r"C:\Users\Josue\AppData\Local\Temp\opencode\vat_frames"
 
 ASSETS = [
-    ("Santa", "011_Santa_Idle.png", 4),
-    ("Sleigh", "012_Trineo_Vuelo.png", 4),
-    ("Sabueso", "013_Sabueso_Carrera.png", 4),
-    ("Garfio", "014_Garfio_Hover.png", 4),
-    ("Espora", "015_Espora_Pulso.png", 4),
-    ("Robot_Manto", "016_Robot_Manto.png", 4),
-    ("Robot_Torre", "017_Robot_Torre.png", 4),
-    ("NicolasCero", "018_Boss_Idle.png", 4),
-    ("Ship_Caza", "019_Nave_Caza.png", 4),
-    ("Ship_Recolector", "020_Nave_Recolector.png", 4),
+    ("Santa", "AN_Santa_Draw", "011_Santa_SacaArma.png", 5),
+    ("Sleigh", "AN_Sleigh_Flight", "012_Trineo_Vuelo.png", 4),
+    ("Reindeer_Rodolfo", "AN_Rodolfo_Death", "013_Reno_Muerte.png", 5),
+    ("Sabueso", "AN_Sabueso_Run", "014_Sabueso_Carrera.png", 4),
+    ("Garfio", "AN_Garfio_Hover", "015_Garfio_Hover.png", 4),
+    ("Espora", "AN_Espora_Pulse", "016_Espora_Pulso.png", 4),
+    ("Robot_Manto", "AN_Robot_Manto_Idle", "017_Robot_Manto.png", 4),
+    ("Robot_Torre", "AN_Robot_Torre_Idle", "018_Robot_Torre.png", 4),
+    ("NicolasCero", "AN_NicolasCero_Idle", "019_Boss_Idle.png", 4),
+    ("Ship_Caza", "AN_Ship_Caza_Hover", "020_Nave_Caza.png", 4),
 ]
 
 
@@ -53,11 +53,11 @@ def add_studio():
         return o
 
     area("L_Key", (3.0, -4.0, 4.2), (math.radians(52), 0, math.radians(38)),
-         900, 3.0, (1.0, 0.93, 0.84))
+         560, 3.0, (1.0, 0.94, 0.87))
     area("L_Fill", (-4.0, -2.2, 2.2), (math.radians(72), 0, math.radians(-62)),
-         260, 4.0, (0.62, 0.74, 1.0))
+         180, 4.0, (0.62, 0.74, 1.0))
     area("L_Rim", (-1.6, 4.4, 3.4), (math.radians(115), 0, math.radians(200)),
-         700, 2.4, (0.75, 0.88, 1.0))
+         430, 2.4, (0.75, 0.88, 1.0))
 
     import bmesh
     bm = bmesh.new()
@@ -93,13 +93,21 @@ def bounds(obj):
     return mn, mx
 
 
-def render_asset(name, out_name, nframes):
+def render_asset(name, action_name, out_name, nframes):
     path = os.path.join(BASE, "VAT", name, "SK_%s_vat.blend" % name)
     if not os.path.exists(path):
         print("FALTA", path)
         return False
     bpy.ops.wm.open_mainfile(filepath=path)
     add_studio()
+
+    for o in bpy.data.objects:
+        if o.type == 'ARMATURE' and o.animation_data:
+            act = bpy.data.actions.get(action_name)
+            if act:
+                o.animation_data.action = act
+                if act.slots:
+                    o.animation_data.action_slot = act.slots[0]
 
     scene = bpy.context.scene
     obj = next((o for o in bpy.data.objects
@@ -138,7 +146,8 @@ def render_asset(name, out_name, nframes):
         pass
 
     total = int(scene.frame_end)
-    frames = [1 + int(round(i * 24 / nframes)) for i in range(nframes)]
+    last = int(scene.frame_end) if scene.frame_end > 1 else 24
+    frames = [1 + int(round(i * (last - 1) / max(1, nframes - 1))) for i in range(nframes)]
 
     tiles = []
     os.makedirs(TMP, exist_ok=True)
@@ -172,9 +181,9 @@ def render_asset(name, out_name, nframes):
 def main():
     os.makedirs(OUT, exist_ok=True)
     done = 0
-    for name, out_name, nf in ASSETS:
+    for name, act, out_name, nf in ASSETS:
         try:
-            if render_asset(name, out_name, nf):
+            if render_asset(name, act, out_name, nf):
                 done += 1
         except Exception as exc:
             print("ERROR", name, repr(exc))

@@ -45,6 +45,31 @@ namespace ClousEnd.Game
             controller = GetComponent<CharacterController>();
         }
 
+        /// <summary>Mueve el vehículo al punto indicado y anula su inercia.</summary>
+        public void Teleport(Vector3 position)
+        {
+            if (controller == null)
+                controller = GetComponent<CharacterController>();
+
+            if (controller != null)
+                controller.enabled = false;
+
+            transform.position = position;
+
+            if (controller != null)
+                controller.enabled = true;
+
+            planarVelocity = Vector3.zero;
+            verticalVelocity = 0f;
+        }
+
+        /// <summary>Corta el movimiento sin mover el vehículo.</summary>
+        public void ResetMotion()
+        {
+            planarVelocity = Vector3.zero;
+            verticalVelocity = 0f;
+        }
+
         private void Update()
         {
             if (input == null)

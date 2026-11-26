@@ -182,39 +182,39 @@ def palette():
     P = {}
 
     # Santa
-    P['red'] = material("M_Santa_Coat_Red", (0.30, 0.035, 0.030, 1), rough=0.82,
+    P['red'] = material("M_Santa_Coat_Red", (0.225, 0.040, 0.034, 1), rough=0.88,
                         sheen=0.35, noise=dict(scale=38, detail=7, bump=0.22,
-                                               color1=(0.225, 0.026, 0.022, 1),
-                                               color2=(0.345, 0.048, 0.038, 1)))
-    P['fur'] = material("M_Fur_Cream", (0.72, 0.68, 0.60, 1), rough=0.88,
+                                               color1=(0.165, 0.030, 0.026, 1),
+                                               color2=(0.285, 0.055, 0.046, 1)))
+    P['fur'] = material("M_Fur_Cream", (0.615, 0.575, 0.500, 1), rough=0.92,
                         sheen=0.6, noise=dict(scale=60, detail=8, bump=0.55,
-                                              color1=(0.62, 0.58, 0.50, 1),
-                                              color2=(0.82, 0.79, 0.72, 1)))
-    P['skin'] = material("M_Skin_Aged", (0.52, 0.29, 0.22, 1), rough=0.62, sss=0.18,
+                                              color1=(0.520, 0.485, 0.420, 1),
+                                              color2=(0.700, 0.665, 0.590, 1)))
+    P['skin'] = material("M_Skin_Aged", (0.455, 0.275, 0.215, 1), rough=0.58, sss=0.22,
                          noise=dict(scale=120, detail=4, bump=0.10,
-                                    color1=(0.48, 0.26, 0.20, 1),
-                                    color2=(0.55, 0.32, 0.25, 1)))
-    P['beard'] = material("M_Hair_White", (0.80, 0.79, 0.75, 1), rough=0.78,
+                                    color1=(0.415, 0.245, 0.190, 1),
+                                    color2=(0.495, 0.300, 0.235, 1)))
+    P['beard'] = material("M_Hair_White", (0.70, 0.695, 0.665, 1), rough=0.84,
                           sheen=0.5, noise=dict(scale=55, detail=6, bump=0.22,
-                                                color1=(0.70, 0.69, 0.66, 1),
-                                                color2=(0.88, 0.87, 0.84, 1)))
-    P['leather'] = material("M_Leather_Worn", (0.16, 0.09, 0.055, 1), rough=0.55,
+                                                color1=(0.585, 0.580, 0.555, 1),
+                                                color2=(0.800, 0.795, 0.770, 1)))
+    P['leather'] = material("M_Leather_Worn", (0.115, 0.068, 0.042, 1), rough=0.62,
                             noise=dict(scale=45, detail=7, bump=0.4,
-                                       color1=(0.11, 0.06, 0.035, 1),
-                                       color2=(0.22, 0.13, 0.08, 1)))
+                                       color1=(0.078, 0.045, 0.028, 1),
+                                       color2=(0.165, 0.100, 0.062, 1)))
     P['iron'] = material("M_Iron_Forged", (0.20, 0.19, 0.18, 1), rough=0.52, metal=1.0,
                          noise=dict(scale=35, detail=6, bump=0.35,
                                     color1=(0.14, 0.13, 0.13, 1),
                                     color2=(0.30, 0.29, 0.27, 1)))
-    P['brass'] = material("M_Brass", (0.62, 0.44, 0.18, 1), rough=0.32, metal=1.0,
+    P['brass'] = material("M_Brass", (0.500, 0.360, 0.155, 1), rough=0.38, metal=1.0,
                           noise=dict(scale=40, detail=5, bump=0.2,
-                                     color1=(0.46, 0.31, 0.12, 1),
-                                     color2=(0.74, 0.56, 0.26, 1)))
-    P['wood'] = material("M_Wood_Ash", (0.30, 0.19, 0.10, 1), rough=0.48,
+                                     color1=(0.360, 0.250, 0.100, 1),
+                                     color2=(0.600, 0.450, 0.215, 1)))
+    P['wood'] = material("M_Wood_Ash", (0.225, 0.148, 0.082, 1), rough=0.52,
                          noise=dict(scale=18, detail=9, bump=0.45, mapping=(3, 3, 30),
-                                    color1=(0.22, 0.13, 0.065, 1),
-                                    color2=(0.40, 0.27, 0.15, 1)))
-    P['vest'] = material("M_Vest_Thermal", (0.075, 0.095, 0.10, 1), rough=0.75,
+                                    color1=(0.150, 0.092, 0.048, 1),
+                                    color2=(0.300, 0.205, 0.118, 1)))
+    P['vest'] = material("M_Vest_Thermal", (0.058, 0.072, 0.078, 1), rough=0.80,
                          sheen=0.25, noise=dict(scale=120, detail=5, bump=0.3,
                                                 color1=(0.055, 0.070, 0.075, 1),
                                                 color2=(0.10, 0.125, 0.13, 1)))
@@ -818,9 +818,9 @@ def studio(bg=(0.055, 0.06, 0.075, 1), strength=0.55, floor=True):
         obj.rotation_euler = rot
         return obj
 
-    area("L_Key", (3.2, -4.2, 4.4), (D2R(52), 0, D2R(38)), 700, 3.0, (1.0, 0.93, 0.84))
-    area("L_Fill", (-4.0, -2.2, 2.2), (D2R(72), 0, D2R(-62)), 180, 4.0, (0.62, 0.74, 1.0))
-    area("L_Rim", (-1.6, 4.4, 3.4), (D2R(115), 0, D2R(200)), 500, 2.4, (0.75, 0.88, 1.0))
+    area("L_Key", (3.2, -4.2, 4.4), (D2R(52), 0, D2R(38)), 430, 3.0, (1.0, 0.94, 0.87))
+    area("L_Fill", (-4.0, -2.2, 2.2), (D2R(72), 0, D2R(-62)), 130, 4.0, (0.62, 0.74, 1.0))
+    area("L_Rim", (-1.6, 4.4, 3.4), (D2R(115), 0, D2R(200)), 330, 2.4, (0.75, 0.88, 1.0))
 
     if floor:
         f = box("PREVIEW_Floor", (14, 14, 0.02), location=(0, 0, -0.01), coll=coll)

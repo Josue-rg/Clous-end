@@ -1,0 +1,20 @@
+{
+  "asset": "Ship_Recolector",
+  "lod0_triangles": 3206,
+  "levels": [
+    {
+      "level": "LOD1",
+      "mesh": "SK_Ship_Recolector_LOD1.fbx",
+      "triangles": 1442
+    },
+    {
+      "level": "LOD2",
+      "mesh": "SK_Ship_Recolector_LOD2.fbx",
+      "triangles": 570
+    }
+  ],
+  "collision": {
+    "mesh": "SK_Ship_Recolector_COL.fbx",
+    "triangles": 81
+  }
+}

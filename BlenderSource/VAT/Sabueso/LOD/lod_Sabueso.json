@@ -1,0 +1,20 @@
+{
+  "asset": "Sabueso",
+  "lod0_triangles": 1404,
+  "levels": [
+    {
+      "level": "LOD1",
+      "mesh": "SK_Sabueso_LOD1.fbx",
+      "triangles": 630
+    },
+    {
+      "level": "LOD2",
+      "mesh": "SK_Sabueso_LOD2.fbx",
+      "triangles": 252
+    }
+  ],
+  "collision": {
+    "mesh": "SK_Sabueso_COL.fbx",
+    "triangles": 46
+  }
+}

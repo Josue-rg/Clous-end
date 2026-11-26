@@ -1,0 +1,20 @@
+{
+  "asset": "Reindeer_Cometa",
+  "lod0_triangles": 22000,
+  "levels": [
+    {
+      "level": "LOD1",
+      "mesh": "SK_Reindeer_Cometa_LOD1.fbx",
+      "triangles": 9900
+    },
+    {
+      "level": "LOD2",
+      "mesh": "SK_Reindeer_Cometa_LOD2.fbx",
+      "triangles": 3960
+    }
+  ],
+  "collision": {
+    "mesh": "SK_Reindeer_Cometa_COL.fbx",
+    "triangles": 95
+  }
+}
