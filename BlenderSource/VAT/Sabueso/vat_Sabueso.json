@@ -1,0 +1,24 @@
+{
+  "asset": "SK_Sabueso",
+  "mesh": "SK_Sabueso.fbx",
+  "triangles": 1404,
+  "vertices": 732,
+  "clip": "Run",
+  "frames": 20,
+  "fps": 30,
+  "loop": true,
+  "texture": "T_Sabueso_Run_Pos.exr",
+  "texture_width": 1024,
+  "texture_height": 20,
+  "rows": 1,
+  "bounds_min": [
+    -0.5152,
+    -0.8677,
+    -0.0124
+  ],
+  "bounds_max": [
+    0.5152,
+    0.5012,
+    1.0042
+  ]
+}

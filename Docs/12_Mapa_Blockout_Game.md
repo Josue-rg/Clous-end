@@ -46,6 +46,7 @@ cambiar materiales, añadir props) y los cambios se conservan. La reconstrucció
 | Disparar | Clic izquierdo |
 | Girar la cámara | Clic derecho + arrastrar |
 | Zoom | Rueda del ratón |
+| Terminar la partida | Llegar a la línea del Refugio (z = 1450) |
 
 Valores ajustables en el Inspector:
 
@@ -160,6 +161,22 @@ No hay `new GameObject()` en runtime, ni `FindObjectOfType`, ni instanciación d
 el trazador y el impacto ya existen en la escena y se reutilizan.
 
 ---
+
+## Colisiones
+
+- Los edificios tienen collider en el volumen y, los históricos, también en la pirámide de la
+  cubierta. La iglesia tiene collider propio para la nave y el tejado.
+- Las pasarelas, la viga del checkpoint, la puerta de entrada, el cartel, la grúa, el faro y el
+  arco de meta tienen colliders. Los props fusionados conservan los suyos.
+- Los pinos tienen un collider de tronco; la nieve y los bancos son decorativos.
+- El `CharacterController` usa radio 1,9 m para que el cubo de pruebas no se meta en las paredes.
+
+## Meta y fin de partida
+
+- La meta es la línea **z = 1450**, marcada con un arco y una franja luminosa en el Refugio.
+- `MissionGoal` compara la posición del jugador (funciona a pie, volando o a gran velocidad).
+- Al cruzarla: se desactivan `VehicleMotor` y `PlayerInputReader` y aparece el panel
+  **MISIÓN COMPLETADA** con el texto de cierre.
 
 ## Dónde se sustituyen los placeholders
 

@@ -51,7 +51,7 @@ La prioridad no es la cantidad: es que la historia se entienda, que volar y disp
 | Entregable | Estado |
 |---|---|
 | Documentación y alcance congelado | Hecho |
-| Login con perfil local, 2 botones y diorama | Hecho |
+| Login con botón JUGAR y diorama (sin credenciales) | Hecho |
 | Reglas de trabajo (`AGENTS.md`) | Hecho |
 | Escena `Game` y blockout del mapa | Hecho (blockout jugable, ver doc 12) |
 | Kit del mapa en Blender | Pendiente |

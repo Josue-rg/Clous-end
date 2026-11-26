@@ -1,0 +1,24 @@
+{
+  "asset": "SK_Reindeer_Donner",
+  "mesh": "SK_Reindeer_Donner.fbx",
+  "triangles": 38324,
+  "vertices": 19262,
+  "clip": "Gallop",
+  "frames": 24,
+  "fps": 30,
+  "loop": true,
+  "texture": "T_Reindeer_Donner_Gallop_Pos.exr",
+  "texture_width": 1024,
+  "texture_height": 456,
+  "rows": 19,
+  "bounds_min": [
+    -0.3873,
+    -1.8634,
+    -0.1085
+  ],
+  "bounds_max": [
+    0.3873,
+    1.0865,
+    2.6413
+  ]
+}

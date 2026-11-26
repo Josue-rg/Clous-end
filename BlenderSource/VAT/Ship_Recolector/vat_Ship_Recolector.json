@@ -1,0 +1,24 @@
+{
+  "asset": "SK_Ship_Recolector",
+  "mesh": "SK_Ship_Recolector.fbx",
+  "triangles": 3206,
+  "vertices": 1697,
+  "clip": "Hover",
+  "frames": 40,
+  "fps": 30,
+  "loop": true,
+  "texture": "T_Ship_Recolector_Hover_Pos.exr",
+  "texture_width": 1024,
+  "texture_height": 80,
+  "rows": 2,
+  "bounds_min": [
+    -2.6529,
+    -6.0268,
+    -2.9378
+  ],
+  "bounds_max": [
+    2.6529,
+    7.4332,
+    2.5929
+  ]
+}

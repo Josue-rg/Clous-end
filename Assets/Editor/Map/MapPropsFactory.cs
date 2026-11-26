@@ -39,6 +39,11 @@ namespace ClousEnd.EditorTools
             root.transform.localRotation = Quaternion.Euler(0f, (float)random.NextDouble() * 360f, 0f);
             root.transform.localScale = Vector3.one * scale;
 
+            var collider = root.AddComponent<CapsuleCollider>();
+            collider.radius = 0.38f;
+            collider.height = 4.2f;
+            collider.center = new Vector3(0f, 2.1f, 0f);
+
             MapObjects.Cylinder(root.transform, "Trunk", Vector3.zero, 0.28f, 2.6f, trunk, false, true);
 
             MapObjects.Mesh(

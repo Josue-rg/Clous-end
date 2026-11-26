@@ -1,0 +1,24 @@
+{
+  "asset": "SK_Ship_Caza",
+  "mesh": "SK_Ship_Caza.fbx",
+  "triangles": 1028,
+  "vertices": 548,
+  "clip": "Hover",
+  "frames": 40,
+  "fps": 30,
+  "loop": true,
+  "texture": "T_Ship_Caza_Hover_Pos.exr",
+  "texture_width": 1024,
+  "texture_height": 40,
+  "rows": 1,
+  "bounds_min": [
+    -3.4518,
+    -3.9593,
+    -0.2501
+  ],
+  "bounds_max": [
+    3.4517,
+    3.0412,
+    1.3737
+  ]
+}

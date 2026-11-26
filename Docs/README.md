@@ -1,6 +1,6 @@
 # CLOUS-END — Documentación de diseño
 
-**Estado:** preproducción · documentación v0.2 · alcance final definido · login jugable
+**Estado:** preproducción · documentación v0.2 · alcance final definido · lobby y blockout jugables
 **Motor:** Unity 6.6.0f1 · URP 17.6 · Input System 1.20
 **Género:** shooter cinemático de defensa sobre trineo (on-rails / semi-libre)
 **Duración objetivo:** 20–30 minutos · **1 mapa** · sin niveles ni progresión
@@ -51,7 +51,7 @@ mapa en Blender (calle, edificio, esquina y puente).
 ## Estado de implementación
 
 - [x] Documentación de visión, historia, gameplay, mapas, personajes, monstruos, arte, técnica, producción y alcance final.
-- [x] Escena de login jugable con perfil local, dos botones y diorama 3D.
+- [x] Lobby jugable con botón JUGAR, SALIR y diorama 3D.
 - [x] Reglas de trabajo en `AGENTS.md` (sin creación en runtime, datos en Inspector/ScriptableObjects).
 - [x] Blockout jugable de la escena `Game` con el Distrito Aurora, cámara, mira, disparo y HUD de pruebas.
 - [ ] Pruebas de resolución y error de credenciales del login.

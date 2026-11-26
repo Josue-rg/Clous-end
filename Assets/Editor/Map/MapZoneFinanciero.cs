@@ -48,7 +48,7 @@ namespace ClousEnd.EditorTools
 
             MapObjects.Box(checkpoint.transform, "PylonL", new Vector3(-17.5f, 15f, 0f), new Vector3(8f, 30f, 8f), assets.Concrete, true, true);
             MapObjects.Box(checkpoint.transform, "PylonR", new Vector3(17.5f, 15f, 0f), new Vector3(8f, 30f, 8f), assets.Concrete, true, true);
-            MapObjects.Box(checkpoint.transform, "Beam", new Vector3(0f, 27f, 0f), new Vector3(54f, 2.2f, 4.4f), assets.Metal, false, true);
+            MapObjects.Box(checkpoint.transform, "Beam", new Vector3(0f, 27f, 0f), new Vector3(54f, 2.2f, 4.4f), assets.Metal, true, true);
             MapObjects.Box(checkpoint.transform, "LightBar", new Vector3(0f, 9.5f, 0f), new Vector3(36f, 0.35f, 0.35f), assets.LampCool, false, false);
             MapObjects.Box(checkpoint.transform, "ScreenL", new Vector3(-13.4f, 22f, -4.1f), new Vector3(0.4f, 4.6f, 7f), assets.LampCool, false, false);
             MapObjects.Box(checkpoint.transform, "ScreenR", new Vector3(13.4f, 22f, -4.1f), new Vector3(0.4f, 4.6f, 7f), assets.LampCool, false, false);
@@ -63,7 +63,7 @@ namespace ClousEnd.EditorTools
         {
             var bridge = MapObjects.Empty("SM_Skybridge", context.Landmarks, new Vector3(0f, height, z));
 
-            MapObjects.Box(bridge.transform, "Deck", Vector3.zero, new Vector3(48f, 3.4f, 6.4f), assets.Metal, false, true);
+            MapObjects.Box(bridge.transform, "Deck", Vector3.zero, new Vector3(48f, 3.4f, 6.4f), assets.Metal, true, true);
             MapObjects.Box(bridge.transform, "Glow", new Vector3(0f, -1.8f, 0f), new Vector3(42f, 0.18f, 0.5f), assets.LampCool, false, false);
             MapObjects.Box(bridge.transform, "RailL", new Vector3(-18f, 2.1f, 0f), new Vector3(0.3f, 0.9f, 6.4f), assets.Concrete, false, true);
             MapObjects.Box(bridge.transform, "RailR", new Vector3(18f, 2.1f, 0f), new Vector3(0.3f, 0.9f, 6.4f), assets.Concrete, false, true);
@@ -73,7 +73,7 @@ namespace ClousEnd.EditorTools
         {
             var billboard = MapObjects.Empty("SM_Billboard", context.Landmarks, new Vector3(24f, 0f, 980f));
 
-            MapObjects.Box(billboard.transform, "Frame", new Vector3(-4.5f, 48f, 0f), new Vector3(0.8f, 15f, 24f), assets.Metal, false, true);
+            MapObjects.Box(billboard.transform, "Frame", new Vector3(-4.5f, 48f, 0f), new Vector3(0.8f, 15f, 24f), assets.Metal, true, true);
             MapObjects.Box(billboard.transform, "Screen", new Vector3(-5f, 48f, 0f), new Vector3(0.4f, 13f, 21f), assets.AlienVein, false, false);
             MapObjects.Box(billboard.transform, "Backing", new Vector3(-3.8f, 48f, 0f), new Vector3(0.4f, 14.4f, 22.6f), assets.Metal, false, true);
         }
@@ -82,8 +82,8 @@ namespace ClousEnd.EditorTools
         {
             var crane = MapObjects.Empty("SM_Crane", context.Landmarks, new Vector3(52f, 0f, 1118f));
 
-            MapObjects.Box(crane.transform, "Mast", new Vector3(0f, 32f, 0f), new Vector3(2.4f, 64f, 2.4f), assets.Metal, false, true);
-            MapObjects.Box(crane.transform, "Jib", new Vector3(-14f, 62f, 0f), new Vector3(34f, 1.6f, 2f), assets.Metal, false, true);
+            MapObjects.Box(crane.transform, "Mast", new Vector3(0f, 32f, 0f), new Vector3(2.4f, 64f, 2.4f), assets.Metal, true, true);
+            MapObjects.Box(crane.transform, "Jib", new Vector3(-14f, 62f, 0f), new Vector3(34f, 1.6f, 2f), assets.Metal, true, true);
             MapObjects.Box(crane.transform, "CounterJib", new Vector3(9f, 62f, 0f), new Vector3(10f, 1.4f, 1.8f), assets.Metal, false, true);
             MapObjects.Box(crane.transform, "Cabin", new Vector3(-2.5f, 58f, 0f), new Vector3(3.2f, 3f, 3f), assets.Concrete, false, true);
             MapObjects.Box(crane.transform, "Beacon", new Vector3(-30f, 62f, 0f), new Vector3(0.7f, 0.7f, 0.7f), assets.LampWarm, false, false);

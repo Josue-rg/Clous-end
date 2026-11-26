@@ -9,6 +9,7 @@ namespace ClousEnd.EditorTools
     {
         public GameObject Player;
         public Camera Camera;
+        public GameObject FinishPanel;
     }
 
     /// <summary>
@@ -25,9 +26,9 @@ namespace ClousEnd.EditorTools
             player.transform.localPosition = new Vector3(0f, 9f, 8f);
 
             var controller = player.AddComponent<CharacterController>();
-            controller.radius = 1.6f;
-            controller.height = 3.2f;
-            controller.center = new Vector3(0f, 1.6f, 0f);
+            controller.radius = 1.9f;
+            controller.height = 3.4f;
+            controller.center = new Vector3(0f, 1.7f, 0f);
             controller.slopeLimit = 46f;
             controller.stepOffset = 0.5f;
             controller.skinWidth = 0.08f;
@@ -41,7 +42,7 @@ namespace ClousEnd.EditorTools
             var camera = BuildCamera(parent, character);
 
             var effects = BuildEffects(parent, assets);
-            MapUIBuilder.Build(parent, assets, input, character, out _, out _);
+            MapUIBuilder.Build(parent, assets, input, character, out _, out _, out var finishPanel);
             BuildWeather(parent, assets, player.transform);
 
             var aim = character.GetComponent<CharacterAim>();
@@ -57,17 +58,17 @@ namespace ClousEnd.EditorTools
 
             SerializedField.Set(motor, "input", input);
             SerializedField.Set(motor, "view", view);
-            SerializedField.Set(motor, "forwardSpeed", 18f);
-            SerializedField.Set(motor, "reverseSpeed", 9f);
-            SerializedField.Set(motor, "strafeSpeed", 12f);
-            SerializedField.Set(motor, "acceleration", 46f);
-            SerializedField.Set(motor, "deceleration", 64f);
+            SerializedField.Set(motor, "forwardSpeed", 24f);
+            SerializedField.Set(motor, "reverseSpeed", 11f);
+            SerializedField.Set(motor, "strafeSpeed", 16f);
+            SerializedField.Set(motor, "acceleration", 58f);
+            SerializedField.Set(motor, "deceleration", 78f);
             SerializedField.Set(motor, "gravity", -30f);
             SerializedField.Set(motor, "groundedStick", -2f);
             SerializedField.Set(motor, "turnSharpness", 12f);
             SerializedField.Set(motor, "flying", true);
-            SerializedField.Set(motor, "verticalSpeed", 12f);
-            SerializedField.Set(motor, "verticalAcceleration", 40f);
+            SerializedField.Set(motor, "verticalSpeed", 13f);
+            SerializedField.Set(motor, "verticalAcceleration", 45f);
 
             var weapon = character.GetComponent<HitscanWeapon>();
             SerializedField.Set(weapon, "input", input);
@@ -99,7 +100,7 @@ namespace ClousEnd.EditorTools
 
             MapObjects.SetLayerRecursive(player, LayerMask.NameToLayer("Ignore Raycast"));
 
-            return new MapPlayerResult { Player = player, Camera = camera };
+            return new MapPlayerResult { Player = player, Camera = camera, FinishPanel = finishPanel };
         }
 
         private static void BuildVehicleVisual(Transform player, MapAssets assets)
@@ -107,8 +108,8 @@ namespace ClousEnd.EditorTools
             MapObjects.Box(
                 player,
                 "PH_CarBody",
-                new Vector3(0f, 0.8f, 0f),
-                new Vector3(3.6f, 1.5f, 5.2f),
+                new Vector3(0f, 0.75f, 0f),
+                new Vector3(3.2f, 1.4f, 4.4f),
                 assets.CarPaint,
                 false,
                 true,
@@ -117,7 +118,7 @@ namespace ClousEnd.EditorTools
             MapObjects.Box(
                 player,
                 "PH_HeadlightL",
-                new Vector3(-1.15f, 0.72f, 2.62f),
+                new Vector3(-1f, 0.7f, 2.22f),
                 new Vector3(0.5f, 0.2f, 0.08f),
                 assets.LampWarm,
                 false,
@@ -127,7 +128,7 @@ namespace ClousEnd.EditorTools
             MapObjects.Box(
                 player,
                 "PH_HeadlightR",
-                new Vector3(1.15f, 0.72f, 2.62f),
+                new Vector3(1f, 0.7f, 2.22f),
                 new Vector3(0.5f, 0.2f, 0.08f),
                 assets.LampWarm,
                 false,

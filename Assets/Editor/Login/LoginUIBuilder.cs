@@ -58,7 +58,7 @@ namespace ClousEnd.EditorTools
             var brand = CreateBrand(screen, assets);
             var topRight = CreateTopRight(screen, assets);
             var content = CreateContent(screen, assets);
-            var panel = CreatePanel(content, assets, config, out var nameField, out var passwordField, out var primary, out var secondary, out var errorLabel, out var statusLabel);
+            var panel = CreatePanel(content, assets, config, out var primary, out var secondary, out var statusLabel);
             var footer = CreateFooter(screen, assets);
             var bottomRight = CreateBottomRight(screen, assets);
             var fade = CreateFadeOverlay(screen, assets);
@@ -66,31 +66,16 @@ namespace ClousEnd.EditorTools
 
             var controller = screen.gameObject.AddComponent<LoginFormController>();
             var quitter = secondary.Root.gameObject.AddComponent<SceneQuitter>();
-            var shaker = panel.gameObject.AddComponent<RectShaker>();
 
             SerializedField.Set(controller, "config", config);
-            SerializedField.Set(controller, "nameField", nameField);
-            SerializedField.Set(controller, "passwordField", passwordField);
             SerializedField.Set(controller, "enterButton", primary.Button);
             SerializedField.Set(controller, "exitButton", secondary.Button);
             SerializedField.Set(controller, "enterLabel", primary.Label);
-            SerializedField.Set(controller, "errorLabel", errorLabel);
             SerializedField.Set(controller, "statusLabel", statusLabel);
             SerializedField.Set(controller, "loadingIndicator", primary.Spinner);
             SerializedField.Set(controller, "fadeOverlay", fade);
-            SerializedField.Set(controller, "errorShake", shaker);
-            SerializedField.Set(controller, "loadingLabel", "ABRIENDO EL REFUGIO…");
-            SerializedField.Set(controller, "nameTooShort", "El nombre necesita al menos {0} caracteres.");
-            SerializedField.Set(controller, "passwordTooShort", "La contraseña necesita al menos {0} caracteres.");
-            SerializedField.Set(controller, "profileNotFound", "No encontramos ese perfil. Revisa el nombre o la contraseña.");
-            SerializedField.Set(controller, "welcomeFormat", "ACCESO CONCEDIDO · BIENVENIDO, {0}");
+            SerializedField.Set(controller, "loadingLabel", "ENTRANDO EN DISTRITO AURORA…");
             SerializedField.Set(controller, "demoMessage", "La escena «{0}» todavía no está en Build Settings.");
-            SerializedField.Set(controller, "focusDelay", 0.9f);
-
-            SerializedField.Set(shaker, "target", panel);
-            SerializedField.Set(shaker, "amplitude", 8f);
-            SerializedField.Set(shaker, "duration", 0.22f);
-            SerializedField.Set(shaker, "cycles", 3);
 
             UnityEventTools.AddPersistentListener(primary.Button.onClick, new UnityAction(controller.Submit));
             UnityEventTools.AddPersistentListener(secondary.Button.onClick, new UnityAction(quitter.Quit));
@@ -219,11 +204,8 @@ namespace ClousEnd.EditorTools
             RectTransform content,
             LoginAssets assets,
             LoginConfig config,
-            out TMP_InputField nameField,
-            out TMP_InputField passwordField,
             out ButtonRefs primary,
             out ButtonRefs secondary,
-            out TMP_Text errorLabel,
             out TMP_Text statusLabel)
         {
             var panel = CreateRect("LoginPanel", content, new Vector2(0f, 1f), new Vector2(0f, 1f), new Vector2(0f, 1f), new Vector2(0f, -312f), new Vector2(540f, 470f));
@@ -238,55 +220,40 @@ namespace ClousEnd.EditorTools
             SetTopLeft(accent.rectTransform, 0f, 28f, 3f, 22f);
 
             var header = CreateText(
-                "Header", panel, "ACCESO AL REFUGIO", assets.BodyBold, 18f, Cream,
+                "Header", panel, "DISTRITO AURORA", assets.BodyBold, 18f, Cream,
                 TextAlignmentOptions.MidlineLeft, false, 3f);
             SetTopLeft(header.rectTransform, 28f, 28f, 484f, 24f);
 
             var note = CreateText(
-                "Note", panel, "Perfil local · sin conexión", assets.Body, 12f, Dim,
+                "Note", panel, "Demo jugable · sin perfil", assets.Body, 12f, Dim,
                 TextAlignmentOptions.MidlineLeft, false, 1f);
             SetTopLeft(note.rectTransform, 28f, 54f, 484f, 16f);
 
             var divider = CreateImage("Divider", panel, assets.White, LineColor, Image.Type.Simple, false);
             SetTopLeft(divider.rectTransform, 28f, 78f, 484f, 1f);
 
-            var nameLabel = CreateText(
-                "NameLabel", panel, "NOMBRE DE JUGADOR", assets.BodyBold, 11f, Ice,
-                TextAlignmentOptions.MidlineLeft, false, 4f);
-            SetTopLeft(nameLabel.rectTransform, 28f, 90f, 484f, 14f);
+            var ready = CreateText(
+                "Ready", panel, "LA CIUDAD TE ESPERA", assets.Display, 34f, Cream,
+                TextAlignmentOptions.MidlineLeft, false, 3f);
+            SetTopLeft(ready.rectTransform, 28f, 96f, 484f, 44f);
 
-            nameField = CreateInputField(
-                "NameInput", panel, assets,
-                "Escribe tu nombre",
-                TMP_InputField.ContentType.Standard,
-                config.maxNameLength,
-                new Vector2(28f, -108f));
+            var tagline = CreateText(
+                "Tagline", panel, "Un trineo. Cuatro renos. Una noche.", assets.Body, 14f, Ice,
+                TextAlignmentOptions.MidlineLeft, false, 1f);
+            SetTopLeft(tagline.rectTransform, 28f, 142f, 484f, 22f);
 
-            var passwordLabel = CreateText(
-                "PasswordLabel", panel, "CONTRASEÑA", assets.BodyBold, 11f, Ice,
-                TextAlignmentOptions.MidlineLeft, false, 4f);
-            SetTopLeft(passwordLabel.rectTransform, 28f, 170f, 484f, 14f);
+            var meta = CreateText(
+                "Meta", panel, "4 zonas  ·  1,5 km  ·  vuelo libre", assets.Body, 11f, Dim,
+                TextAlignmentOptions.MidlineLeft, false, 3f);
+            SetTopLeft(meta.rectTransform, 28f, 165f, 484f, 18f);
 
-            passwordField = CreateInputField(
-                "PasswordInput", panel, assets,
-                "Mínimo 4 caracteres",
-                TMP_InputField.ContentType.Password,
-                config.maxPasswordLength,
-                new Vector2(28f, -188f));
-
-            errorLabel = CreateText(
-                "ErrorLabel", panel, string.Empty, assets.Body, 12f, Danger,
-                TextAlignmentOptions.TopLeft, true, 0f);
-            SetTopLeft(errorLabel.rectTransform, 28f, 242f, 484f, 18f);
-            errorLabel.gameObject.SetActive(false);
-
-            primary = CreatePrimaryButton(panel, assets, new Vector2(28f, -270f), new Vector2(484f, 54f));
-            secondary = CreateSecondaryButton(panel, assets, new Vector2(28f, -336f), new Vector2(484f, 46f));
+            primary = CreatePrimaryButton(panel, assets, new Vector2(28f, -204f), new Vector2(484f, 64f));
+            secondary = CreateSecondaryButton(panel, assets, new Vector2(28f, -284f), new Vector2(484f, 46f));
 
             statusLabel = CreateText(
                 "StatusLabel", panel, string.Empty, assets.Body, 12f, Aurora,
                 TextAlignmentOptions.TopLeft, true, 0f, 4f);
-            SetTopLeft(statusLabel.rectTransform, 28f, 394f, 484f, 52f);
+            SetTopLeft(statusLabel.rectTransform, 28f, 346f, 484f, 60f);
             statusLabel.gameObject.SetActive(false);
 
             return panel;
@@ -385,7 +352,7 @@ namespace ClousEnd.EditorTools
             highlightRect.sizeDelta = new Vector2(-2f, 1f);
 
             var label = CreateText(
-                "Label", root, "ENTRAR AL TRINEO", assets.BodyBold, 16f, Cream,
+                "Label", root, "JUGAR", assets.BodyBold, 20f, Cream,
                 TextAlignmentOptions.MidlineLeft, false, 2f);
             var labelRect = label.rectTransform;
             labelRect.anchorMin = Vector2.zero;
@@ -486,7 +453,7 @@ namespace ClousEnd.EditorTools
             SetBottomLeft(version.rectTransform, 0f, 18f, 280f, 14f);
 
             var hint = CreateText(
-                "Hint", root, "Pulsa ENTER para acceder", assets.Body, 10.5f, Ice,
+                "Hint", root, "Pulsa JUGAR para volar", assets.Body, 10.5f, Ice,
                 TextAlignmentOptions.BottomLeft, false, 1.5f);
             SetBottomLeft(hint.rectTransform, 0f, 0f, 320f, 14f);
 

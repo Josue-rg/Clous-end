@@ -14,7 +14,8 @@ namespace ClousEnd.EditorTools
             PlayerInputReader input,
             Transform viewer,
             out RectTransform canvasRect,
-            out RectTransform reticle)
+            out RectTransform reticle,
+            out GameObject finishPanel)
         {
             var canvasGo = new GameObject(
                 "UI",
@@ -38,6 +39,7 @@ namespace ClousEnd.EditorTools
             CreateControlsPanel(canvasRect, assets);
             CreateTitle(canvasRect, assets);
             CreateZoneTitle(canvasRect, assets, viewer);
+            finishPanel = CreateFinishPanel(canvasRect, assets);
 
             var pointer = canvasGo.AddComponent<PointerReticle>();
             SerializedField.Set(pointer, "input", input);
@@ -46,6 +48,88 @@ namespace ClousEnd.EditorTools
             SerializedField.Set(pointer, "hideSystemCursor", true);
 
             return canvasGo;
+        }
+
+        private static GameObject CreateFinishPanel(RectTransform canvas, MapAssets assets)
+        {
+            var go = new GameObject("FinishPanel", typeof(RectTransform));
+            var rect = go.GetComponent<RectTransform>();
+            rect.SetParent(canvas, false);
+            rect.anchorMin = Vector2.zero;
+            rect.anchorMax = Vector2.one;
+            rect.offsetMin = Vector2.zero;
+            rect.offsetMax = Vector2.zero;
+
+            var background = go.AddComponent<Image>();
+            background.sprite = assets.Panel;
+            background.color = new Color(0.004f, 0.008f, 0.016f, 0.995f);
+            background.raycastTarget = false;
+
+            var title = CreateText(
+                "FinishTitle",
+                rect,
+                "MISIÓN COMPLETADA",
+                assets.DisplayFont,
+                58f,
+                new Color(0.86f, 0.98f, 1f),
+                TextAlignmentOptions.Center,
+                7f);
+            Center(title.rectTransform, new Vector2(1000f, 80f), new Vector2(0f, 46f));
+
+            var line = new GameObject("FinishLine", typeof(RectTransform));
+            var lineRect = line.GetComponent<RectTransform>();
+            lineRect.SetParent(rect, false);
+            Center(lineRect, new Vector2(140f, 2f), new Vector2(0f, 2f));
+
+            var lineImage = line.AddComponent<Image>();
+            lineImage.sprite = assets.Panel;
+            lineImage.color = new Color(0.42f, 1f, 0.85f, 0.95f);
+            lineImage.raycastTarget = false;
+
+            var subtitle = CreateText(
+                "FinishSubtitle",
+                rect,
+                "REFUGIO AURORA ALCANZADO",
+                assets.BodyFont,
+                18f,
+                new Color(0.55f, 0.95f, 0.9f),
+                TextAlignmentOptions.Center,
+                5f);
+            Center(subtitle.rectTransform, new Vector2(900f, 30f), new Vector2(0f, -24f));
+
+            var note = CreateText(
+                "FinishNote",
+                rect,
+                "Gracias por jugar la demo de Distrito Aurora.",
+                assets.BodyFont,
+                15f,
+                new Color(0.8f, 0.88f, 0.96f),
+                TextAlignmentOptions.Center,
+                2f);
+            Center(note.rectTransform, new Vector2(900f, 26f), new Vector2(0f, -66f));
+
+            var hint = CreateText(
+                "FinishHint",
+                rect,
+                "Recarga la página para volver a volar.",
+                assets.BodyFont,
+                12f,
+                new Color(0.5f, 0.62f, 0.74f),
+                TextAlignmentOptions.Center,
+                1f);
+            Center(hint.rectTransform, new Vector2(900f, 22f), new Vector2(0f, -94f));
+
+            go.SetActive(false);
+            return go;
+        }
+
+        private static void Center(RectTransform rect, Vector2 size, Vector2 position)
+        {
+            rect.anchorMin = new Vector2(0.5f, 0.5f);
+            rect.anchorMax = new Vector2(0.5f, 0.5f);
+            rect.pivot = new Vector2(0.5f, 0.5f);
+            rect.sizeDelta = size;
+            rect.anchoredPosition = position;
         }
 
         private static RectTransform CreateReticle(RectTransform canvas, MapAssets assets)

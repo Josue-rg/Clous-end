@@ -1,0 +1,24 @@
+{
+  "asset": "SK_NicolasCero",
+  "mesh": "SK_NicolasCero.fbx",
+  "triangles": 9192,
+  "vertices": 4738,
+  "clip": "Idle",
+  "frames": 48,
+  "fps": 30,
+  "loop": true,
+  "texture": "T_NicolasCero_Idle_Pos.exr",
+  "texture_width": 1024,
+  "texture_height": 240,
+  "rows": 5,
+  "bounds_min": [
+    -0.7249,
+    -0.4903,
+    -0.0089
+  ],
+  "bounds_max": [
+    0.8716,
+    0.51,
+    2.8771
+  ]
+}

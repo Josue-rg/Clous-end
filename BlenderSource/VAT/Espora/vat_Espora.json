@@ -1,0 +1,24 @@
+{
+  "asset": "SK_Espora",
+  "mesh": "SK_Espora.fbx",
+  "triangles": 2544,
+  "vertices": 1292,
+  "clip": "Pulse",
+  "frames": 24,
+  "fps": 30,
+  "loop": true,
+  "texture": "T_Espora_Pulse_Pos.exr",
+  "texture_width": 1024,
+  "texture_height": 48,
+  "rows": 2,
+  "bounds_min": [
+    -0.3806,
+    -0.4013,
+    0.1513
+  ],
+  "bounds_max": [
+    0.3802,
+    0.4013,
+    1.0439
+  ]
+}

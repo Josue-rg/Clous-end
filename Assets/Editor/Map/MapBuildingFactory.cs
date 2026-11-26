@@ -123,6 +123,10 @@ namespace ClousEnd.EditorTools
                     false);
                 lod0.Add(roof.GetComponent<Renderer>());
 
+                var roofCollider = parent.gameObject.AddComponent<BoxCollider>();
+                roofCollider.center = new Vector3(0f, height + roofHeight * 0.5f, 0f);
+                roofCollider.size = new Vector3(width, roofHeight + 0.2f, depth);
+
                 var chimneyHeight = 2.5f + (float)random.NextDouble() * 1.8f;
                 var chimney = MapObjects.Box(
                     parent,

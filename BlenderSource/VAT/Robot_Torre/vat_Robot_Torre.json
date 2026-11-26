@@ -1,0 +1,24 @@
+{
+  "asset": "SK_Robot_Torre",
+  "mesh": "SK_Robot_Torre.fbx",
+  "triangles": 1564,
+  "vertices": 824,
+  "clip": "Idle",
+  "frames": 36,
+  "fps": 30,
+  "loop": true,
+  "texture": "T_Robot_Torre_Idle_Pos.exr",
+  "texture_width": 1024,
+  "texture_height": 36,
+  "rows": 1,
+  "bounds_min": [
+    -0.806,
+    -0.5536,
+    0.0033
+  ],
+  "bounds_max": [
+    0.8017,
+    0.3081,
+    2.2595
+  ]
+}

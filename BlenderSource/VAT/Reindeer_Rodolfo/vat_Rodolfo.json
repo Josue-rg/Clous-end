@@ -1,0 +1,24 @@
+{
+  "asset": "SK_Reindeer_Rodolfo",
+  "mesh": "SK_Reindeer_Rodolfo.fbx",
+  "triangles": 38396,
+  "vertices": 19296,
+  "clip": "Gallop",
+  "frames": 24,
+  "fps": 30,
+  "loop": true,
+  "texture": "T_Reindeer_Rodolfo_Gallop_Pos.exr",
+  "texture_width": 1024,
+  "texture_height": 456,
+  "rows": 19,
+  "bounds_min": [
+    -0.3247,
+    -1.7619,
+    -0.1056
+  ],
+  "bounds_max": [
+    0.3247,
+    1.0155,
+    2.3583
+  ]
+}

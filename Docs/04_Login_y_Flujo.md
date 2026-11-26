@@ -1,5 +1,10 @@
 # 04 · Login y flujo de entrada
 
+> **Actualización v1.1 (lobby sin credenciales):** el acceso ya no pide nombre ni contraseña.
+> Es un lobby con un único botón **JUGAR** que carga la escena `Game`. La especificación de
+> perfiles que sigue se conserva como archivo de ideas; la implementación actual usa
+> `LoginFormController` como lobby y `LoginConfig` solo para la escena de destino y los tiempos.
+
 ## Objetivo
 
 La primera pantalla del juego debe vender el tono en menos de cinco segundos: **Navidad, invasión y cine**. No es un formulario de banco. Es la puerta al último refugio.

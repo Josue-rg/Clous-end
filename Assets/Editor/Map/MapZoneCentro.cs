@@ -168,6 +168,10 @@ namespace ClousEnd.EditorTools
             MapObjects.Box(church.transform, "Door", new Vector3(15.05f, 3.2f, 0f), new Vector3(0.2f, 6.4f, 5f), assets.LampWarm, false, false);
             MapObjects.Box(church.transform, "DoorFrame", new Vector3(15.12f, 4.6f, 0f), new Vector3(0.12f, 9.2f, 6.6f), assets.Metal, false, false);
 
+            var roofCollider = church.AddComponent<BoxCollider>();
+            roofCollider.center = new Vector3(0f, 20.5f, 0f);
+            roofCollider.size = new Vector3(30f, 9f, 44f);
+
             MapObjects.Cylinder(church.transform, "BellTowerRing", new Vector3(13f, 40f, 18f), 7.2f, 0.5f, assets.LampWarm, false, false);
         }
     }

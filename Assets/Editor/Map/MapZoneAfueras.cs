@@ -68,7 +68,7 @@ namespace ClousEnd.EditorTools
 
             MapObjects.Box(gate.transform, "PillarL", new Vector3(-15.4f, 10f, 0f), new Vector3(1.6f, 20f, 1.6f), assets.Concrete, true, true);
             MapObjects.Box(gate.transform, "PillarR", new Vector3(15.4f, 10f, 0f), new Vector3(1.6f, 20f, 1.6f), assets.Concrete, true, true);
-            MapObjects.Box(gate.transform, "Beam", new Vector3(0f, 20.6f, 0f), new Vector3(32.5f, 1.4f, 1.9f), assets.Metal, false, true);
+            MapObjects.Box(gate.transform, "Beam", new Vector3(0f, 20.6f, 0f), new Vector3(32.5f, 1.4f, 1.9f), assets.Metal, true, true);
             MapObjects.Box(gate.transform, "Panel", new Vector3(0f, 18.4f, -0.75f), new Vector3(21f, 0.9f, 0.3f), assets.LampCool, false, false);
             MapObjects.Box(gate.transform, "Snow", new Vector3(0f, 21.45f, 0f), new Vector3(32.5f, 0.35f, 2.1f), assets.SnowRoof, false, false);
         }

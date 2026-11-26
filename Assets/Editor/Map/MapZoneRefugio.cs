@@ -12,6 +12,7 @@ namespace ClousEnd.EditorTools
 
             BuildEsplanade(context, assets);
             BuildGate(context, assets);
+            BuildFinishArch(context, assets);
             BuildDome(context, assets);
             BuildLighthouse(context, assets);
             BuildControlTower(context, assets);
@@ -93,9 +94,20 @@ namespace ClousEnd.EditorTools
             MapObjects.Box(gate.transform, "Glow", new Vector3(0f, 15.6f, -1.6f), new Vector3(24f, 0.5f, 0.4f), assets.RefugeGlow, false, false);
         }
 
-        private static void BuildDome(MapZoneContext context, MapAssets assets)
+        private static void BuildFinishArch(MapZoneContext context, MapAssets assets)
         {
-            var dome = MapObjects.Empty("SM_RefugeDome", context.Landmarks, new Vector3(0f, 0f, 1620f));
+            var arch = MapObjects.Empty("SM_FinishArch", context.Landmarks, new Vector3(0f, 0f, 1450f));
+
+            MapObjects.Box(arch.transform, "PillarL", new Vector3(-34f, 12f, 0f), new Vector3(2.2f, 24f, 2.2f), assets.Metal, true, true);
+            MapObjects.Box(arch.transform, "PillarR", new Vector3(34f, 12f, 0f), new Vector3(2.2f, 24f, 2.2f), assets.Metal, true, true);
+            MapObjects.Box(arch.transform, "Beam", new Vector3(0f, 24.4f, 0f), new Vector3(70f, 1.6f, 2.2f), assets.Metal, true, true);
+            MapObjects.Box(arch.transform, "Glow", new Vector3(0f, 22.8f, -0.9f), new Vector3(50f, 0.5f, 0.3f), assets.RefugeGlow, false, false);
+            MapObjects.Box(arch.transform, "Snow", new Vector3(0f, 25.35f, 0f), new Vector3(70f, 0.3f, 2.4f), assets.SnowRoof, false, false);
+            MapObjects.Box(arch.transform, "FinishLine", new Vector3(0f, 0.1f, 0f), new Vector3(64f, 0.06f, 1.6f), assets.RefugeGlow, false, false);
+        }
+
+        private static void BuildDome(MapZoneContext context, MapAssets assets)
+        {            var dome = MapObjects.Empty("SM_RefugeDome", context.Landmarks, new Vector3(0f, 0f, 1620f));
 
             MapObjects.Sphere(dome.transform, "Shell", Vector3.zero, new Vector3(190f, 128f, 190f), assets.Metal, true, false);
             MapObjects.Cylinder(dome.transform, "Plinth", new Vector3(0f, 0.05f, 0f), 97f, 2.4f, assets.Concrete, false, true);
@@ -105,7 +117,7 @@ namespace ClousEnd.EditorTools
             MapObjects.Cylinder(dome.transform, "RibC", new Vector3(0f, 74f, 0f), 79.6f, 0.3f, assets.RefugeGlow, false, false);
             MapObjects.Sphere(dome.transform, "Beacon", new Vector3(0f, 130f, 0f), Vector3.one * 4.5f, assets.RefugeGlow, false, false);
 
-            MapObjects.Box(dome.transform, "GateFrame", new Vector3(0f, 15f, -96.5f), new Vector3(44f, 32f, 2.4f), assets.Concrete, false, true);
+            MapObjects.Box(dome.transform, "GateFrame", new Vector3(0f, 15f, -96.5f), new Vector3(44f, 32f, 2.4f), assets.Concrete, true, true);
             MapObjects.Box(dome.transform, "GateGlow", new Vector3(0f, 14f, -97.6f), new Vector3(36f, 26f, 0.6f), assets.RefugeGlow, false, false);
             MapObjects.Box(dome.transform, "GateDivider", new Vector3(0f, 14f, -98f), new Vector3(1.6f, 26f, 0.4f), assets.Metal, false, false);
         }
@@ -115,8 +127,8 @@ namespace ClousEnd.EditorTools
             var lighthouse = MapObjects.Empty("SM_Lighthouse", context.Landmarks, new Vector3(78f, 0f, 1500f));
 
             MapObjects.Cylinder(lighthouse.transform, "Base", Vector3.zero, 7f, 22f, assets.Concrete, true, true);
-            MapObjects.Cylinder(lighthouse.transform, "Mid", new Vector3(0f, 22f, 0f), 5f, 20f, assets.Metal, false, true);
-            MapObjects.Cylinder(lighthouse.transform, "Top", new Vector3(0f, 42f, 0f), 3.4f, 16f, assets.Concrete, false, true);
+            MapObjects.Cylinder(lighthouse.transform, "Mid", new Vector3(0f, 22f, 0f), 5f, 20f, assets.Metal, true, true);
+            MapObjects.Cylinder(lighthouse.transform, "Top", new Vector3(0f, 42f, 0f), 3.4f, 16f, assets.Concrete, true, true);
             MapObjects.Sphere(lighthouse.transform, "Lamp", new Vector3(0f, 59.5f, 0f), Vector3.one * 6.2f, assets.RefugeGlow, false, false);
             MapObjects.Mesh(lighthouse.transform, "Crown", MapMeshFactory.Pyramid, new Vector3(0f, 62f, 0f), Vector3.zero, new Vector3(5f, 9f, 5f), assets.Metal, false);
             MapObjects.Mesh(lighthouse.transform, "Beam", MapMeshFactory.Pyramid, new Vector3(0f, 66f, 0f), Vector3.zero, new Vector3(3.4f, 34f, 3.4f), assets.AuroraCool, false);
